@@ -1,0 +1,40 @@
+- Implement Module::Install::Compiled and Module::Install::Admin::Compiled
+  to integrate the Module::Compiled "perl 6 to perl 5" functionality with
+  Module::Install.
+  Because this would add SIGNIFICANT dependencies (i.e. pugs!) this should
+  almost certainly be distributed as a seperate distribution.
+
+- Go over POD docs in detail.
+
+- Test recursive Makefile directories
+
+- Module::Build Support:
+    - Add actions for:
+        - reset
+    - Make sure include-ing of Module::Build works. # done
+
+- Test Suite:
+    - We need tests for everything
+    
+- Include:
+    - Add support for include('Foo::Bar::*')	    # done
+    - Make sure it works for Test::More		    # done
+
+- Bundling:
+    - Load distributions into inc/BUNDLE	    # not for 0.20
+    - provide support to install/upgrade them on user machine
+
+- Inline::C Support				    # done
+    - Do we need to package build support?
+
+- Distribution support
+    - make upload (add cpan-upload to our recommends()?)
+    - make distcheck:
+        - verify metadata is current
+
+- Dependencies on shared libraries (libxml/libxml.dll etc) and binary files
+  so that debian/Win32/etc autopackaging applications can create the
+  appropriate package-level dependencies there. # started
+
+Note: EU::MM 6.06_03+ supports META.yml natively.  Maybe probe for that?
+
