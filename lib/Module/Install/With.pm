@@ -69,26 +69,24 @@ sub cpanpm_config {
 
 # Are we currently running under the CPANPLUS client
 sub cpanplus {
-	!! $ENV{PERL5_CPANPLUS_IS_RUNNING};
+	my $script = File::Spec->rel2abs($0);
+	return !! (
+		$ENV{PERL5_CPANPLUS_IS_EXECUTING}
+		and
+		-f $script
+		and
+		$ENV{PERL5_CPANPLUS_IS_EXECUTING} eq $script
+	);
+}
+
+# Are we (maybe) running under a legacy version of CPANPLUS
+sub cpanplus_legacy {
+	!! $ENV{CPANPLUS_IS_RUNNING};
 }
 
 # Is CPANPLUS actually installed
 sub cpanplus_available {
 	$_[0]->can_use('CPANPLUS');
-}
-
-# Get a cpanplus configuration key.
-# Assumes you have already check cpanplus is at least installed.
-sub cpanplus_config {
-	my $self = shift;
-
-	# Load the CPANPLUS configuration
-	require CPANPLUS::Configure;
-	my $conf = CPANPLUS::Configure->new
-		or die "Failed to load CPANPLUS configuration";
-
-	# Get the configuration key
-	return $conf->get_conf(shift);
 }
 
 # Are we currently running under some automated testing system

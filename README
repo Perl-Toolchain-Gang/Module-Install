@@ -42,7 +42,7 @@ with 'nmake' in the last three lines.
 Copyright 2002, 2003, 2004, 2005, 2006 by
     Audrey Tang <autrijus@autrijus.org>
     Brian Ingerson <ingy@cpan.org>
-    Adam Kennedy <cpan@ali.as>
+    Adam Kennedy <adamk@cpan.org>
 
 All rights reserved.  You can redistribute and/or modify
 this bundle under the same terms as Perl itself.

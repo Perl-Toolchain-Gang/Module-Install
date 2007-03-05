@@ -1,3 +1,14 @@
+[Changes for 0.65_01 - 2007-03-06]
+
+* Implement support for $ENV{PERL5_CPANPLUS_IS_EXECUTING} in the
+  experimental Module::Install::With.
+
+* Remove the use of features in the Module::Install Makefile.PL.
+  Developers should be quite capable of installing them all.
+
+* Remove the use of auto_provides in Module::Install Makefile.PL
+  until we fix it to not break without a pre-existing MANIFEST.
+
 * YAML::Tiny is now used as a fallback for generating META.yml. The
   order of precedence is now YAML::Syck, YAML::Tiny, then YAML.
 

@@ -3,6 +3,7 @@ use strict;
 # Warnings need to be enabled this way, because Makefile.PL is not
 # a script, so we shouldn't be using a hashbang.
 BEGIN {
+	$|  = 1;
 	$^W = 1;
 }
 
@@ -28,39 +29,48 @@ build_requires 'Test::More'    => '0.42';
 
 # Make sure we have at least one YAML parser
 if ( is_admin() ) {
-    # This is for META.yml
-    requires 'YAML::Tiny' => '1.03';
-}
-elsif ( can_cc() ) {
-    requires('YAML::Syck' => '0.27')
-      unless can_use('YAML::Tiny' => '1.03') or can_use('YAML' => '0.35');
+	# This is for META.yml
+	requires 'YAML::Tiny' => '1.03';
+
+} elsif ( can_cc() ) {
+	can_use('YAML::Tiny' => '1.03')
+	or
+	can_use('YAML' => '0.35')
+	or
+	requires('YAML::Syck' => '0.27');
+
 } else {
-    requires('YAML::Tiny' => '1.03')
-      unless can_use('YAML::Syck' => '0.27') or can_use('YAML::Tiny' => '1.03');
+	can_use('YAML::Syck' => '0.27')
+	or
+	can_use('YAML::Tiny' => '1.03')
+	or
+	requires('YAML::Tiny' => '1.03');
 }
 
-feature 'Include packages with full dependencies',
-    recommends
-        'Module::ScanDeps'  => 0.28,
-        'Module::CoreList';
+# Removing the distinction of "recommends" as this overly-complicates
+# the situation. Only authors should ever be installing this, so they
+# can just have the lot.
 
-feature 'PAR-based binary distributions',
-    recommends
-        'PAR::Dist'         => 0.03;
+# feature 'Include packages with full dependencies',
+requires 'Module::ScanDeps' => '0.28';
+requires 'Module::CoreList';
 
-feature 'Module::Build support',
-    'Archive::Tar'      => 0.23,
-    'ExtUtils::Install' => 0.3,
-    'ExtUtils::ParseXS',
-    recommends
-        'Module::Build';
+# feature 'PAR-based binary distributions',
+requires 'PAR::Dist' => '0.03';
 
-no_index
-    directory => 'example';
+# feature 'Module::Build support',
+requires 'Archive::Tar'      => '0.23';
+requires 'ExtUtils::Install' => '0.3';
+requires 'ExtUtils::ParseXS';
+requires 'Module::Build';
 
-auto_install
-    prerequisites_policy => 'follow';
-auto_provides;
+# Ignore example files
+no_index directory => 'example';
+
+# Disabled for the moment, as it complicated packaging.
+# This should be fixed to imply making the manifest or to
+# just run a File::Find with the no_index items removed.
+# auto_provides;
 
 # Disabled until someone who can sign is doing the releasing
 # sign;

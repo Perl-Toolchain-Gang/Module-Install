@@ -20,10 +20,10 @@ BEGIN {
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '0.64';
+	$VERSION = '0.65_01';
 }
 
-use Test::More tests =>4;
+use Test::More tests => 4;
 
 # Check their perl version
 ok( $] >= 5.005, "Your perl is new enough" );
