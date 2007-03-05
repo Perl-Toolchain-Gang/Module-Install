@@ -19,7 +19,7 @@ name        'Module-Install';
 author      'Audrey Tang <autrijus@autrijus.org>';
 all_from    'lib/Module/Install.pm';
 
-install_dirs_site;
+install_as_cpan;
 
 # Should be a "requires", but we should solve the
 # "auto-include File::Spec if version < 5.005" problem first.
