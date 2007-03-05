@@ -5,14 +5,14 @@ use Module::Install::Base;
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {
-	$VERSION = '0.64';
+	$VERSION = '0.65';
 	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
 }
 
 my @scalar_keys = qw{
     name module_name abstract author version license
-    distribution_type perl_version tests
+    distribution_type perl_version tests installdirs
 };
 
 my @tuple_keys = qw{
@@ -54,6 +54,10 @@ foreach my $key (@tuple_keys) {
         @rv;
     };
 }
+
+sub install_dirs_site { my $self = shift; $self->installdirs('site') };
+sub install_dirs_perl { my $self = shift; $self->installdirs('perl') };
+sub install_dirs_vendor { my $self = shift; $self->installdirs('vendor') };
 
 sub sign {
     my $self = shift;

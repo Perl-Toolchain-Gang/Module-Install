@@ -1,13 +1,19 @@
 [Changes for 0.65_01 - 2007-03-06]
 
+* Add install_dirs_site, install_dirs_perl, install_dirs_vendor
+  commands to control the "installdirs" metadata field.
+  Requested by: Tels
+
+* Add the preop command for users to customize the PREOP rule. (BINGOS) 
+
 * Implement support for $ENV{PERL5_CPANPLUS_IS_EXECUTING} in the
-  experimental Module::Install::With.
+  experimental Module::Install::With. (ADAMK)
 
 * Remove the use of features in the Module::Install Makefile.PL.
-  Developers should be quite capable of installing them all.
+  Developers should be quite capable of installing them all. (ADAMK)
 
 * Remove the use of auto_provides in Module::Install Makefile.PL
-  until we fix it to not break without a pre-existing MANIFEST.
+  until we fix it to not break without a pre-existing MANIFEST. (ADAMK)
 
 * YAML::Tiny is now used as a fallback for generating META.yml. The
   order of precedence is now YAML::Syck, YAML::Tiny, then YAML.

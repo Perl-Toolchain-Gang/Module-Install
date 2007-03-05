@@ -6,7 +6,7 @@ use ExtUtils::MakeMaker ();
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {
-	$VERSION = '0.64';
+	$VERSION = '0.65';
 	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
 }
@@ -23,7 +23,7 @@ sub WriteMakefile {
         $args{NAME} =~ s/::/-/g;
     }
 
-    foreach my $key (qw(name module_name version version_from abstract author)) {
+    foreach my $key (qw(name module_name version version_from abstract author installdirs)) {
         my $value = delete($args{uc($key)}) or next;
         $self->$key($value);
     }
