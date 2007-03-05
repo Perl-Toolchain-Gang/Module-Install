@@ -1,8 +1,8 @@
 [Changes for 0.65_01 - 2007-03-06]
 
-* Add install_dirs_site, install_dirs_perl, install_dirs_vendor
+* Add install_as_core, install_as_cpan, install_as_vendor
   commands to control the "installdirs" metadata field.
-  Requested by: Tels
+  Requested by: Tels (renamed by ADAMK and AUDREYT)
 
 * Add the preop command for users to customize the PREOP rule. (BINGOS) 
 

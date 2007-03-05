@@ -55,9 +55,10 @@ foreach my $key (@tuple_keys) {
     };
 }
 
-sub install_dirs_site { my $self = shift; $self->installdirs('site') };
-sub install_dirs_perl { my $self = shift; $self->installdirs('perl') };
-sub install_dirs_vendor { my $self = shift; $self->installdirs('vendor') };
+sub install_as_core   { $_[0]->installdirs('perl')   }
+sub install_as_cpan   { $_[0]->installdirs('site')   }
+sub install_as_site   { $_[0]->installdirs('site')   }
+sub install_as_vendor { $_[0]->installdirs('vendor') }
 
 sub sign {
     my $self = shift;
