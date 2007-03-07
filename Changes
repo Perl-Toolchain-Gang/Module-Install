@@ -1,4 +1,8 @@
-[Changes for 0.65_01 - 2007-03-06]
+* Adding configure_requires, test_requires and install_requires.
+  These are currently aliases for build_requires but will later result
+  in alternative consequences internally (ADAMK)
+
+[Changes for 0.65 - 2007-03-06]
 
 * Add install_as_core, install_as_cpan, install_as_vendor
   commands to control the "installdirs" metadata field.

@@ -55,10 +55,17 @@ foreach my $key (@tuple_keys) {
     };
 }
 
-sub install_as_core   { $_[0]->installdirs('perl')   }
-sub install_as_cpan   { $_[0]->installdirs('site')   }
-sub install_as_site   { $_[0]->installdirs('site')   }
-sub install_as_vendor { $_[0]->installdirs('vendor') }
+# Aliases for build_requires that will have alternative
+# meanings in some future version of META.yml.
+sub configure_requires { shift()->build_requires(@_)  }
+sub test_requires      { shift()->build_requires(@_)  }
+sub install_requires   { shift()->build_requires(@_)  }
+
+# Aliases for installdirs options
+sub install_as_core    { $_[0]->installdirs('perl')   }
+sub install_as_cpan    { $_[0]->installdirs('site')   }
+sub install_as_site    { $_[0]->installdirs('site')   }
+sub install_as_vendor  { $_[0]->installdirs('vendor') }
 
 sub sign {
     my $self = shift;
