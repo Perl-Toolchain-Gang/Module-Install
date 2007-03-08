@@ -18,13 +18,14 @@ BEGIN {
 	# version an author currently has installed.
 	# This allows it to implement any back-compatibility features
 	# it may want or need to.
-	$VERSION = '0.65';	
+	$VERSION = '0.66_01';	
 }
 
 my $author = $^O eq 'VMS' ? './inc/_author' : './inc/.author';
 if ( -d $author ) {
-    require File::Path;
-    File::Path::rmtree('inc');
+	$Module::Install::AUTHOR = 1;
+	require File::Path;
+	File::Path::rmtree('inc');
 }
 
 unshift @INC, 'inc';

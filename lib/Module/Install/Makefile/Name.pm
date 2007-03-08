@@ -3,7 +3,7 @@ package Module::Install::Makefile::Name;
 use Module::Install::Base;
 @ISA = qw(Module::Install::Base);
 
-$VERSION = '0.65';
+$VERSION = '0.66_01';
 
 use strict;
 

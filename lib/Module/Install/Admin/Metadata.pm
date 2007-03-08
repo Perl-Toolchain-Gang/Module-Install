@@ -3,7 +3,7 @@ package Module::Install::Admin::Metadata;
 use Module::Install::Base;
 @ISA = 'Module::Install::Base';
 
-$VERSION = '0.65';
+$VERSION = '0.66_01';
 
 use strict;
 
