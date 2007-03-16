@@ -88,10 +88,10 @@ sub inc {
 	$self->makemaker_args( INC => shift );
 }
 
-my @tests = ();
+my %test_dir = ();
 
 sub _wanted_t {
-	/\.t$/ and -f $_ and push @tests, $File::Find::name;
+	/\.t$/ and -f $_ and $test_dir{$File::Find::dir} = 1;
 }
 
 sub tests_recursive {
@@ -104,9 +104,9 @@ sub tests_recursive {
 		die "tests_recursive dir '$dir' does not exist";
 	}
 	require File::Find;
-	@tests = ();
+	%test_dir = ();
 	File::Find::find( \&_wanted_t, $dir );
-	$self->tests( join ' ', @tests );
+	$self->tests( join ' ', map { "$_/*.t" } sort keys %test_dir );
 }
 
 sub write {
