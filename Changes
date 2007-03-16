@@ -1,3 +1,6 @@
+* Adding tests_recursive to have M:I search for and explicitly list
+  all test scripts recursively.
+
 * Adding configure_requires, test_requires and install_requires.
   These are currently aliases for build_requires but will later result
   in alternative consequences internally (ADAMK)

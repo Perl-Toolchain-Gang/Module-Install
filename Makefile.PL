@@ -1,7 +1,7 @@
 use strict;
 
 # Warnings need to be enabled this way, because Makefile.PL is not
-# a script, so we shouldn't be using a hashbang.
+# an executable script (so we can't use a hashbang).
 BEGIN {
 	$|  = 1;
 	$^W = 1;
@@ -72,9 +72,12 @@ no_index directory => 'example';
 # Disabled for the moment, as it complicated packaging.
 # This should be fixed to imply making the manifest or to
 # just run a File::Find with the no_index items removed.
-# auto_provides;
+## auto_provides;
 
 # Disabled until someone who can sign is doing the releasing
-# sign;
+## sign;
+
+# Makes the recursive test script run
+tests_recursive;
 
 WriteAll;
