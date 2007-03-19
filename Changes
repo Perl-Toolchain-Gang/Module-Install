@@ -1,3 +1,12 @@
+[Changes for 0.66_02 - ?????]
+
+* Adding detection of 'proprietary' license.
+
+* "All rights reserved" clashes with or can invalidate most Open Source
+  licenses. Adding a warning to this effect.
+
+[Changes for 0.66_01 - 2007-03-15]
+
 * Adding tests_recursive to have M:I search for and explicitly list
   all test scripts recursively.
 

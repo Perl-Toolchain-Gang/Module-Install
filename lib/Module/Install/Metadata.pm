@@ -304,20 +304,24 @@ sub license_from {
     {
         my $license_text = $1;
         my @phrases      = (
-            'under the same (?:terms|license) as perl itself' => 'perl',
-            'GNU public license'                              => 'gpl',
-            'GNU lesser public license'                       => 'gpl',
-            'BSD license'                                     => 'bsd',
-            'Artistic license'                                => 'artistic',
-            'GPL'                                             => 'gpl',
-            'LGPL'                                            => 'lgpl',
-            'BSD'                                             => 'bsd',
-            'Artistic'                                        => 'artistic',
-            'MIT'                                             => 'MIT',
+            'under the same (?:terms|license) as perl itself' => 'perl',        1,
+            'GNU public license'                              => 'gpl',         1,
+            'GNU lesser public license'                       => 'gpl',         1,
+            'BSD license'                                     => 'bsd',         1,
+            'Artistic license'                                => 'artistic',    1,
+            'GPL'                                             => 'gpl',         1,
+            'LGPL'                                            => 'lgpl',        1,
+            'BSD'                                             => 'bsd',         1,
+            'Artistic'                                        => 'artistic',    1,
+            'MIT'                                             => 'mit',         1,
+            'proprietary'                                     => 'proprietary', 0,
         );
-        while ( my ( $pattern, $license ) = splice( @phrases, 0, 2 ) ) {
+        while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
             $pattern =~ s{\s+}{\\s+}g;
             if ( $license_text =~ /\b$pattern\b/i ) {
+		if ( $reserved and $license_text =~ /All rights reserved/i ) {
+			warn "Legal Warning: 'All rights reserved' may invalidate Open Source licenses. Consider removing it.";
+		}
                 $self->license($license);
                 return 1;
             }
