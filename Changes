@@ -1,4 +1,10 @@
-[Changes for 0.66_02 - ?????]
+[Changes for 0.67 - Adam Kennedy]
+
+* Tweaked the license detection code a bit
+
+* Previous changes working well, going production
+
+[Changes for 0.66_02 - Adam Kennedy]
 
 * Adding detection of 'proprietary' license.
 
