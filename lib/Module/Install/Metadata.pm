@@ -5,7 +5,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {
-	$VERSION = '0.66_02';
+	$VERSION = '0.67';
 	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
 }
@@ -319,8 +319,8 @@ sub license_from {
         while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
             $pattern =~ s{\s+}{\\s+}g;
             if ( $license_text =~ /\b$pattern\b/i ) {
-		if ( $reserved and $license_text =~ /All rights reserved/i ) {
-			warn "Legal Warning: 'All rights reserved' may invalidate Open Source licenses. Consider removing it.";
+                if ( $osi and $license_text =~ /All rights reserved/i ) {
+                        warn "LEGAL WARNING: 'All rights reserved' may invalidate Open Source licenses. Consider removing it.";
 		}
                 $self->license($license);
                 return 1;
