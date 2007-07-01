@@ -80,7 +80,7 @@ F<MANIFEST>, or possibly those not in F<MANIFEST.SKIP>.
 
 Audrey Tang E<lt>autrijus@autrijus.orgE<gt>
 
-Adam Kennedy E<lt>cpan@ali.asE<gt>
+Adam Kennedy E<lt>adamk@cpan.orgE<gt>
 
 =head1 SEE ALSO
 
