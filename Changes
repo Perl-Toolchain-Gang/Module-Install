@@ -1,3 +1,7 @@
+[Changes for 0.68 - Ricardo SIGNES]
+
+* The author entry in META.yml is now a sequence, as required
+
 [Changes for 0.67 - Adam Kennedy]
 
 * Tweaked the license detection code a bit
