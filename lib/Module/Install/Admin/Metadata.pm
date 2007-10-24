@@ -102,6 +102,8 @@ sub dump_meta {
         $dump{provides} = $provides;
     }
 
+   $dump{author} &&= [ $dump{author} ];
+
     my $no_index = $values{no_index} ||= {};
     push @{ $no_index->{'directory'} ||= [] }, 'inc', 't';
     $dump{no_index} = $no_index;
