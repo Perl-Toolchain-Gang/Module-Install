@@ -15,9 +15,10 @@ BEGIN {
 use lib 'lib';
 use inc::Module::Install;
 
-name        'Module-Install';
-author      'Audrey Tang <autrijus@autrijus.org>';
-all_from    'lib/Module/Install.pm';
+name         'Module-Install';
+author       'Audrey Tang <autrijus@autrijus.org>';
+perl_version '5.004';
+all_from     'lib/Module/Install.pm';
 
 install_as_cpan;
 

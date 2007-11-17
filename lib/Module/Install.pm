@@ -16,7 +16,9 @@ package Module::Install;
 #     3. The ./inc/ version of Module::Install loads
 # }
 
-use 5.004;
+BEGIN {
+	require 5.004;
+}
 use strict 'vars';
 
 use vars qw{$VERSION};

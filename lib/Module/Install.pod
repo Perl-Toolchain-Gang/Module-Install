@@ -9,6 +9,7 @@ Module::Install - Standalone, extensible Perl module installer
 In your F<Makefile.PL>: (Recommended Usage)
 
     # Load the Module::Install bundled in ./inc/
+    use strict;
     use inc::Module::Install;
     
     # Define metadata
@@ -23,9 +24,8 @@ In your F<Makefile.PL>: (Recommended Usage)
     
     no_index        'directory'         => 'demos';
     
-    install_script  'bin/myscript';
+    install_script  'script/myscript';
     
-    auto_install;
     WriteAll;
 
 Quickly upgrade a legacy L<ExtUtil::MakeMaker> installer:
@@ -35,6 +35,13 @@ Quickly upgrade a legacy L<ExtUtil::MakeMaker> installer:
     WriteMakefile( ... );
 
 A dummy F<Build.PL> so we can work with L<Module::Build> as well:
+
+B<Do not use pass-through Build.PL files.>
+
+B<They turned out to be highly buggy and dangerous and no longer
+recommended in any situations.>
+
+B<Support will be dropped in a future release.>
 
     # Dear Distribution Packager. This use of require is intentional. 
     # Module::Install detects Build.PL usage and acts accordingly.
@@ -462,6 +469,13 @@ directly.  See L<Module::Install::Admin> for details.
 Provides C<auto_install()> to automatically fetch and install
 prerequisites.
 
+The use of C<auto_install> is B<strongly> discouraged in any distribution
+to be uploaded to the CPAN, as the use of it violates the normal CPAN
+toolchain model.
+
+Support may be dropped at a future time, with some alternative process
+providing the equivalent functionality.
+
 =item Module::Install::Base
 
 The base class for all extensions
@@ -542,6 +556,8 @@ C<WriteAll> takes four optional named parameters:
 =item C<check_nmake> (defaults to true)
 
 If true, invokes functions with the same name.
+
+I<The use of this param is no longer recommended.>
 
 =item C<inline> (defaults to false)
 

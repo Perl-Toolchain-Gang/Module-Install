@@ -17,7 +17,7 @@ sub WriteAll {
         sign        => 0,
         inline      => 0,
         check_nmake => 1,
-        @_
+        @_,
     );
 
     $self->sign(1)                if $args{sign};
