@@ -177,7 +177,7 @@ Brian Ingerson E<lt>INGY@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright (c) 2002. Brian Ingerson. All rights reserved.
+Copyright (c) 2002. Brian Ingerson.
 
 This document is free documentation; you can redistribute it and/or
 modify it under the same terms as Perl itself.
