@@ -1,30 +1,34 @@
 package Module::Install::Admin::Metadata;
 
-use Module::Install::Base;
-@ISA = 'Module::Install::Base';
-
-$VERSION = '0.68';
-
 use strict;
+use Module::Install::Base;
+
+use vars qw{$VERSION @ISA};
+BEGIN {
+	$VERSION = '0.68';
+	@ISA     = 'Module::Install::Base';
+}
 
 sub remove_meta {
     my $self = shift;
-    my $package = ref($self->_top);
-    my $version = $self->_top->VERSION;
+    my $pkg  = ref($self->_top);
+    my $ver  = $self->_top->VERSION;
 
     return unless -f 'META.yml';
     open META, 'META.yml'
       or die "Can't open META.yml for output:\n$!";
     my $meta = do {local $/; <META>};
     close META;
-    return unless $meta =~ /^generated_by: $package version $version/m;
+    return unless $meta =~ /^generated_by: $pkg version $ver/m;
     unless (-w 'META.yml') {
         warn "Can't remove META.yml file. Not writable.\n";
         return;
     }
     warn "Removing auto-generated META.yml\n";
-    unlink 'META.yml'
-      or die "Couldn't unlink META.yml:\n$!";
+    unless ( unlink 'META.yml' ) {
+        die "Couldn't unlink META.yml:\n$!";
+    }
+    return;
 }
 
 sub write_meta {
@@ -51,85 +55,89 @@ sub write_meta {
 }
 
 sub dump_meta {
-    my $self    = shift;
-    my $package = ref( $self->_top );
-    my $version = $self->_top->VERSION;
-    my %values  = %{ $self->Meta->{'values'} };
+    my $self = shift;
+    my $pkg  = ref( $self->_top );
+    my $ver  = $self->_top->VERSION;
+    my $val  = $self->Meta->{'values'};
 
-    delete $values{sign};
+    delete $val->{sign};
 
-    if ( my $perl_version = delete $values{perl_version} ) {
+    if ( my $perl_version = delete $val->{perl_version} ) {
         # Always canonical to three-dot version
-        $perl_version =~
-            s{^(\d+)\.(\d\d\d)(\d*)}{join('.', $1, int($2||0), int($3||0))}e
-            if $perl_version >= 5.006;
-        $values{requires} = [
+        if ( $perl_version >= 5.006 ) {
+        	$perl_version =~ s{^(\d+)\.(\d\d\d)(\d*)}{join('.', $1, int($2||0), int($3||0))}e
+        }
+        $val->{requires} = [
             [ perl => $perl_version ],
-            @{ $values{requires} || [] },
+            @{ $val->{requires} || [] },
         ];
     }
 
-        # Set a default 'unknown' license
-    unless ( $values{license} ) {
+    # Set a default 'unknown' license
+    unless ( $val->{license} ) {
         warn "No license specified, setting license = 'unknown'\n";
-        $values{license} = 'unknown';
+        $val->{license} = 'unknown';
     }
 
-    $values{distribution_type} ||= 'module';
+    # Most distributions are modules
+    $val->{distribution_type} ||= 'module';
 
-        # Guess a name if needed, derived from the module_name
-    if ( $values{module_name} and ! $values{name} ) {
-        $values{name} = $values{module_name};
-        $values{name} =~ s/::/-/g;
-    }
-
-    if ( $values{name} =~ /::/ ) {
-        my $name = $values{name};
+    # Check and derive names
+    if ( $val->{name} =~ /::/ ) {
+        my $name = $val->{name};
         $name =~ s/::/-/g;
-        die "Error in name(): '$values{name}' should be '$name'!\n";
+        die "Error in name(): '$val->{name}' should be '$name'!\n";
+    }
+    if ( $val->{module_name} and ! $val->{name} ) {
+        $val->{name} = $val->{module_name};
+        $val->{name} =~ s/::/-/g;
     }
 
-    my %dump;
+    # Apply default no_index entries
+    $val->{no_index} ||= {};
+    $val->{no_index}->{directory} ||= [];
+    foreach my $dir ( qw{ share inc t } ) {
+        next unless -d $dir;
+	push @{ $van->{no_index}->{directory} }, $dir;
+    }
+
+    # Generate the structure we'll be dumping
+    my $meta = {};
     foreach my $key ($self->Meta_ScalarKeys) {
-        $dump{$key} = $values{$key} if exists $values{$key};
+        $meta->{$key} = $val->{$key} if exists $val->{$key};
     }
     foreach my $key ($self->Meta_TupleKeys) {
-        next unless exists $values{$key};
-        $dump{$key} = { map { @$_ } @{ $values{$key} } };
+        next unless exists $val->{$key};
+        $meta->{$key} = { map { @$_ } @{ $val->{$key} } };
     }
-
-    if ( my $provides = $values{provides} ) {
-        $dump{provides} = $provides;
-    }
-
-   $dump{author} &&= [ $dump{author} ];
-
-    my $no_index = $values{no_index} ||= {};
-    push @{ $no_index->{'directory'} ||= [] }, 'inc', 't';
-    $dump{no_index} = $no_index;
-    $dump{generated_by} = "$package version $version";
-
-    # Add mention of the META spec
-    $dump{"meta-spec"} = {
+    $meta->{provides}     = $val->{provides} if $val->{provides};
+    $meta->{author}       &&= [ $meta->{author} ];
+    $meta->{no_index}     = $val->{no_index};
+    $meta->{generated_by} = "$pkg version $ver";
+    $meta->{'meta-spec'}  = {
         version => 1.3,
-        url => 'http://module-build.sourceforge.net/META-spec-v1.3.html',
+        url     => 'http://module-build.sourceforge.net/META-spec-v1.3.html',
     };
 
+    # Dump the data structure
     local $@;
-    if (eval { require YAML::Syck }) {
-# Why no header? It is required by the spec!
-#        local $YAML::Syck::Headless = 1;
-        return YAML::Syck::Dump(\%dump);
-    }
-    elsif (eval { require YAML::Tiny }) {
-        return YAML::Tiny::Dump(\%dump);
-    }
-    else {
+    if ( eval { require YAML::Syck } ) {
+        # Why no header? It is required by the spec!
+        # local $YAML::Syck::Headless = 1;
+        return YAML::Syck::Dump($meta);
+
+    } elsif ( eval { require YAML::Tiny } ) {
+        return YAML::Tiny::Dump($meta);
+
+    } else {
         require YAML;
-# Why no header? It is required by the spec!
-#        local $YAML::UseHeader = 0;
-        return YAML::Dump(\%dump);
+        # Why no header? It is required by the spec!
+        # local $YAML::UseHeader = 0;
+        return YAML::Dump($meta);
+
     }
+
+    return;
 }
 
 1;

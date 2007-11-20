@@ -1,3 +1,9 @@
+[Changes for 0.69 - Adam Kennedy]
+
+* Refactoring Module::Install::Admin::Metadata
+
+* Add 'share' to the list of directories automatically no_index'ed
+
 [Changes for 0.68 - Ricardo SIGNES]
 
 * The author entry in META.yml is now a sequence, as required
