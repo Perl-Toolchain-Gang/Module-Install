@@ -4,6 +4,9 @@
 
 * Add 'share' to the list of directories automatically no_index'ed
 
+* license_from correctly marks "GNU lesser public license" as lgpl,
+  not gpl [rt.cpan.org 24635] (AVAR)
+
 [Changes for 0.68 - Ricardo SIGNES]
 
 * The author entry in META.yml is now a sequence, as required

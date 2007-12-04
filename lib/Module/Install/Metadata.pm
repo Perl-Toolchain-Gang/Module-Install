@@ -306,7 +306,7 @@ sub license_from {
         my @phrases      = (
             'under the same (?:terms|license) as perl itself' => 'perl',        1,
             'GNU public license'                              => 'gpl',         1,
-            'GNU lesser public license'                       => 'gpl',         1,
+            'GNU lesser public license'                       => 'lgpl',        1,
             'BSD license'                                     => 'bsd',         1,
             'Artistic license'                                => 'artistic',    1,
             'GPL'                                             => 'gpl',         1,
