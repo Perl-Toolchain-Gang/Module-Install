@@ -98,7 +98,7 @@ sub dump_meta {
     $val->{no_index}->{directory} ||= [];
     foreach my $dir ( qw{ share inc t } ) {
         next unless -d $dir;
-	push @{ $van->{no_index}->{directory} }, $dir;
+	push @{ $val->{no_index}->{directory} }, $dir;
     }
 
     # Generate the structure we'll be dumping
