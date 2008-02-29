@@ -1,13 +1,14 @@
 package Module::Install::Admin::Makefile;
 
-use Module::Install::Base;
-@ISA = qw(Module::Install::Base);
-
-$VERSION = '0.68';
-
 use strict 'vars';
-
+use Module::Install::Base;
 use ExtUtils::MakeMaker ();
+
+use vars qw{$VERSION};
+BEGIN {
+	$VERSION = '0.68';
+	@ISA     = qw{Module::Install::Base};
+}
 
 sub postamble {
     my ($self, $text) = @_;
@@ -37,7 +38,6 @@ distsign ::
 END_MAKEFILE
 
     $self->{postamble} .= $text if defined $text;
-
     return $self->{postamble};
 }
 
@@ -46,8 +46,7 @@ sub preop {
     my ($user_preop) = @_;
     my $admin_class = join('::', @{$self->_top}{qw(name dispatch)});
     $user_preop = qq{\$(PERL) -I. "-M$admin_class" -e "dist_preop(q(\$(DISTVNAME)))"} unless $user_preop;
-
-    return { PREOP => $user_preop }
+    return { PREOP => $user_preop };
 }
 
 1;
