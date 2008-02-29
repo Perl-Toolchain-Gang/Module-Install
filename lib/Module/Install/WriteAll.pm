@@ -3,11 +3,11 @@ package Module::Install::WriteAll;
 use strict;
 use Module::Install::Base;
 
-use vars qw{$VERSION $ISCORE @ISA};
+use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
 	$VERSION = '0.68';
-	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
+	$ISCORE  = 1;
 }
 
 sub WriteAll {
