@@ -1,45 +1,55 @@
 package Module::Install::Admin::Include;
 
+use strict;
 use Module::Install::Base;
-@ISA = qw(Module::Install::Base);
 
-$VERSION = '0.68';
+use vars qw{$VERSION @ISA};
+BEGIN {
+	$VERSION = '0.68';
+	@ISA     = qw{Module::Install::Base};
+}
 
 sub include {
-    my ( $self, $pattern ) = @_;
-
-    foreach my $rv ( $self->admin->glob_in_inc($pattern) ) {
-        $self->admin->copy_package(@$rv);
-    }
-    return $file;
+	my $self = shift;
+	foreach my $rv ( $self->admin->glob_in_inc(shift) ) {
+		$self->admin->copy_package(@$rv);
+	}
+	return $file;
 }
 
 sub include_deps {
-    my ( $self, $pkg ) = @_;
-    my $deps = $self->admin->scan_dependencies($pkg) or return;
-
-    foreach my $key ( sort keys %$deps ) {
-        $self->include($key);
-    }
+	my $self = shift;
+	my $deps = $self->admin->scan_dependencies(shift) or return;
+	foreach my $key ( sort keys %$deps ) {
+		$self->include($key);
+	}
 }
 
 sub auto_include {
-    my $self = shift;
-    foreach
-        my $module ( map $_->[0], map @$_, grep $_, $self->build_requires )
-    {
-        $self->include($module);
-    }
+	my $self = shift;
+	foreach my $module (
+		map  { $_->[0] }
+		map  { @$_     }
+		grep { $_      }
+		$self->build_requires
+	) {
+		$self->include($module);
+	}
 }
 
 sub auto_include_deps {
-    my $self = shift;
-    foreach
-        my $module ( map $_->[0], map @$_, grep $_, $self->build_requires )
-    {
-        $self->include_deps($module);
-    }
+	my $self = shift;
+	foreach my $module (
+		map  { $_->[0] }
+		map  { @$_     }
+		grep { $_      }
+		$self->build_requires
+	) {
+		$self->include_deps($module);
+	}
 }
+
+=pod
 
 =head2 auto_include_dependent_dists
 
@@ -49,13 +59,18 @@ include everything (at the whole distribution level) recursively.
 =cut
 
 sub auto_include_dependent_dists {
-    my $self = shift;
-    foreach
-        my $module ( map $_->[0], map @$_, grep $_, $self->build_requires )
-    {
-        $self->include_dependent_dists($module);
-    }
+	my $self = shift;
+	foreach my $module (
+		map  { $_->[0] }
+		map  { @$_     }
+		grep { $_      }
+		$self->build_requires
+	) {
+		$self->include_dependent_dists($module);
+	}
 }
+
+=pod
 
 =head2 include_dependent_dists $package
 
@@ -65,20 +80,20 @@ module needs.
 =cut
 
 sub include_dependent_dists {
-    my ( $self, $pkg ) = @_;
-    return unless ($pkg);
-    return if ( $self->_seen_it($pkg) );
-    $self->include_one_dist($pkg);
-
-    foreach my $mod ( @{ $self->_dist_to_mods( $self->_pkg_to_dist($pkg) ) } )
-    {
-        my $deps = $self->admin->scan_dependencies($mod) or return;
-        foreach my $key ( sort keys %$deps ) {
-            next unless ($key);
-            $self->include_dependent_dists($key);
-        }
-    }
+	my ( $self, $pkg ) = @_;
+	return unless ($pkg);
+	return if ( $self->_seen_it($pkg) );
+	$self->include_one_dist($pkg);
+	foreach my $mod ( @{ $self->_dist_to_mods( $self->_pkg_to_dist($pkg) ) } ) {
+		my $deps = $self->admin->scan_dependencies($mod) or return;
+		foreach my $key ( sort keys %$deps ) {
+			next unless ($key);
+			$self->include_dependent_dists($key);
+		}
+	}
 }
+
+=pod
 
 =head2 include_one_dist $module
 
@@ -89,15 +104,17 @@ there's a way to harness smarter logic from L<PAR>.
 =cut
 
 sub include_one_dist {
-    my ( $self, $key ) = @_;
-    my @mods = $self->_dist_to_mods( $self->_pkg_to_dist($key) );
-    foreach my $pattern (@mods) {
-        next unless $pattern;
-        foreach my $rv ( $self->admin->glob_in_inc($pattern) ) {
-            $self->admin->copy_package(@$rv);
-        }
-    }
+	my ( $self, $key ) = @_;
+	my @mods = $self->_dist_to_mods( $self->_pkg_to_dist($key) );
+	foreach my $pattern (@mods) {
+		next unless $pattern;
+		foreach my $rv ( $self->admin->glob_in_inc($pattern) ) {
+			$self->admin->copy_package(@$rv);
+		}
+	}
 }
+
+=pod
 
 =for private _pkg_to_dist $modname
 
@@ -107,16 +124,16 @@ its latest version.
 =cut
 
 sub _pkg_to_dist {
-    my $self = shift;
-    my $pkg  = shift;
-
-    require CPAN;
-
-    my $mod = CPAN::Shell->expand( Module => $pkg );
-    return unless ($mod);
-    $file = $mod->cpan_file;
-    return $file;
+	my $self = shift;
+	my $pkg  = shift;
+	require CPAN;
+	my $mod = CPAN::Shell->expand( Module => $pkg );
+	return unless ($mod);
+	$file = $mod->cpan_file;
+	return $file;
 }
+
+=pod
 
 =for private _dist_to_mods $distname
 
@@ -126,20 +143,20 @@ that CPAN.pm knows are in that dist. There's probably a beter way using CPANPLUS
 =cut
 
 sub _dist_to_mods {
-    my $self = shift;
-    my $file = shift;
-    my $dist = CPAN::Shell->expand( Distribution => $file );
-    my @mods = $dist->containsmods();
-    return @mods;
+	my $self = shift;
+	my $file = shift;
+	my $dist = CPAN::Shell->expand( Distribution => $file );
+	my @mods = $dist->containsmods();
+	return @mods;
 }
 
 sub _seen_it {
-    my $self    = shift;
-    my $pattern = shift;
-    if ( $self->{including_dep_dist}{ $self->_pkg_to_dist($pattern) }++ ) {
-        return 1;
-    }
-    return undef;
+	my $self    = shift;
+	my $pattern = shift;
+	if ( $self->{including_dep_dist}{ $self->_pkg_to_dist($pattern) }++ ) {
+		return 1;
+	}
+	return undef;
 }
 
 1;
