@@ -21,11 +21,15 @@ BEGIN {
 	$VERSION = '0.68';	
 }
 
-my $author = $^O eq 'VMS' ? './inc/_author' : './inc/.author';
-if ( -d $author ) {
-	$Module::Install::AUTHOR = 1;
-	require File::Path;
-	File::Path::rmtree('inc');
+if (-d './inc') {
+  my $author = $^O eq 'VMS' ? './inc/_author' : './inc/.author';
+  if ( -d $author ) {
+    $Module::Install::AUTHOR = 1;
+    require File::Path;
+    File::Path::rmtree('inc');
+  }
+} else {
+  $Module::Install::AUTHOR = 1;
 }
 
 unshift @INC, 'inc';
