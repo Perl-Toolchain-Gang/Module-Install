@@ -7,6 +7,8 @@
 * license_from correctly marks "GNU lesser public license" as lgpl,
   not gpl [rt.cpan.org 24635] (AVAR)
 
+* set author mode ($Module::Install::AUTHOR) when first creating ./inc (RJBS)
+
 [Changes for 0.68 - Ricardo SIGNES]
 
 * The author entry in META.yml is now a sequence, as required

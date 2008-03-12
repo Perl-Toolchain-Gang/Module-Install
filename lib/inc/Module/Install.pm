@@ -18,7 +18,7 @@ BEGIN {
 	# version an author currently has installed.
 	# This allows it to implement any back-compatibility features
 	# it may want or need to.
-	$VERSION = '0.68';	
+	$VERSION = '0.69';	
 }
 
 if (-d './inc') {
