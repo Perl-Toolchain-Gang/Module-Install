@@ -308,3 +308,5 @@ sub _caller {
 }
 
 1;
+
+# Copyright 2008 Adam Kennedy.
