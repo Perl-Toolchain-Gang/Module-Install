@@ -11,15 +11,14 @@ BEGIN {
 
 sub include {
 	my $self = shift;
-	foreach my $rv ( $self->admin->glob_in_inc(shift) ) {
+	foreach my $rv ( $self->admin->glob_in_inc($_[0]) ) {
 		$self->admin->copy_package(@$rv);
 	}
-	return $file;
 }
 
 sub include_deps {
 	my $self = shift;
-	my $deps = $self->admin->scan_dependencies(shift) or return;
+	my $deps = $self->admin->scan_dependencies($_[0]) or return;
 	foreach my $key ( sort keys %$deps ) {
 		$self->include($key);
 	}
@@ -80,14 +79,14 @@ module needs.
 =cut
 
 sub include_dependent_dists {
-	my ( $self, $pkg ) = @_;
-	return unless ($pkg);
-	return if ( $self->_seen_it($pkg) );
+	my $self = shift;
+	my $pkg  = shift;
+	return unless $pkg;
+	return if $self->{including_dep_dist}->{ $self->_pkg_to_dist($pkg) }++;
 	$self->include_one_dist($pkg);
 	foreach my $mod ( @{ $self->_dist_to_mods( $self->_pkg_to_dist($pkg) ) } ) {
 		my $deps = $self->admin->scan_dependencies($mod) or return;
-		foreach my $key ( sort keys %$deps ) {
-			next unless ($key);
+		foreach my $key ( sort grep { $_ } keys %$deps ) {
 			$self->include_dependent_dists($key);
 		}
 	}
@@ -104,10 +103,9 @@ there's a way to harness smarter logic from L<PAR>.
 =cut
 
 sub include_one_dist {
-	my ( $self, $key ) = @_;
-	my @mods = $self->_dist_to_mods( $self->_pkg_to_dist($key) );
-	foreach my $pattern (@mods) {
-		next unless $pattern;
+	my $self = shift;
+	my @mods = $self->_dist_to_mods( $self->_pkg_to_dist($_[0]) );
+	foreach my $pattern ( grep { $_ } @mods ) {
 		foreach my $rv ( $self->admin->glob_in_inc($pattern) ) {
 			$self->admin->copy_package(@$rv);
 		}
@@ -124,13 +122,9 @@ its latest version.
 =cut
 
 sub _pkg_to_dist {
-	my $self = shift;
-	my $pkg  = shift;
 	require CPAN;
-	my $mod = CPAN::Shell->expand( Module => $pkg );
-	return unless ($mod);
-	$file = $mod->cpan_file;
-	return $file;
+	my $mod = CPAN::Shell->expand( Module => $_[1] ) or return;
+	$mod->cpan_file;
 }
 
 =pod
@@ -143,20 +137,8 @@ that CPAN.pm knows are in that dist. There's probably a beter way using CPANPLUS
 =cut
 
 sub _dist_to_mods {
-	my $self = shift;
-	my $file = shift;
-	my $dist = CPAN::Shell->expand( Distribution => $file );
-	my @mods = $dist->containsmods();
-	return @mods;
-}
-
-sub _seen_it {
-	my $self    = shift;
-	my $pattern = shift;
-	if ( $self->{including_dep_dist}{ $self->_pkg_to_dist($pattern) }++ ) {
-		return 1;
-	}
-	return undef;
+	require CPAN;
+	CPAN::Shell->expand( Distribution => $_[1] )->containsmods;
 }
 
 1;

@@ -131,21 +131,6 @@ sub eumm {
 	!! ($0 =~ /Makefile.PL$/i);
 }
 
-# Are we targeting Module::Build (running as Build.PL)
-sub mb {
-	!! ($0 =~ /Build.PL$/i);
-}
-
-# Indicates the use of an ExtUtils::MakeMaker-only feature
-sub no_mb {
-	my $self = shift;
-	return 1 unless $self->mb;
-
-	# This installer is being run via a Build.PL but uses
-	# a feature that does not support Module::Build.
-	die "Build.PL tried to use a feature unsupported by Module::Build";
-}
-
 
 
 
