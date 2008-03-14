@@ -1,4 +1,6 @@
-[Changes for 0.69 - Adam Kennedy]
+Changes for Perl extension Module-Install
+
+0.69 Sat 15 Mar 2008 - Adam Kennedy
 
 * Removing auto_install support (ADAMK)
 
