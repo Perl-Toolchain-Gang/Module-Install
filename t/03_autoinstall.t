@@ -1,9 +1,12 @@
 #!/usr/bin/perl
 
-use strict;
-use Test;
+BEGIN {
+	$|  = 1;
+	$^W = 0;
+}
 
-BEGIN { plan tests => 6; $^W = 0; };
+use strict;
+use Test::More tests => 6;
 
 # Intercepts calls to WriteMakefile and prompt.
 my $mm_args;

@@ -1,26 +1,13 @@
-#!/usr/bin/perl -w
+#!/usr/bin/perl
 
 # Load testing for File::PathList
 
 use strict;
-use lib ();
-use File::Spec::Functions ':ALL';
-BEGIN {
-	$| = 1;
-	unless ( $ENV{HARNESS_ACTIVE} ) {
-		require FindBin;
-		$FindBin::Bin = $FindBin::Bin; # Avoid a warning
-		chdir catdir( $FindBin::Bin, updir() );
-		lib->import(
-			catdir('blib', 'lib'),
-			'lib',
-			);
-	}
-}
-
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '0.68';
+	$|       = 1;
+	$^W      = 1;
+	$VERSION = '0.69';
 }
 
 use Test::More tests => 4;
@@ -36,5 +23,3 @@ foreach my $class ( qw{inc::Module::Install Module::Install} ) {
 	no strict 'refs';
 	is( ${"${class}::VERSION"}, $VERSION, "VERSION matches - $class" );
 }
-
-exit(0);

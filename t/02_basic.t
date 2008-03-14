@@ -1,15 +1,20 @@
-use Test;
+#!/usr/bin/perl
+
+BEGIN {
+	$|  = 1;
+	$^W = 1;
+}
+
+use Test::More tests => 4;
 use File::Spec;
 
-plan(tests => 4);
-
-ok(TestHelper->create_dist('Foo'));
-ok(TestHelper->build_dist('Foo'));
-ok(-f File::Spec->catfile(qw(t Foo inc Module Install.pm)));
-ok(TestHelper->kill_dist('Foo'));
+ok( TestHelper->create_dist('Foo') );
+ok( TestHelper->build_dist('Foo') );
+ok( -f File::Spec->catfile(qw(t Foo inc Module Install.pm)) );
+ok( TestHelper->kill_dist('Foo') );
 
 package TestHelper;
-BEGIN {$^W = 1};
+
 use strict;
 use File::Spec;
 use File::Path;
@@ -47,7 +52,9 @@ package $dist;
 use strict;
 
 1;
+
 __END__
+
 =head1 NAME
 
 $dist - A test module
@@ -71,10 +78,9 @@ sub build_dist {
 }
 
 sub kill_dist {
-    my ($self, $dist) = @_;
-    my $dist_path = File::Spec->catdir('t', $dist);
-    File::Path::rmtree($dist_path) or return 0;
-    return 1; 
+    File::Path::rmtree(
+        File::Spec->catdir('t', $_[0])
+    ) ? 1 : 0;
 }
 
 1;

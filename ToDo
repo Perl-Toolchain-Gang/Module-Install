@@ -8,11 +8,6 @@
 
 - Test recursive Makefile directories
 
-- Module::Build Support:
-    - Add actions for:
-        - reset
-    - Make sure include-ing of Module::Build works. # done
-
 - Test Suite:
     - We need tests for everything
     

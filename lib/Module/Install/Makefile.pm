@@ -36,7 +36,7 @@ sub prompt {
 sub makemaker_args {
 	my $self = shift;
 	my $args = ($self->{makemaker_args} ||= {});
-	%$args = ( %$args, @_ ) if @_;
+	  %$args = ( %$args, @_ ) if @_;
 	$args;
 }
 
@@ -103,8 +103,8 @@ sub tests_recursive {
 	unless ( -d $dir ) {
 		die "tests_recursive dir '$dir' does not exist";
 	}
-	require File::Find;
 	%test_dir = ();
+	require File::Find;
 	File::Find::find( \&_wanted_t, $dir );
 	$self->tests( join ' ', map { "$_/*.t" } sort keys %test_dir );
 }
@@ -113,6 +113,11 @@ sub write {
 	my $self = shift;
 	die "&Makefile->write() takes no arguments\n" if @_;
 
+	# Make sure we have a new enough
+	require ExtUtils::MakeMaker;
+	$self->configure_requires( 'ExtUtils::MakeMaker' => $ExtUtils::MakeMaker::VERSION );
+
+	# Generate the 
 	my $args = $self->makemaker_args;
 	$args->{DISTNAME} = $self->name;
 	$args->{NAME}     = $self->module_name || $self->name || $self->determine_NAME($args);
@@ -141,8 +146,11 @@ sub write {
 		map { @$_ }
 		map { @$_ }
 		grep $_,
-		($self->build_requires, $self->requires)
+		($self->configure_requires, $self->build_requires, $self->requires)
 	);
+
+	# Remove any reference to perl, PREREQ_PM doesn't support it
+	delete $args->{PREREQ_PM}->{perl};
 
 	# merge both kinds of requires into prereq_pm
 	my $subdirs = ($args->{DIR} ||= []);

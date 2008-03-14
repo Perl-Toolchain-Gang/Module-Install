@@ -137,7 +137,6 @@ that CPAN.pm knows are in that dist. There's probably a beter way using CPANPLUS
 =cut
 
 sub _dist_to_mods {
-	require CPAN;
 	CPAN::Shell->expand( Distribution => $_[1] )->containsmods;
 }
 

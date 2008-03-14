@@ -22,14 +22,6 @@ all_from     'lib/Module/Install.pm';
 
 install_as_cpan;
 
-# Should be a "requires", but we should solve the
-# "auto-include File::Spec if version < 5.005" problem first.
-build_requires 'File::Spec'    => 0;
-
-# We are going to move to Test::More shortly
-build_requires 'Test::Harness' => '2.03';
-build_requires 'Test::More'    => '0.42';
-
 # Make sure we have at least one YAML parser
 if ( is_admin() ) {
 	# This is for META.yml
@@ -61,24 +53,24 @@ requires 'Module::CoreList';
 # feature 'PAR-based binary distributions',
 requires 'PAR::Dist' => '0.03';
 
-# feature 'Module::Build support',
+# We need Module::Build for certain functionality
 requires 'Archive::Tar'      => '0.23';
 requires 'ExtUtils::Install' => '0.3';
 requires 'ExtUtils::ParseXS';
 requires 'Module::Build';
 
-# Ignore example files
-no_index directory => 'example';
+# Should be a "requires", but we should solve the
+# "auto-include File::Spec if version < 5.005" problem first.
+build_requires 'File::Spec'    => 0;
 
-# Disabled for the moment, as it complicated packaging.
-# This should be fixed to imply making the manifest or to
-# just run a File::Find with the no_index items removed.
-## auto_provides;
-
-# Disabled until someone who can sign is doing the releasing
-## sign;
+# We are going to move to Test::More shortly
+build_requires 'Test::Harness' => '2.03';
+build_requires 'Test::More'    => '0.42';
 
 # Makes the recursive test script run
 tests_recursive;
+
+# Ignore example files
+no_index directory => 'example';
 
 WriteAll;
