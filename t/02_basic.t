@@ -72,14 +72,14 @@ sub build_dist {
     return 0 unless -d $dist_path;
     my $home = cwd;
     chdir $dist_path or return 0;
-    system($^X, "-Ilib", "-Iblib/lib", "Makefile.PL") == 0 or return 0;
+    system($^X, "-I../../lib", "-I../../blib/lib", "Makefile.PL") == 0 or return 0;
     chdir $home or return 0;
     return 1;
 }
 
 sub kill_dist {
     File::Path::rmtree(
-        File::Spec->catdir('t', $_[0])
+        File::Spec->catdir('t', $_[1])
     ) ? 1 : 0;
 }
 
