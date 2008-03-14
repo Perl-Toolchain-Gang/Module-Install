@@ -32,6 +32,10 @@ BEGIN {
 	$VERSION = '0.69';
 }
 
+
+
+
+
 # Whether or not inc::Module::Install is actually loaded, the
 # $INC{inc/Module/Install.pm} is what will still get set as long as
 # the caller loaded module this in the documented manner.
@@ -39,8 +43,8 @@ BEGIN {
 # they may not have a MI version that works with the Makefile.PL. This would
 # result in false errors or unexpected behaviour. And we don't want that.
 my $file = join( '/', 'inc', split /::/, __PACKAGE__ ) . '.pm';
-unless ( $INC{$file} ) {
-	die <<"END_DIE";
+unless ( $INC{$file} ) { die <<"END_DIE" }
+
 Please invoke ${\__PACKAGE__} with:
 
 	use inc::${\__PACKAGE__};
@@ -50,15 +54,18 @@ not:
 	use ${\__PACKAGE__};
 
 END_DIE
-}
+
+
+
+
 
 # If the script that is loading Module::Install is from the future,
 # then make will detect this and cause it to re-run over and over
 # again. This is bad. Rather than taking action to touch it (which
 # is unreliable on some platforms and requires write permissions)
 # for now we should catch this and refuse to run.
-if ( -f $0 and (stat($0))[9] > time ) {
-	die <<"END_DIE";
+if ( -f $0 and (stat($0))[9] > time ) { die <<"END_DIE" }
+
 Your installer $0 has a modification time in the future.
 
 This is known to create infinite loops in make.
@@ -66,12 +73,15 @@ This is known to create infinite loops in make.
 Please correct this, then run $0 again.
 
 END_DIE
-}
+
+
+
+
 
 # Build.PL was formerly supported, but no longer is due to excessive
 # difficulty in implementing every single feature twice.
-if ( $0 =~ /Build.PL$/i or -f 'Build.PL' ) {
-	die <<"END_DIE";
+if ( $0 =~ /Build.PL$/i or -f 'Build.PL' ) { die <<"END_DIE" }
+
 Module::Install no longer supports Build.PL.
 
 It was impossible to maintain duel backends, and has been deprecated.
@@ -79,7 +89,10 @@ It was impossible to maintain duel backends, and has been deprecated.
 Please remove all Build.PL files and only use the Makefile.PL installer.
 
 END_DIE
-}
+
+
+
+
 
 use Cwd        ();
 use File::Find ();
@@ -279,7 +292,7 @@ sub find_extensions {
 		}
 
 		push @found, [ $file, $pkg ];
-	}, $path ) if -d $path
+	}, $path ) if -d $path;
 
 	@found;
 }

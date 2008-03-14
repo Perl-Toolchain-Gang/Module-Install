@@ -24,11 +24,6 @@ sub WriteAll {
 	$self->Meta->write            if $args{meta};
 	$self->admin->WriteAll(%args) if $self->is_admin;
 
-	# Deal with the (broken?) Module::Build case
-	if ( $0 =~ /Build.PL$/i ) {
-		return $self->Build->write;
-	}
-
 	$self->check_nmake if $args{check_nmake};
 	unless ( $self->makemaker_args->{PL_FILES} ) {
 		$self->makemaker_args( PL_FILES => {} );
