@@ -10,6 +10,13 @@ BEGIN {
 	@ISA     = qw{Module::Install::Base};
 }
 
+
+
+
+
+#####################################################################
+# Previous API for Module::Install::Compoler
+
 sub c_files {
 	warn "c_files has been changed to cc_files to reduce confusion and keep all compiler commands as cc_";
 	shift()->cc_files(@_);
@@ -33,6 +40,25 @@ sub lib_links {
 sub optimize_flags {
 	warn "optimize_flags has been changed to cc_optimize_flags for consistency reasons";
 	shift()->cc_optimize_flags(@_);
+}
+
+
+
+
+
+#####################################################################
+# Formerly Module::Install::AutoInstall
+
+sub AutoInstall {
+	die 'Module::Install::AutoInstall often breaks CPAN and has been deprecated';
+}
+
+sub auto_install {
+	die 'Module::Install::AutoInstall often breaks CPAN and has been deprecated';
+}
+
+sub auto_install_now {
+	die 'Module::Install::AutoInstall often breaks CPAN and has been deprecated';
 }
 
 1;

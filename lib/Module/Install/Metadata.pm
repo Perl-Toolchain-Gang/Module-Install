@@ -123,14 +123,14 @@ sub auto_provides {
     my $self = shift;
     return $self unless $self->is_admin;
 
-    unless (-e 'MANIFEST') {
+    unless ( -e 'MANIFEST' ) {
         warn "Cannot deduce auto_provides without a MANIFEST, skipping\n";
         return $self;
     }
 
     # Avoid spurious warnings as we are not checking manifest here.
 
-    local $SIG{__WARN__} = sub {1};
+    local $SIG{__WARN__} = sub { 1 };
     require ExtUtils::Manifest;
     local *ExtUtils::Manifest::manicheck = sub { return };
 
