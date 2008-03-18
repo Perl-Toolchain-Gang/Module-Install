@@ -13,7 +13,7 @@ use File::Spec ();
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {
-	$VERSION = '0.69';
+	$VERSION = '0.70';
 	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
 }

@@ -29,7 +29,7 @@ BEGIN {
 	# This is not enforced yet, but will be some time in the next few
 	# releases once we can make sure it won't clash with custom
 	# Module::Install extensions.
-	$VERSION = '0.69';
+	$VERSION = '0.70';
 }
 
 

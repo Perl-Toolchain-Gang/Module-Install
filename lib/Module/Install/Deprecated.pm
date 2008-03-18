@@ -5,7 +5,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {
-	$VERSION = '0.69';
+	$VERSION = '0.70';
 	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
 }
@@ -40,25 +40,6 @@ sub lib_links {
 sub optimize_flags {
 	warn "optimize_flags has been changed to cc_optimize_flags for consistency reasons";
 	shift()->cc_optimize_flags(@_);
-}
-
-
-
-
-
-#####################################################################
-# Formerly Module::Install::AutoInstall
-
-sub AutoInstall {
-	die 'Module::Install::AutoInstall often breaks CPAN and has been deprecated';
-}
-
-sub auto_install {
-	die 'Module::Install::AutoInstall often breaks CPAN and has been deprecated';
-}
-
-sub auto_install_now {
-	die 'Module::Install::AutoInstall often breaks CPAN and has been deprecated';
 }
 
 1;

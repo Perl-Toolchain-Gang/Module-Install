@@ -1,5 +1,10 @@
 Changes for Perl extension Module-Install
 
+0.70 Tue 18 Mar 2008 - Adam Kennedy
+
+* Temporarily restoring auto_install until Matt Trout can craft a
+  replacement for their installdeps needs, and for feature support.
+
 0.69 Sat 15 Mar 2008 - Adam Kennedy
 
 * Removing auto_install support (ADAMK)
