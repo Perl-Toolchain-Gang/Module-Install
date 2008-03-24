@@ -1,605 +1,454 @@
 Changes for Perl extension Module-Install
 
-0.70 Tue 18 Mar 2008 - Adam Kennedy
+0.71 - Adam Kennedy
+	- YAML::Tiny is now good enough to use exclusively (ADAMK)
+	- Converted Changes file to my normal format, so that the release
+	  automated can deal with it properly (ADAMK)
+	- Added name_from to auto-detect name, and include name_from in
+	  all_from, so now no name line is needed at all in the
+	  Makefile.PL (ADAMK)
+	- Removed the redundant Module::Install::Makefile::Name and
+	  Module::Install::Makefile::Version, they were almost never
+	  used and were a bit too magic. (ADAMK)
+	- Adding a "wrote" flag to the M:I object in preparation for
+	  making WriteAll implicit by default (ADAMK)
+	- Correcting 01_compile.t to check for 5.004 instead of 5.005
+	  (ADAMK)
+	- Added Module::Install::_version to numify CPAN-like versions
+	  properly (ADAMK)
+	- Split TestHelper out as it's own t/lib/Test module (ADAMK)
+	- Upgrade from File::Path::rmtree to File::Remove::remove in the
+	  test scripts. (ADAMK)
+	- Various documentation clean ups (ADAMK)
+	- If building in author mode, make sure that auto-generated META.yml
+	  files are deleted properly during 'make clean' (ADAMK)
 
-* Temporarily restoring auto_install until Matt Trout can craft a
-  replacement for their installdeps needs, and for feature support.
+0.70 Tue 18 Mar 2008 - Adam Kennedy
+	- Temporarily restoring auto_install until Matt Trout can craft a
+	  replacement for their installdeps needs, and for feature support
+	  (ADAMK)
 
 0.69 Sat 15 Mar 2008 - Adam Kennedy
-
-* Removing auto_install support (ADAMK)
-
-* Removing Build.PL support (ADAMK)
-
-* Enabling configure_requires support (ADAMK)
-
-* Automatically set a configure_requires for the version of
-  ExtUtils::MakeMaker that the author is running.
-
-* Refactoring a number of modules for reduced size (ADAMK)
-
-* Add 'share' to the list of directories automatically no_index'ed (ADAMK)
-
-* license_from correctly marks "GNU lesser public license" as lgpl,
-  not gpl [rt.cpan.org 24635] (AVAR)
-
-* set author mode ($Module::Install::AUTHOR) when first creating
-  ./inc (RJBS)
-
-* Don't write perl into PREREQ_PM when using perl_version (ADAMK)
-
-[Changes for 0.68 - Ricardo Signes]
-
-* The author entry in META.yml is now a sequence, as required
-
-[Changes for 0.67 - Adam Kennedy]
-
-* Tweaked the license detection code a bit
-
-* Previous changes working well, going production
-
-[Changes for 0.66_02 - Adam Kennedy]
-
-* Adding detection of 'proprietary' license.
-
-* "All rights reserved" clashes with or can invalidate most Open Source
-  licenses. Adding a warning to this effect.
-
-[Changes for 0.66_01 - 2007-03-15]
-
-* Adding tests_recursive to have M:I search for and explicitly list
-  all test scripts recursively.
-
-* Adding configure_requires, test_requires and install_requires.
-  These are currently aliases for build_requires but will later result
-  in alternative consequences internally (ADAMK)
-
-* Reorganising Module::Install::With on the assumption that CPAN.pm will
-  be implementing PERL5_CPAN_IS_EXECUTING.
-
-[Changes for 0.65 - 2007-03-06]
-
-* Add install_as_core, install_as_cpan, install_as_vendor
-  commands to control the "installdirs" metadata field.
-  Requested by: Tels (renamed by ADAMK and AUDREYT)
-
-* Add the preop command for users to customize the PREOP rule. (BINGOS) 
-
-* Implement support for $ENV{PERL5_CPANPLUS_IS_EXECUTING} in the
-  experimental Module::Install::With. (ADAMK)
-
-* Remove the use of features in the Module::Install Makefile.PL.
-  Developers should be quite capable of installing them all. (ADAMK)
-
-* Remove the use of auto_provides in Module::Install Makefile.PL
-  until we fix it to not break without a pre-existing MANIFEST. (ADAMK)
-
-* YAML::Tiny is now used as a fallback for generating META.yml. The
-  order of precedence is now YAML::Syck, YAML::Tiny, then YAML.
-
-* META.yml output is now conformant to spec 1.3.
-
-* Add MIT license to those detectable by license_from() (GAAL)
-
-[Changes for 0.64 - 2006-08-24]
-
-* auto_install() will no longer invoke CPAN.pm or CPANPLUS
-  recursively when running under CPANPLUS (i.e., when 
-  $ENV{PERL5_CPANPLUS_IS_RUNNING} is set to a true value.)
-
-* auto_install() would not follow prerequisites of requires() when
-  the module is installed from the command line and only CPAN.pm is
-  installed. [rt.cpan.org 21139] (MSCHWERN)
-
-[Changes for 0.63 - 2006-06-05]
-
-* "make" gets confused if the Makefile.PL time is in the future, but there
-  is no universal fix for this. As an initial solution, catch the error
-  situation and die with an error to the user. (ADAMK)
-
-* Adding additional notes on no_index package (ADAMK)
-
-* Removing hashbang from Makefile.PL and using a $^W = 1 instead (ADAMK)
-
-[Changes for 0.62 - 2006-05-03]
-
-* Various small back-compatibility bugs squashed, since we advertise
-  that a M:I installer should run back to 5.004 (AUDREYT)
-
-* Allow non-admin installs to do so without the need for YAML.pm (AUDREYT)
-
-* Adding an initial implementation of Module::Install::With, containing
-  code to detect the existance of other members of the Perl toolchain,
-  and how we are related to them in any given install run.
-  Initial experimental implementation of CPAN.pm and CPANPLUS detection,
-  based on code extracted from Module::AutoInstall, and other code
-  recommended by the relevant authors.
-  Leaving the new commands undocumented for now, and recommend NOT making
-  general use of them until tested. (ADAMK)
-
-* In order to implement any form of version locking, which need to know
-  which extensions are in the core (and thus version-locked) and which
-  are custom extensions with legally out-of-sync versions.
-  Added $ISCORE = 1 global to every potentially-bundled core extention,
-  for when we start to do version locking. (ADAMK)
-
-* The install_share Makefile fragment fails on older ExtUtils::Install
-  versions. When we install_share, add an explicit EU::MakeMaker dependency.
-  Would have done on just ExtUtils::Install, but it isn't
-  PREFIX/PERL5LIB-safe. (ADAMK)
-
-* Some/many versions of MakeMaker incorrectly set PERL_LIB and PERL_ARCHLIB,
-  which is only supposed to be used for building the core Perl. Since we'll
-  never be doing that, make the Makefile munger blank them if they exist.
-  This lets PREFIX + PERL5LIB for installing private modules work again.
-  (except not PERL_ARCHLIB for now, it's not getting in the way, and for
-  some reason it's used for something else) (ADAMK)
-
-[Changes for 0.61 - 2006-03-15]
-
-* ActivePerl::Config on case-insensitive filesystems interacts
-  erroneously with Module::Install's (outdated) @INC hack, so remove it.
-  (Patch from Gisle Aas)
-
-* Improve compatibility with ExtUtils::MakeMaker 5.x by not relying
-  on FIRST_MAKEFILE being set in the MM instance.
-
-* Remove optional dependency on CPANPLUS. (INGY)
-
-* Add "realclean_files" command to add files to be cleaned on
-  "make realclean", instead of "make clean". (INGY)
-
-* Add $VERSION back to inc::Module::Install so we can implement
-  workarounds and back-compatibility code later on. (ADAMK)
-
-[Changes for 0.60 - 2006-03-11]
-
-* Cleaned up the 0.59 fix a bit and added a bunch of comments explaining
-  the bootup mechanism. A misunderstanding of this on my part led to
-  the 0.58 bug. Sorry folks (ADAMK)
-
-* Resolved #18040: bundled Module::Install leaks private information
-  Debugging information in Module::Install::Admin was leaking potentially
-  sensitive information. Removed just the files, left the lines (TELS)
-
-* Fixed a smaller part of the problem with 0.58 that still hurts people if
-  that are an installer AND an author as well. (Reported by dha)
-
-[Changes for 0.59 - 2006-03-07]
-
-* Resolved #18020: 0.58 was broken; inc::Module::Install's @ISA
-  and $VERSION needs to be set by Module::Install on its behalf.
-  (TELS)
-
-[Changes for 0.58 - 2006-03-04]
-
-* Made Module::AutoInstall generally aware of AUTOMATED_TESTING
-
-* Added compatibility with 5.9.3 proxy constants
-
-* Resolved #11169: problems on VMS.
-  This doesn't mean there won't be problems on VMS though,
-  as this path is oldish and their may be more problems.
-
-* Added AUTOMATED_TESTING support to prompt() to force the
-  selection of the default (via PERL_MM_USE_DEFAULT) when it
-  is enabled.
-
-* Added infinite loop protection to prompt() just in case automated
-  and/or shortcutted responses to prompts go badly and leave us
-  looping over the same question.
-
-* Fixed #17961 Use of uninitialized value in array dereference at
-  Module/Install/Metadata.pm line 163. (TELS)
-  
-[Changes for 0.57 - 2006-02-23]
-
-* Fixed a bug where a misnamed hash key was making the extensions
-  fruitlessly reload (or at least try to reload) every command call.
-
-* Fixed a pod bug for the requires_external_bin head2
-
-* Because external deps will need versioning eventually, we can
-  never provide a hash to requires_external, and so it's really
-  just supurfluous and invites more bugs. Removed.
-
-* Experimentally added support for the META.yaml dynamic_config flag.
-  We don't set ANY default value, because of a lack of clarity. It is 
-  undocumented in the META.yaml spec, but false in Module::Build, which
-  is really really bad, as it leads to falsely assuming dynamic
-  Makefile.PLs are static when no dynamic_config is provided.
-  
-  Personally, I think it should be static_config anyway, and we may well
-  change it to be that anyway.
-
-* Added support for requires_external_cc (requires a C compiler) that will
-  integrate with whatever central method we use later to signal to
-  whatever is calling Makefile.PL that there is a missing external
-  dependency. This will also be called by other methods if there is an
-  implicit dependency.
-
-* Synchronised all the module versions to all be 0.57.
-  This will be used a few versions down the line to add integrity testing
-  of Module::Install's own extension loading process.
-
-* Added a $VERSION and C<use strict> to the extensions that didn't have
-  one or both of the two already.
-
-* Fixed a number of minor bugs discovered after turning on C<use strict>.
-
-* Very carefully beginning to clean up some of the code so it's much more
-  boring (i.e. maintainable).
-
-* Changed recursion to always preference the installer we are currently
-  running under. So use CPAN.pm in CPAN.pm, and CPANPLUS in CPANPLUS.
-  This simplifies anti-dupe recursion algorithms, and dramatically
-  reduces memory use under CPAN.pm.
-
-* Documented the install_script command
-
-* Caught _install_cpanplus happily passing completely illegal CPAN.pm
-  config params to CPANPLUS, and worse, eval-wrapping the set_conf so
-  it could happily ignore errors.
-  Added _cpanplus_config to try and auto-convert CPAN config params to
-  CPANPLUS, and die if we can't. Add more translators as needed.
-
-* Moved the deprecated commands into their own module
-  Module::Install::Deprecated to stop them being included and reduce
-  package bloat.
-
-[Changes for 0.56 - 2006-02-12]
-
-* Added experimental support for requires_external_bin to forcefully
-  require the installation of a script or command.
-
-* Removed a warning in Module::Install::Admin::MetaData when
-  perl_version doesn't have a third part.
-
-[Changes for 0.55 - 2006-01-27]
-
-* This release only not signed (Released by ADAMK who has no keys)
-
-* Another pass over the POD to clean up and remove mistaked (ADAMK)
-
-* Module::Install::Share installs to blib/lib rather than blib/arch.
-  Most files will be non-arch-specific, and it was causing problems
-  down the road with File::ShareDir.
-  All existing working install_share/File::ShareDir continues to work.
-
-* New command auto_include_dependent_dists() to recursively include dependent
-  CPAN distributions for modules declared with build_requires().
-  This differs from auto_include_deps() because it works with whole
-  distribution source trees, not just single modules.
-
-* Fix POD syntax so t/2-pod.t passes.
-  Contributed by: Ishigaki Kenichi
-
-* Disable 5.005-specific qr// construct in t/3-autoinstall.t so
-  Perl 5.004 can build this module again.
-
-* YAML::Syck 0.27+ is now a preferred dependency over YAML 0.35+ for
-  platforms with a C compiler and without either one available.
-
-[Changes for 0.54 - 2006-01-11]
-
-* Fix can_run() on Cygwin for real.
-  Contributed by: Mark Grimes
-
-[Changes for 0.53 - 2006-01-11]
-
-* Fix can_run() on Cygwin for paths beginning with /cygdrive/.
-  Reported by: Mark Staggs
-
-* If YAML::Syck is present on the system, use it instead of YAML.pm
-  to write out META.yml.
-
-[Changes for 0.52 - 2006-01-03]
-
-* Module::AutoInstall - disable "sudo" prompting for CPANPLUS 0.050
-  and CPAN.pm 1.80+ which already has "sudo" support.
-  Reported by: Andreas Koenig
-
-[Changes for 0.51 - 2005-12-31]
-
-* An additional 100+ lines of documentations in the Module::Install POD file.
-
-* all_from() with no args now attempts to decude the "from" file
-  from the "name" property.
-
-* On Cygwin, sometimes AUTOLOAD is called with a gensym'ed package
-  that does not define _top.  Try to accomodate for this.
-
-* Do not ever attempt "sudo" without interactive consent from the user;
-  make the _prompt() in Module::AutoInstall default to 'n' if we are
-  not running in an interactive terminal.
-
-* Add lib_paths and lib_links commands to Module::Install::Compiler for
-  setting LIBS flags.
-
-[Changes for 0.50 - 2005-12-26]
-
-* Fixed the bug where cpan signing was set forcibly to true instead
-  of defaulting to false.
-  Reported by: Martin Thurn and Randal Schwartz
-
-* Module::Install::Admin's copy() subroutine was using a lot of CPU
-  on inefficient regex matches, where a simple passthrough while()
-  line-processing loop would do.
-
-* The t/ directory is now listed in META.yml's no_index entries by
-  default, along with inc/.
-
-* YAML.pm is now listed as an explicit dependency.
-
-[Changes for 0.48 - 2005-12-26]
-
-* New Module::Install::Compiler extension with commands:
-  c_files(), inc_paths(), optimize_flags().
-
-[Changes for 0.47 - 2005-12-25]
-
-* Slight documentation cleanup and update Module::Install::Admin
-  version to 0.47; no functional changes.
-
-[Changes for 0.46 - 2005-12-22]
-
-* tests() should always take effect even if auto_install() or
-  makemaker_args() had set it before.
-  Reported by: Jesse Vincent.
-
-[Changes for 0.45 - 2005-12-16]
-
-* Improved detection for author_from() based on the copyright line
-  in addition to =head1 AUTHORS.
-
-* Bump version of Module::Install::Admin to match Module::Install.
-  Reported by: Sebastian Riedel
-
-[Changes for 0.44 - 2005-12-13]
-
-* Module::Install::Bundle now extract files correctly again;
-  this was a regression since 0.40.
-  Reported by: Randal Schwartz
-
-* Add support to Module::Includes::Bundle so each subdirectory
-  can use Module::Install for bundling. 
-
-* The "bundles:" key in META.yml is now populated even if the
-  bundled modules already exist on the system.
-
-[Changes for 0.43 - 2005-12-12]
-
-* Better documentation to install_share().
-
-* New author_from() command to guess the author name from POD.
-
-* all_from() no longer probes for metadata that has been set before.
-
-[Changes for 0.42 - 2005-12-11]
-
-* auto_provides() was broken due to a typo.
-
-* New command install_share() to put a directory's content into the
-  per-distribution auto/ directory.
-
-[Changes for 0.41 - 2005-12-11]
-
-* Only query '$self->tests' if we haven't been given an explicit list
-  (From Paul Fenwick)
-
-* New command auto_provides() to calculate "provides:" information using
-  Module::Build.  Requested by Chia-Liang Kao.
-
-[Changes for 0.40 - 2005-12-07]
-
-* Massively updated documentation (more to come later).
-
-* Parentheses are now optional in Makefile.PL.
-
-* Includes Module::AutoInstall, a cleaned-up version of ExtUtils::AutoInstall.
-
-* New command all_from() to combine all *_from() tests into one.
-
-* New command test() to Support specifying test files.
-
-* New command feature() to list individual features easily.
-
-[Changes for 0.37 - 2005-08-04]
-
-* Always include ExtUtils::AutoInstall in inc/ if auto_install() is called.
-
-* Fixed a bug where modules having shared libraries would sometimes
-  be included in inc/.
-
-* The needs shared library message will now only be printed if the module
-  version indicates that it would otherwise be included. The module name has
-  also been corrected so that "::" is used everywhere instead of "/".
-
-[Changes for 0.36 - 2004-09-09]
-
-* First version under SVK management.
-
-* install_scripts() now takes multiple scripts to install.
-
-[Changes for 0.35 - 2004-07-13]
-
-* Jos Boumans reported that "use inc::Module::Install 0.34"
-  was failing because Module::Install does not assign VERSION
-  to inc::Module::Install.
-
-* Implemented auto_include_deps() for real.
-
-[Changes for 0.34 - 2004-07-01]
-
-* auto_include() will not include recursive dependencies now;
-  that functionality is refactored into auto_include_deps().
-
-[Changes for 0.33 - 2004-03-11]
-
-* abstract_from() was broken; it works now thanks to SHAY.
-
-* WriteAll() now takes (inline => 1) to support
-  Inline-based modules.
-
-[Changes for 0.31 - 2003-12-31]
-
-* Allow auto_install() to take -core-specific options like
-  (-default => 0).
-
-* No longer use inc/SCRIPT but simply modify the scripts to install.
-
-* Make can_cc() to probe the program part of $Config{cc}
-
-* Bundled M::I-using modules (or subdirs) used to break up
-  spectacularly by overriding ::AUTOLOAD and reusing their
-  parents' inc/*.  Now the namespaces are keyed by cwd and
-  more readily unregistered.
-
-[Changes for 0.29 - 2003-12-14]
-
-* Introducing &WriteAll, a combination of &Meta->write,
-  &check_nmake, &Makefile->write, and if a Build.PL is
-  present (which should read "require 'Makefile.PL'"),
-  also supports transparent &Build->write.
-
-* Real Module::Build support in WriteAll and in this module.
-
-* Transparent Build.PL, as promised in README, is back.
-
-* WriteAll now takes three non-metadata flags:
-  check_nmake (default 1), meta (default 1) and
-  sign (default 0).
-
-* The "private" key in META.yml is officially obsoleted by "no_index".
-
-* Now warns if the user did not specify a license.
-
-* "requires( perl => $version )" is now supported.
-
-* include_deps() now no longer takes its second argument;
-  it must be separately supplied with the syntax above.
-
-* "&WriteAll" now officially replaces "&Build->write",
-  "&Makefile->write", "&Meta->write" and "check_nmake()".
-
-* Implemented auto_include() and bundle_deps().
-
-* Add "#defaults" to MANIFEST.SKIP.
-
-[Changes for 0.28 - 2003-12-11]
-
-* Module::Install::Bundle now works, thanks to Adam Foxson!
-
-* Unbreak against newer EU::MM.
-
-* Let "inc" work with "make test" on 5.6.x too.
-
-* mcdavis pointed out that Microsoft now wants
-  "Nmake15.exe", not "nmake15.exe".
-
-[Changes for 0.27 - 2003-10-27]
-
-* Make the include'd modules actually work during
-  "make" and "make test", by adding "inc" to the
-  Makefile targets.
-
-* Graham's patch for 5.004 backcompat.
-
-* Graham Barr points out that readdir() can return 0.
-
-* Do not sign the distribution if we are not the admin.
-
-[Changes for 0.26 - 2003-10-17]
-
-* sign(1) support for automatic digital signing.
-
-* no_index(directory => 'example') support, for telling
-  PAUSE and search to skip indexing modules.
-
-[Changes for 0.25 - 2003-10-13]
-
-* Add no_index as an alias to private in META.yml.
-
-* Support for YAML::Parser::Syck.
-
-* No point in supporting Build.PL now.
-
-[Changes for 0.24 - 2003-09-01]
-
-* 0.17 is simply too old as it scans in POD sections.
-
-* Kingpin <mthurn@carbon> notes that we are using "next"
-outside a loop block in ScanDeps.
-
-* threads.pm and warnings.pm should be exempted too.
-
-[Changes for 0.23 - 2003-08-18]
-
-* Implemented $self->is_admin to properly test if it's running
-  on the admin side.
-
-* Andreas Koenig reports that we are writing META.yml
-  even on the user side, because of this bug.
-
-* sWitch to PAR::Dist to do make_par().
-
-[Changes for 0.22 - 2003-07-16]
-
-* Turns out that MakeMaker's NAME corresponds to
-  META.yml's module_name, and DISTNAME corresponds
-  to name.  Reflect this in the relevant files.
-
-* Introduce a new module_name metadata key that may
-  be automatically generated from name.
-
-* /\.pm/i should be /\.pm$/i.
-
-* Iain Truskett wants us to not overwrite alien META.yml files.
-
-- PREREQ_PM wasn't being filled out.
-
-- Should be including YAML dependencies too.
-
-* POD cleanups.
-
-[Changes for 0.21 - 2003-06-15]
-
-* Lindsay Morris pointed out that include_deps()
-  does not work with non-core modules; fixed.
-
-[Changes for 0.20 - 2003-06-05]
-
-* Add pointer to ingy's TPJ article.
-
-* Eliminated warnings on 5.005.
-
-* Added the "package inc::Module::Install;" line at
-  request by Graham Barr, for search.cpan.org.
-
-* Close META.yml before zipping; otherwise trips on win32.
-
-* requires(), build_requires(), recommends() etc can now take
-  multiple pairs in addition to a single pair.
-
-* Add standard MANIFEST and META.yml to generated PAR file.
-
-* Implemented the &Meta->read mentioned in the main docs.
-
-* Our version of WriteMakefile was failing to fine Meta
-  object; fixed.
-
-* 'make reset' now just an author side alias for 'make purge'.
-
-* The whole #! business is unneeded since MakeMaker does that.
-
-* Don't skip other non-pm inc/ stuff when checking MANIFEST.
-
-* The hashbang line should be the first, not last, in scripts.
-
-* Also people may not always like -w.
-
-* We reall want to rmtree() the distdir so that 'make manifest'
-  won't include clobbered files after an aborted 'make dist'.
-
-* Fix consistency: ->prompt() should only take one line of
-  prompt and expects y/n.
+	- Removing auto_install support (ADAMK)
+	- Removing Build.PL support (ADAMK)
+	- Enabling configure_requires support (ADAMK)
+	- Automatically set a configure_requires for the version of
+	  ExtUtils::MakeMaker that the author is running (ADAMK)
+	- Refactoring a number of modules for reduced size (ADAMK)
+	- Add 'share' to the list of directories automatically no_index'ed (ADAMK)
+	- license_from correctly marks "GNU lesser public license" as lgpl,
+	  not gpl [rt.cpan.org 24635] (AVAR)
+	- set author mode ($Module::Install::AUTHOR) when first creating
+	  ./inc (RJBS)
+	- Don't write perl into PREREQ_PM when using perl_version (ADAMK)
+
+0.68 - Ricardo Signes
+	- The author entry in META.yml is now a sequence, as required
+
+0.67 - Adam Kennedy
+	- Tweaked the license detection code a bit
+	- Previous changes working well, going production
+
+0.66_02 - Adam Kennedy
+	- Adding detection of 'proprietary' license.
+	- "All rights reserved" clashes with or can invalidate most Open Source
+	  licenses. Adding a warning to this effect.
+
+0.66_01 Thu 15 Mar 2007 - Adam Kennedy
+	- Adding tests_recursive to have M:I search for and explicitly list
+	  all test scripts recursively.
+	- Adding configure_requires, test_requires and install_requires.
+	  These are currently aliases for build_requires but will later result
+	  in alternative consequences internally (ADAMK)
+	- Reorganising Module::Install::With on the assumption that CPAN.pm will
+	  be implementing PERL5_CPAN_IS_EXECUTING.
+
+0.65 Tue 6 Mar 2007 - Adam Kennedy
+	- Add install_as_core, install_as_cpan, install_as_vendor
+	  commands to control the "installdirs" metadata field.
+	  Requested by: Tels (renamed by ADAMK and AUDREYT)
+	- Add the preop command for users to customize the PREOP rule. (BINGOS) 
+	- Implement support for $ENV{PERL5_CPANPLUS_IS_EXECUTING} in the
+	  experimental Module::Install::With. (ADAMK)
+	- Remove the use of features in the Module::Install Makefile.PL.
+	  Developers should be quite capable of installing them all. (ADAMK)
+	- Remove the use of auto_provides in Module::Install Makefile.PL
+	  until we fix it to not break without a pre-existing MANIFEST. (ADAMK)
+	- YAML::Tiny is now used as a fallback for generating META.yml. The
+	  order of precedence is now YAML::Syck, YAML::Tiny, then YAML.
+	- META.yml output is now conformant to spec 1.3.
+	- Add MIT license to those detectable by license_from() (GAAL)
+
+0.64 Thu 24 Aug 2006 - Adam Kennedy
+	- auto_install() will no longer invoke CPAN.pm or CPANPLUS
+	  recursively when running under CPANPLUS (i.e., when 
+	  $ENV{PERL5_CPANPLUS_IS_RUNNING} is set to a true value.)
+	- auto_install() would not follow prerequisites of requires() when
+	  the module is installed from the command line and only CPAN.pm is
+	  installed. [rt.cpan.org 21139] (MSCHWERN)
+
+0.63 Mon 5 Jun 2006 - Adam Kennedy
+	- "make" gets confused if the Makefile.PL time is in the future, but there
+	  is no universal fix for this. As an initial solution, catch the error
+	  situation and die with an error to the user. (ADAMK)
+	- Adding additional notes on no_index package (ADAMK)
+	- Removing hashbang from Makefile.PL and using a $^W = 1 instead (ADAMK)
+
+0.62 Wed 3 May 2006 - Adam Kennedy
+	- Various small back-compatibility bugs squashed, since we advertise
+	  that a M:I installer should run back to 5.004 (AUDREYT)
+	- Allow non-admin installs to do so without the need for YAML.pm (AUDREYT)
+	- Adding an initial implementation of Module::Install::With, containing
+	  code to detect the existance of other members of the Perl toolchain,
+	  and how we are related to them in any given install run.
+	  Initial experimental implementation of CPAN.pm and CPANPLUS detection,
+	  based on code extracted from Module::AutoInstall, and other code
+	  recommended by the relevant authors.
+	  Leaving the new commands undocumented for now, and recommend NOT making
+	  general use of them until tested. (ADAMK)
+	- In order to implement any form of version locking, which need to know
+	  which extensions are in the core (and thus version-locked) and which
+	  are custom extensions with legally out-of-sync versions.
+	  Added $ISCORE = 1 global to every potentially-bundled core extention,
+	  for when we start to do version locking. (ADAMK)
+	- The install_share Makefile fragment fails on older ExtUtils::Install
+	  versions. When we install_share, add an explicit EU::MakeMaker dependency.
+	  Would have done on just ExtUtils::Install, but it isn't
+	  PREFIX/PERL5LIB-safe. (ADAMK)
+	- Some/many versions of MakeMaker incorrectly set PERL_LIB and PERL_ARCHLIB,
+	  which is only supposed to be used for building the core Perl. Since we'll
+	  never be doing that, make the Makefile munger blank them if they exist.
+	  This lets PREFIX + PERL5LIB for installing private modules work again.
+	  (except not PERL_ARCHLIB for now, it's not getting in the way, and for
+	  some reason it's used for something else) (ADAMK)
+
+0.61 Sat 15 Mar 2006 - Adam Kennedy
+	- ActivePerl::Config on case-insensitive filesystems interacts
+	  erroneously with Module::Install's (outdated) @INC hack, so remove it.
+	  (Patch from Gisle Aas)
+	- Improve compatibility with ExtUtils::MakeMaker 5.x by not relying
+	  on FIRST_MAKEFILE being set in the MM instance.
+	- Remove optional dependency on CPANPLUS. (INGY)
+	- Add "realclean_files" command to add files to be cleaned on
+	  "make realclean", instead of "make clean". (INGY)
+	- Add $VERSION back to inc::Module::Install so we can implement
+	  workarounds and back-compatibility code later on. (ADAMK)
+
+0.60 Tue 11 Mar 2006 - Adam Kennedy
+	- Cleaned up the 0.59 fix a bit and added a bunch of comments explaining
+	  the bootup mechanism. A misunderstanding of this on my part led to
+	  the 0.58 bug. Sorry folks (ADAMK)
+	- Resolved #18040: bundled Module::Install leaks private information
+	  Debugging information in Module::Install::Admin was leaking potentially
+	  sensitive information. Removed just the files, left the lines (TELS)
+	- Fixed a smaller part of the problem with 0.58 that still hurts people if
+	  that are an installer AND an author as well. (Reported by dha)
+
+0.59 Fri 7 Mar 2006 - Adam Kennedy
+	- Resolved #18020: 0.58 was broken; inc::Module::Install's @ISA
+	  and $VERSION needs to be set by Module::Install on its behalf.
+	  (TELS)
+
+0.58 Tue 4 Mar 2006 - Adam Kennedy
+	- Made Module::AutoInstall generally aware of AUTOMATED_TESTING
+	- Added compatibility with 5.9.3 proxy constants
+	- Resolved #11169: problems on VMS.
+	  This doesn't mean there won't be problems on VMS though,
+	  as this path is oldish and their may be more problems.
+	- Added AUTOMATED_TESTING support to prompt() to force the
+	  selection of the default (via PERL_MM_USE_DEFAULT) when it
+	  is enabled.
+	- Added infinite loop protection to prompt() just in case automated
+	  and/or shortcutted responses to prompts go badly and leave us
+	  looping over the same question.
+	- Fixed #17961 Use of uninitialized value in array dereference at
+	  Module/Install/Metadata.pm line 163. (TELS)
+	  
+0.57 Thu 23 Feb 2006 - Adam Kennedy
+	- Fixed a bug where a misnamed hash key was making the extensions
+	  fruitlessly reload (or at least try to reload) every command call.
+	- Fixed a pod bug for the requires_external_bin head2
+	- Because external deps will need versioning eventually, we can
+	  never provide a hash to requires_external, and so it's really
+	  just supurfluous and invites more bugs. Removed.
+	- Experimentally added support for the META.yaml dynamic_config flag.
+	  We don't set ANY default value, because of a lack of clarity. It is 
+	  undocumented in the META.yaml spec, but false in Module::Build, which
+	  is really really bad, as it leads to falsely assuming dynamic
+	  Makefile.PLs are static when no dynamic_config is provided.
+	  Personally, I think it should be static_config anyway, and we may well
+	  change it to be that anyway.
+	- Added support for requires_external_cc (requires a C compiler) that will
+	  integrate with whatever central method we use later to signal to
+	  whatever is calling Makefile.PL that there is a missing external
+	  dependency. This will also be called by other methods if there is an
+	  implicit dependency.
+	- Synchronised all the module versions to all be 0.57.
+	  This will be used a few versions down the line to add integrity testing
+	  of Module::Install's own extension loading process.
+	- Added a $VERSION and C<use strict> to the extensions that didn't have
+	  one or both of the two already.
+	- Fixed a number of minor bugs discovered after turning on C<use strict>.
+	- Very carefully beginning to clean up some of the code so it's much more
+	  boring (i.e. maintainable).
+	- Changed recursion to always preference the installer we are currently
+	  running under. So use CPAN.pm in CPAN.pm, and CPANPLUS in CPANPLUS.
+	  This simplifies anti-dupe recursion algorithms, and dramatically
+	  reduces memory use under CPAN.pm.
+	- Documented the install_script command
+	- Caught _install_cpanplus happily passing completely illegal CPAN.pm
+	  config params to CPANPLUS, and worse, eval-wrapping the set_conf so
+	  it could happily ignore errors.
+	  Added _cpanplus_config to try and auto-convert CPAN config params to
+	  CPANPLUS, and die if we can't. Add more translators as needed.
+	- Moved the deprecated commands into their own module
+	  Module::Install::Deprecated to stop them being included and reduce
+	  package bloat.
+
+0.56 Sun 12 Feb 2006 - Adam Kennedy
+	- Added experimental support for requires_external_bin to forcefully
+	  require the installation of a script or command.
+	- Removed a warning in Module::Install::Admin::MetaData when
+	  perl_version doesn't have a third part.
+
+0.55 Fri 27 Jan 2006 - Adam Kennedy
+	- This release only not signed (Released by ADAMK who has no keys)
+	- Another pass over the POD to clean up and remove mistaked (ADAMK)
+	- Module::Install::Share installs to blib/lib rather than blib/arch.
+	  Most files will be non-arch-specific, and it was causing problems
+	  down the road with File::ShareDir.
+	  All existing working install_share/File::ShareDir continues to work.
+	- New command auto_include_dependent_dists() to recursively include
+	  dependent CPAN distributions for modules declared with
+	  build_requires().
+	  This differs from auto_include_deps() because it works with whole
+	  distribution source trees, not just single modules.
+	- Fix POD syntax so t/2-pod.t passes.
+	  Contributed by: Ishigaki Kenichi
+	- Disable 5.005-specific qr// construct in t/3-autoinstall.t so
+	  Perl 5.004 can build this module again.
+	- YAML::Syck 0.27+ is now a preferred dependency over YAML 0.35+ for
+	  platforms with a C compiler and without either one available.
+
+0.54 Wed 11 Jan 2006
+	- Fix can_run() on Cygwin for real.
+	  Contributed by: Mark Grimes
+
+0.53 Wed 11 Jan 2006
+	- Fix can_run() on Cygwin for paths beginning with /cygdrive/.
+	  Reported by: Mark Staggs
+	- If YAML::Syck is present on the system, use it instead of YAML.pm
+	  to write out META.yml.
+
+0.52 Tue 3 Jan 2006
+	- Module::AutoInstall - disable "sudo" prompting for CPANPLUS 0.050
+	  and CPAN.pm 1.80+ which already has "sudo" support.
+	  Reported by: Andreas Koenig
+
+0.51 - 2005-12-31
+	- An additional 100+ lines of documentations in the Module::Install POD file.
+	- all_from() with no args now attempts to decude the "from" file
+	  from the "name" property.
+	- On Cygwin, sometimes AUTOLOAD is called with a gensym'ed package
+	  that does not define _top.  Try to accomodate for this.
+	- Do not ever attempt "sudo" without interactive consent from the user;
+	  make the _prompt() in Module::AutoInstall default to 'n' if we are
+	  not running in an interactive terminal.
+	- Add lib_paths and lib_links commands to Module::Install::Compiler for
+	  setting LIBS flags.
+
+0.50 Mon 26 Dec 2005
+	- Fixed the bug where cpan signing was set forcibly to true instead
+	  of defaulting to false.
+	  Reported by: Martin Thurn and Randal Schwartz
+	- Module::Install::Admin's copy() subroutine was using a lot of CPU
+	  on inefficient regex matches, where a simple passthrough while()
+	  line-processing loop would do.
+	- The t/ directory is now listed in META.yml's no_index entries by
+	  default, along with inc/.
+	- YAML.pm is now listed as an explicit dependency.
+
+0.48 Mon 26 Dec 2005
+	- New Module::Install::Compiler extension with commands:
+	  c_files(), inc_paths(), optimize_flags().
+
+0.47 Sun 25 Dec 2005
+	- Slight documentation cleanup and update Module::Install::Admin
+	  version to 0.47; no functional changes.
+
+0.46 Thu 22 Dec 2005
+	- tests() should always take effect even if auto_install() or
+	  makemaker_args() had set it before.
+	  Reported by: Jesse Vincent.
+
+0.45 Fri 16 Dec 2005
+	- Improved detection for author_from() based on the copyright line
+	  in addition to =head1 AUTHORS.
+	- Bump version of Module::Install::Admin to match Module::Install.
+	  Reported by: Sebastian Riedel
+
+0.44 Tue 13 Dec 2005
+	- Module::Install::Bundle now extract files correctly again;
+	  this was a regression since 0.40.
+	  Reported by: Randal Schwartz
+	- Add support to Module::Includes::Bundle so each subdirectory
+	  can use Module::Install for bundling. 
+	- The "bundles:" key in META.yml is now populated even if the
+	  bundled modules already exist on the system.
+
+0.43 Mon 12 Dec 2005
+	- Better documentation to install_share().
+	- New author_from() command to guess the author name from POD.
+	- all_from() no longer probes for metadata that has been set before.
+
+0.42 Sun 11 Dec 2005
+	- auto_provides() was broken due to a typo.
+	- New command install_share() to put a directory's content into the
+	  per-distribution auto/ directory.
+
+0.41 Sun 11 Dec 2005
+	- Only query '$self->tests' if we haven't been given an explicit list
+	  (From Paul Fenwick)
+	- New command auto_provides() to calculate "provides:" information using
+	  Module::Build.  Requested by Chia-Liang Kao.
+
+0.40 Wed 7 Dec 2005
+	- Massively updated documentation (more to come later).
+	- Parentheses are now optional in Makefile.PL.
+	- Includes Module::AutoInstall, a cleaned-up version of ExtUtils::AutoInstall.
+	- New command all_from() to combine all *_from() tests into one.
+	- New command test() to Support specifying test files.
+	- New command feature() to list individual features easily.
+
+0.37 Thu 4 Aug 2005
+	- Always include ExtUtils::AutoInstall in inc/ if auto_install() is called.
+	- Fixed a bug where modules having shared libraries would sometimes
+	  be included in inc/.
+	- The needs shared library message will now only be printed if the module
+	  version indicates that it would otherwise be included. The module name has
+	  also been corrected so that "::" is used everywhere instead of "/".
+
+0.36 Thu 9 Sep 2004
+	- First version under SVK management.
+	- install_scripts() now takes multiple scripts to install.
+
+0.35 Tue 13 Jul 2004
+	- Jos Boumans reported that "use inc::Module::Install 0.34"
+	  was failing because Module::Install does not assign VERSION
+	  to inc::Module::Install.
+	- Implemented auto_include_deps() for real.
+
+0.34 Thu 1 Jul 2004
+	- auto_include() will not include recursive dependencies now;
+	  that functionality is refactored into auto_include_deps().
+
+0.33 Thu 11 Mar 2004
+	- abstract_from() was broken; it works now thanks to SHAY.
+	- WriteAll() now takes (inline => 1) to support
+	  Inline-based modules.
+
+0.31 Wed 31 Dec 2003
+	- Allow auto_install() to take -core-specific options like
+	  (-default => 0).
+	- No longer use inc/SCRIPT but simply modify the scripts to install.
+	- Make can_cc() to probe the program part of $Config{cc}
+	- Bundled M::I-using modules (or subdirs) used to break up
+	  spectacularly by overriding ::AUTOLOAD and reusing their
+	  parents' inc/*.  Now the namespaces are keyed by cwd and
+	  more readily unregistered.
+
+0.29 Sun 14 Dec 2003
+	- Introducing &WriteAll, a combination of &Meta->write,
+	  &check_nmake, &Makefile->write, and if a Build.PL is
+	  present (which should read "require 'Makefile.PL'"),
+	  also supports transparent &Build->write.
+	- Real Module::Build support in WriteAll and in this module.
+	- Transparent Build.PL, as promised in README, is back.
+	- WriteAll now takes three non-metadata flags:
+	  check_nmake (default 1), meta (default 1) and
+	  sign (default 0).
+	- The "private" key in META.yml is officially obsoleted by "no_index".
+	- Now warns if the user did not specify a license.
+	- "requires( perl => $version )" is now supported.
+	- include_deps() now no longer takes its second argument;
+	  it must be separately supplied with the syntax above.
+	- "&WriteAll" now officially replaces "&Build->write",
+	  "&Makefile->write", "&Meta->write" and "check_nmake()".
+	- Implemented auto_include() and bundle_deps().
+	- Add "#defaults" to MANIFEST.SKIP.
+
+0.28 Thu 11 Dec 2003
+	- Module::Install::Bundle now works, thanks to Adam Foxson!
+	- Unbreak against newer EU::MM.
+	- Let "inc" work with "make test" on 5.6.x too.
+	- mcdavis pointed out that Microsoft now wants
+	  "Nmake15.exe", not "nmake15.exe".
+
+0.27 Mon 27 Oct 2003
+	- Make the include'd modules actually work during
+	  "make" and "make test", by adding "inc" to the
+	  Makefile targets.
+	- Graham's patch for 5.004 backcompat.
+	- Graham Barr points out that readdir() can return 0.
+	- Do not sign the distribution if we are not the admin.
+
+0.26 Fri 17 Oct 2003
+	- sign(1) support for automatic digital signing.
+	- no_index(directory => 'example') support, for telling
+	  PAUSE and search to skip indexing modules.
+
+0.25 Mon 13 Oct 2003
+	- Add no_index as an alias to private in META.yml.
+	- Support for YAML::Parser::Syck.
+	- No point in supporting Build.PL now.
+
+0.24 Mon 1 Sep 2003
+	- 0.17 is simply too old as it scans in POD sections.
+	- Kingpin <mthurn@carbon> notes that we are using "next"
+	  outside a loop block in ScanDeps.
+	- threads.pm and warnings.pm should be exempted too.
+
+0.23 Mon 18 Aug 2003
+	- Implemented $self->is_admin to properly test if it's running
+	  on the admin side.
+	- Andreas Koenig reports that we are writing META.yml
+	  even on the user side, because of this bug.
+	- Switch to PAR::Dist to do make_par().
+
+0.22 Wed 16 Jul 2003
+	- Turns out that MakeMaker's NAME corresponds to
+	  META.yml's module_name, and DISTNAME corresponds
+	  to name.  Reflect this in the relevant files.
+	- Introduce a new module_name metadata key that may
+	  be automatically generated from name.
+	- /\.pm/i should be /\.pm$/i.
+	- Iain Truskett wants us to not overwrite alien META.yml files.
+	- PREREQ_PM wasn't being filled out.
+	- Should be including YAML dependencies too.
+	- POD cleanups.
+
+0.21 Sun 15 Jun 2003
+	- Lindsay Morris pointed out that include_deps()
+	  does not work with non-core modules; fixed.
+
+0.20 Thu 5 Jun 2003
+	- Add pointer to ingy's TPJ article.
+	- Eliminated warnings on 5.005.
+	- Added the "package inc::Module::Install;" line at
+	  request by Graham Barr, for search.cpan.org.
+	- Close META.yml before zipping; otherwise trips on win32.
+	- requires(), build_requires(), recommends() etc can now take
+	  multiple pairs in addition to a single pair.
+	- Add standard MANIFEST and META.yml to generated PAR file.
+	- Implemented the &Meta->read mentioned in the main docs.
+	- Our version of WriteMakefile was failing to fine Meta
+	  object; fixed.
+	- 'make reset' now just an author side alias for 'make purge'.
+	- The whole #! business is unneeded since MakeMaker does that.
+	- Don't skip other non-pm inc/ stuff when checking MANIFEST.
+	- The hashbang line should be the first, not last, in scripts.
+	- Also people may not always like -w.
+	- We reall want to rmtree() the distdir so that 'make manifest'
+	  won't include clobbered files after an aborted 'make dist'.
+	- Fix consistency: ->prompt() should only take one line of
+	  prompt and expects y/n.

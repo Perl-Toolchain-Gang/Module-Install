@@ -18,7 +18,7 @@ BEGIN {
 	# version an author currently has installed.
 	# This allows it to implement any back-compatibility features
 	# it may want or need to.
-	$VERSION = '0.70';	
+	$VERSION = '0.71';	
 }
 
 if ( -d './inc' ) {
@@ -47,7 +47,7 @@ inc::Module::Install - Module::Install loader
 
 =head1 SYNOPSIS
 
-    use inc::Module::Install;
+  use inc::Module::Install;
 
 =head1 DESCRIPTION
 
@@ -78,7 +78,7 @@ Audrey Tang E<lt>autrijus@autrijus.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2003, 2004 by Audrey Tang E<lt>autrijus@autrijus.orgE<gt>.
+Copyright 2003, 2004 Audrey Tang E<lt>autrijus@autrijus.orgE<gt>.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

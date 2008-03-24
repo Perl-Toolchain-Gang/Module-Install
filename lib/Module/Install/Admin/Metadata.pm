@@ -1,11 +1,12 @@
 package Module::Install::Admin::Metadata;
 
 use strict;
+use YAML::Tiny ();
 use Module::Install::Base;
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '0.70';
+	$VERSION = '0.71';
 	@ISA     = 'Module::Install::Base';
 }
 
@@ -33,24 +34,13 @@ sub remove_meta {
 
 sub write_meta {
 	my $self = shift;
-
-	META_NOT_OURS: {
-		local *FH;
-		if ( open FH, "META.yml" ) {
-			while (<FH>) {
-				last META_NOT_OURS if /^generated_by: Module::Install\b/;
-			}
-			return if -s FH;
-		}
+	if ( -f "META.yml" ) {
+		Module::Install::_read("META.yml") =~ /generated_by\:\s*(?:\'|\")\s*Module::Install/s or return;
+	} else {
+		$self->clean_files('META.yml');
 	}
-
 	print "Writing META.yml\n";
-
-	local *META;
-	open META, "> META.yml" or warn "Cannot write to META.yml: $!";
-	print META $self->dump_meta;
-	close META;
-
+	Module::Install::_write("META.yml", $self->dump_meta);
 	return;
 }
 
@@ -58,7 +48,7 @@ sub dump_meta {
 	my $self = shift;
 	my $pkg  = ref( $self->_top );
 	my $ver  = $self->_top->VERSION;
-	my $val  = $self->Meta->{'values'};
+	my $val  = $self->Meta->{values};
 
 	delete $val->{sign};
 
@@ -103,15 +93,15 @@ sub dump_meta {
 
 	# Generate the structure we'll be dumping
 	my $meta = {};
-	foreach my $key ($self->Meta_ScalarKeys) {
+	foreach my $key ( $self->Meta_ScalarKeys ) {
 		$meta->{$key} = $val->{$key} if exists $val->{$key};
 	}
-	foreach my $key ($self->Meta_TupleKeys) {
+	foreach my $key ( $self->Meta_TupleKeys ) {
 		next unless exists $val->{$key};
 		$meta->{$key} = { map { @$_ } @{ $val->{$key} } };
 	}
 	$meta->{provides}     = $val->{provides} if $val->{provides};
-	$meta->{author}       &&= [ $meta->{author} ];
+	$meta->{author}     &&= [ $meta->{author} ];
 	$meta->{no_index}     = $val->{no_index};
 	$meta->{generated_by} = "$pkg version $ver";
 	$meta->{'meta-spec'}  = {
@@ -119,25 +109,7 @@ sub dump_meta {
 		url     => 'http://module-build.sourceforge.net/META-spec-v1.3.html',
 	};
 
-	# Dump the data structure
-	local $@;
-	if ( eval { require YAML::Syck } ) {
-		# Why no header? It is required by the spec!
-		# local $YAML::Syck::Headless = 1;
-		return YAML::Syck::Dump($meta);
-
-	} elsif ( eval { require YAML::Tiny } ) {
-		return YAML::Tiny::Dump($meta);
-
-	} else {
-		require YAML;
-		# Why no header? It is required by the spec!
-		# local $YAML::UseHeader = 0;
-		return YAML::Dump($meta);
-
-	}
-
-	return;
+	YAML::Tiny::Dump($meta);
 }
 
 1;

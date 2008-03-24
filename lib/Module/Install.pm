@@ -29,7 +29,7 @@ BEGIN {
 	# This is not enforced yet, but will be some time in the next few
 	# releases once we can make sure it won't clash with custom
 	# Module::Install extensions.
-	$VERSION = '0.70';
+	$VERSION = '0.71';
 }
 
 
@@ -144,8 +144,7 @@ sub import {
 }
 
 sub preload {
-	my ($self) = @_;
-
+	my $self = shift;
 	unless ( $self->{extensions} ) {
 		$self->load_extensions(
 			"$self->{prefix}/$self->{path}", $self
@@ -201,6 +200,7 @@ sub new {
 		$args{path}  =~ s!::!/!g;
 	}
 	$args{file}     ||= "$args{base}/$args{prefix}/$args{path}.pm";
+	$args{wrote}      = 0;
 
 	bless( \%args, $class );
 }
@@ -276,9 +276,9 @@ sub find_extensions {
 		# correctly.  Otherwise, root through the file to locate the case-preserved
 		# version of the package name.
 		if ( $subpath eq lc($subpath) || $subpath eq uc($subpath) ) {
-			open PKGFILE, "<$subpath.pm" or die "find_extensions: Can't open $subpath.pm: $!";
-			my $in_pod = 0;
-			while ( <PKGFILE> ) {
+			my $content = Module::Install::_read($subpath . '.pm');
+			my $in_pod  = 0;
+			foreach ( split //, $content ) {
 				$in_pod = 1 if /^=\w/;
 				$in_pod = 0 if /^=cut/;
 				next if ($in_pod || /^=cut/);  # skip pod text
@@ -288,7 +288,6 @@ sub find_extensions {
 					last;
 				}
 			}
-			close PKGFILE;
 		}
 
 		push @found, [ $file, $pkg ];
@@ -296,6 +295,13 @@ sub find_extensions {
 
 	@found;
 }
+
+
+
+
+
+#####################################################################
+# Utility Functions
 
 sub _caller {
 	my $depth = 0;
@@ -305,6 +311,30 @@ sub _caller {
 		$call = caller($depth);
 	}
 	return $call;
+}
+
+sub _read {
+	local *FH;
+	open FH, "< $_[0]" or die "open($_[0]): $!";
+	my $str = do { local $/; <FH> };
+	close FH or die "close($_[0]): $!";
+	return $str;
+}
+
+sub _write {
+	local *FH;
+	open FH, "> $_[0]" or die "open($_[0]): $!";
+	foreach ( 1 .. $#_ ) { print FH $_[$_] or die "print($_[0]): $!" }
+	close FH or die "close($_[0]): $!";
+}
+
+sub _version {
+	my $s = shift || 0;
+	   $s =~ s/^(\d+)\.?//;
+	my $l = $1 || 0;
+	my @v = map { $_ . '0' x (3 - length $_) } $s =~ /(\d{1,3})\D?/g;
+	   $l = $l . '.' . join '', @v if @v;
+	return $l + 0;
 }
 
 1;

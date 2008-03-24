@@ -498,14 +498,6 @@ However, you should invoke this with C<WriteAll( inline => 1 )>.
 Provides C<&Makefile-E<gt>write> to generate a F<Makefile> for you
 distribution.
 
-=item Module::Install::Makefile::Name
-
-Guessing the distribution name.
-
-=item Module::Install::Makefile::Version
-
-Guessing the distribution version.
-
 =item Module::Install::Metadata
 
 Provides C<&Meta-E<gt>write> to generate a F<META.yml> file for your
@@ -632,7 +624,13 @@ away this complexity.
 
 =head2 Module::Install isn't at 1.00 yet, is it safe to use yet?
 
-...
+As long as you are going to periodically do incremental releases
+to get any bug fixes and new functionality, yes.
+
+You should also avoid the use of auto_install.
+
+If you don't plan to do incremental releases, it might be a good
+idea to continue to wait for a while.
 
 =head1 COOKBOOK / EXAMPLES
 
@@ -675,6 +673,26 @@ an installer that can handle different dependencies on different platforms.
   auto_install;
   WriteAll;
 
+=head1 TO DO
+
+Implement Module::Install::Compiled and Module::Install::Admin::Compiled
+to integrate the Module::Compiled "perl 6 to perl 5" functionality with
+Module::Install.
+Because this would add SIGNIFICANT dependencies (i.e. pugs!) this should
+almost certainly be distributed as a seperate distribution.
+
+Go over POD docs in detail.
+
+Test recursive Makefile directories
+
+The test suite needs a great deal more test scripts.
+    
+Dependencies on shared libraries (libxml/libxml.dll etc) and binary files
+so that debian/Win32/etc autopackaging applications can create the
+appropriate package-level dependencies there.
+
+EU::MM 6.06_03+ supports META.yml natively.  Maybe probe for that?
+
 =head1 SEE ALSO
 
 L<Module::Install::Philosophy>
@@ -705,20 +723,18 @@ L<ExtUtils::MakeMaker>
 
 =head1 AUTHORS
 
-Brian Ingerson E<lt>INGY@cpan.orgE<gt>
+Adam Kennedy E<lt>adamk@cpan.orgE<gt>
 
 Audrey Tang E<lt>autrijus@autrijus.orgE<gt>
 
-Adam Kennedy E<lt>cpan@ali.asE<gt>
+Brian Ingerson E<lt>ingy@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002, 2003, 2004, 2005, 2006 by
-Brian Ingerson, Audrey Tang, Adam Kennedy.
+Copyright 2002 - 2008 by Brian Ingerson, Audrey Tang
+and Adam Kennedy.
 
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
-See L<http://www.perl.com/perl/misc/Artistic.html>
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
 
 =cut

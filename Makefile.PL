@@ -16,56 +16,28 @@ use lib 'lib';
 use inc::Module::Install;
 
 name         'Module-Install';
-author       'Audrey Tang <autrijus@autrijus.org>';
+author       'Adam Kennedy <adamk@cpan.org>';
 perl_version '5.004';
 all_from     'lib/Module/Install.pm';
 
 install_as_cpan;
 
-# Make sure we have at least one YAML parser
-if ( is_admin() ) {
-	# This is for META.yml
-	requires 'YAML::Tiny' => '1.03';
-
-} elsif ( can_cc() ) {
-	can_use('YAML::Tiny' => '1.03')
-	or
-	can_use('YAML' => '0.35')
-	or
-	requires('YAML::Syck' => '0.27');
-
-} else {
-	can_use('YAML::Syck' => '0.27')
-	or
-	can_use('YAML::Tiny' => '1.03')
-	or
-	requires('YAML::Tiny' => '1.03');
-}
-
-# Removing the distinction of "recommends" as this overly-complicates
-# the situation. Only authors should ever be installing this, so they
-# can just have the lot.
-
-# feature 'Include packages with full dependencies',
-requires 'Module::ScanDeps' => '0.28';
-requires 'Module::CoreList';
-
-# feature 'PAR-based binary distributions',
-requires 'PAR::Dist' => '0.03';
-
-# We need Module::Build for certain functionality
+requires 'YAML::Tiny'        => '1.26';
+requires 'Module::ScanDeps'  => '0.28';
+requires 'Module::CoreList'  => 0;
+requires 'PAR::Dist'         => '0.03';
 requires 'Archive::Tar'      => '0.23';
 requires 'ExtUtils::Install' => '0.3';
-requires 'ExtUtils::ParseXS';
-requires 'Module::Build';
+requires 'ExtUtils::ParseXS' => 0;
+requires 'Module::Build'     => 0;
 
 # Should be a "requires", but we should solve the
 # "auto-include File::Spec if version < 5.005" problem first.
 build_requires 'File::Spec'    => 0;
 
-# We are going to move to Test::More shortly
 build_requires 'Test::Harness' => '2.03';
 build_requires 'Test::More'    => '0.42';
+build_requires 'File::Remove'  => '1.40';
 
 # Makes the recursive test script run
 tests_recursive;
