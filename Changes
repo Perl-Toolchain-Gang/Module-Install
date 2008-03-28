@@ -1,9 +1,21 @@
 Changes for Perl extension Module-Install
 
-0.71 - Adam Kennedy
+0.72 - Adam Kennedy
+	- Removed the command prompt_script, it did some unusual magic
+	  and it easy enough to implement in 2 lines in the Makefile.PL
+	  anyway (ADAMK)
+	- Merged the remaining install_script into Metadata.pm (ADAMK)
+	- Adding documentation about the configure_requires command
+	- Automatically add any install_share directory to no_index.
+	- Check scripts passed to install_script actually exist (ADAMK)
+	- Allow install_script('foo') to be shorthand for
+	  install_script('script/foo') if no root 'foo' file exists.
+	  This should allow for yet more typing reduction (ADAMK)
+
+0.71 Mon 24 Mar 2008 - Adam Kennedy
 	- YAML::Tiny is now good enough to use exclusively (ADAMK)
-	- Converted Changes file to my normal format, so that the release
-	  automated can deal with it properly (ADAMK)
+	- Converted Changes file to my normal format, so that my release
+	  automation can deal with it properly (ADAMK)
 	- Added name_from to auto-detect name, and include name_from in
 	  all_from, so now no name line is needed at all in the
 	  Makefile.PL (ADAMK)

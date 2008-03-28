@@ -367,4 +367,19 @@ sub license_from {
 	return 'unknown';
 }
 
+sub install_script {
+	my $self = shift;
+	my $args = $self->makemaker_args;
+	my $exe  = $args->{EXE_FILES} ||= [];
+	while ( @_ ) {
+		if ( -f $_ ) {
+			push @$exe, $_;
+		} elsif ( -d 'scripts' and -f "scripts/$_" ) {
+			push @$exe, "scripts/$_";
+		} else {
+			die "Cannot find script '$_'";
+		}
+	}
+}
+
 1;

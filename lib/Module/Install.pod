@@ -307,6 +307,33 @@ As another example, when building a binary operating system packages
 is done once by the packager, and so the C<build_requires> dependency
 can be safely ignored by the binary package.
 
+=head2 configure_requires
+
+  configure_requires 'File::Spec' => '0.80';
+
+The C<configure_requires> command indicates a configure-time dependency
+for the distribution. The specification format is identical to that of
+the C<requires> command.
+
+The C<configure_requires> command is used to get around the conundrum
+of how to use a CPAN module in your Makefile.PL, when you have to load
+Makefile.PL (and thus the CPAN module) in order to know that you need it.
+
+Traditionally, this circular logic could not be broken and so Makefile.PL
+scripts needed to rely on lowest-common-denominator approaches, or to
+bundle those dependencies using something like the C<include> command.
+
+The C<configure_requires> command creates an entry in the special
+configure_requires: key in the bundled F<META.yml> file.
+
+Although most of META.yml is considered advisory only, a L<CPAN> client
+will treat the contents of configure_requires: as authorative, and
+install the listed modules BEFORE it executes the Makefile.PL (from
+which it then determines the other dependencies).
+
+Please note that support for configure_requires: in CPAN clients is not
+always reliable, and still cannot be relied upon.
+
 =head2 requires_external_bin
 
   requires_external_bin 'cvs';
@@ -328,22 +355,30 @@ packages needed as a dependency.
 
 =head2 install_script
 
-  install_script 'bin/scriptname'
+  install_script 'script/scriptname'
 
 The C<install_script> command provides support for the installation of
 scripts that will become available at the console on both Unix and
 Windows (by wrapping it up as a .bat file).
 
-Note that is it normal to B<not> put a .pl on the end of such scripts,
-so that they feel more natural when being used.
+Note that is it normal practice to B<not> put a .pl on the end of such
+scripts, so that they feel more natural when being used.
 
-In the example above, the F<bin/scriptname> program could be run after
+In the example above, the F<script/scriptname> program could be run after
 the installation just by doing the following.
 
   > scriptname
   Running scriptname 0.01...
   
   > 
+
+By convention, scripts should be placed in a /script directory within your
+distribution. To support less typing, if a script is located in the script
+directory, you need refer to it by name only.
+
+  # The following are equivalent
+  install_script 'foo';
+  install_script 'script/foo';
 
 =head2 no_index
 
@@ -354,7 +389,8 @@ Quite often a distrubition will provide example or testing modules
 (.pm files) as well as the actual library modules.
 
 In almost all situations, you do B<not> want these indexed in the master
-Perl packages list, you just want them along for the ride.
+Perl packages list, or displayed on the L<http://search.cpan.org/> website,
+you just want them along for the ride.
 
 The C<no_index> command is used to indicate locations or modules where
 there might be non-library .pm files that the CPAN indexer and websites
@@ -370,8 +406,9 @@ This is used to interact with the debugger in some specific ways.
 See the F<META.yml> documentation for more details on what C<no_index>
 values are allowed.
 
-The F<inc> and F<t> directories are automatically C<no_index>'ed for
-you and do not require a command.
+The F<inc>, F<t> and F<share> (if install_share is used) directories are
+automatically C<no_index>'ed for you if found and do not require an
+explicit command.
 
 To summarise, if you can see it on L<http://search.cpan.org/> and you
 shouldn't be able to, you need a C<no_index> entry.

@@ -7,11 +7,11 @@ BEGIN {
 	$^W = 1;
 }
 
-# NOTE: Module::Install's Makefile.PL needs this statement to bootstrap
-# itself. Other module distributions using Module::Install do not need it.
-# It causes inc::Module::Install to load from the (unique to this
-# distribution) file ./lib/inc/Module/Install.pm instead of the system
-# inc::Module::Install or the bundled inc/Module::Install.
+# NOTE: Module::Install's Makefile.PL needs this "use lib 'lib'" to
+# bootstrap itself. Other module distributions using Module::Install
+# do not need it. It causes inc::Module::Install to load from the
+# (unique to this distribution) file ./lib/inc/Module/Install.pm instead
+# of the system inc::Module::Install or the bundled inc/Module::Install.
 use lib 'lib';
 use inc::Module::Install;
 
@@ -31,18 +31,15 @@ requires 'ExtUtils::Install' => '0.3';
 requires 'ExtUtils::ParseXS' => 0;
 requires 'Module::Build'     => 0;
 
-# Should be a "requires", but we should solve the
+# Should be a "requires", but we have to solve the
 # "auto-include File::Spec if version < 5.005" problem first.
 build_requires 'File::Spec'    => 0;
-
 build_requires 'Test::Harness' => '2.03';
 build_requires 'Test::More'    => '0.42';
 build_requires 'File::Remove'  => '1.40';
 
 # Makes the recursive test script run
+# (to test recursive test support)
 tests_recursive;
-
-# Ignore example files
-no_index directory => 'example';
 
 WriteAll;

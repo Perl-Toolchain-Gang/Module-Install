@@ -30,6 +30,9 @@ END_MAKEFILE
 	# So when we need to install a share directory, make sure we add a
 	# dependency on a moderately new version of ExtUtils::MakeMaker.
 	$self->build_requires( 'ExtUtils::MakeMaker' => '6.11' );
+
+	# 99% of the time we don't want to index a shared dir
+	$self->no_index( directory => $dir );
 }
 
 1;
