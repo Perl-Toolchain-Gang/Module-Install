@@ -23,107 +23,6 @@ BEGIN {
 
 
 #####################################################################
-# CPAN Client
-
-# What CPAN client are we running under
-sub cpan {
-	return 'cpanpm'   if cpanpm();
-	return 'cpanplus' if cpanplus();
-	return 'legacy'   if cpanlegacy();
-}
-
-# Are we running a legacy client
-sub cpanlegacy {
-	return 1 if cpanpm_legacy();
-	return 1 if cpanplus_legacy();
-	return '';
-}
-
-# Are we currently running under a CPAN.pm client (modern method)
-# Returns the version of the CPAN.pm client.
-sub cpanpm {
-	my $script = File::Spec->rel2abs($0);
-	return (
-		$ENV{PERL5_CPAN_IS_EXECUTING}
-		and
-		-f $script
-		and
-		$ENV{PERL5_CPAN_IS_EXECUTING} eq $script
-	)
-		? ($ENV{PERL5_CPAN_IS_VERSION} || -1)
-		: '';
-}
-
-# Are we currently running under the legacy CPAN client
-# This method is not reliable.
-sub cpanpm_legacy {
-	my $self = shift;
-
-	# Does the lock file exist?
-	my $home = $self->cpanpm_config('cpan_home');
-	my $lock = File::Spec->catfile( $home, '.lock' );
-	return unless -f $lock;
-
-	# Check the lock
-	local *LOCK;
-	return unless open(LOCK, $lock);
-
-	my $cpanpm;
-	if ( $^O eq 'MSWin32' ) {
-		require Cwd;
-		my $cwd  = File::Spec->canonpath( Cwd::cwd() );
-		my $cpan = File::Spec->canonpath( $home );
-		$cpanpm = (index( $cwd, $cpan ) > -1);
-	} else {
-		$cpanpm = (<LOCK> == getppid());
-	}
-
-	close LOCK;
-	return !! $cpanpm;
-}
-
-# Get a CPAN.pm config value
-sub cpanpm_config {
-	my $self = shift;
-
-	# Load the CPAN.pm configuration
-	unless ( $CPAN::VERSION ) {
-		require CPAN; # XXX - TODO, handle error for this
-		$CPAN::HandleConfig::VERSION
-			? CPAN::HandleConfig->load # Newer CPAN.pm versions
-			: CPAN::Config->load;      # Older CPAN.pm versions
-	}
-
-	$CPAN::Config->{shift()};
-}
-
-# Are we currently running under the CPANPLUS client
-sub cpanplus {
-	my $script = File::Spec->rel2abs($0);
-	return (
-		$ENV{PERL5_CPANPLUS_IS_EXECUTING}
-		and
-		-f $script
-		and
-		$ENV{PERL5_CPANPLUS_IS_EXECUTING} eq $script
-	) ? ($ENV{PERL5_CPANPLUS_IS_VERSION} || -1) : '';
-}
-
-# Is CPANPLUS actually installed
-sub cpanplus_available {
-	$_[0]->can_use('CPANPLUS');
-}
-
-# Are we (maybe) running under a legacy version of CPANPLUS
-sub cpanplus_legacy {
-	!! $ENV{CPANPLUS_IS_RUNNING};
-}
-
-
-
-
-
-#####################################################################
 # Installer Target
 
 # Are we targeting ExtUtils::MakeMaker (running as Makefile.PL)
@@ -131,6 +30,10 @@ sub eumm {
 	!! ($0 =~ /Makefile.PL$/i);
 }
 
+# You should not be using this, but we'll keep the hook anyways
+sub mb {
+	!! ($0 =~ /Build.PL$/i);
+}
 
 
 

@@ -1,3 +1,5 @@
+# Normally we don't need to use strict, but for this one we'll
+# do it anyway.
 use strict;
 
 # Warnings need to be enabled this way, because Makefile.PL is not

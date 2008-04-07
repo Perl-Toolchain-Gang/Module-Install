@@ -1,6 +1,6 @@
 package inc::Module::Install;
 
-# This module ONLY loads if the user has manually install their own
+# This module ONLY loads if the user has manually installed their own
 # installation of Module::Install, and are some form of MI author.
 #
 # It runs from the installed location, and is never bundled
