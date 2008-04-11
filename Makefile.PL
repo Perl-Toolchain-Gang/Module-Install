@@ -35,10 +35,10 @@ requires 'Module::Build'     => 0;
 
 # Should be a "requires", but we have to solve the
 # "auto-include File::Spec if version < 5.005" problem first.
-build_requires 'File::Spec'    => 0;
-build_requires 'Test::Harness' => '2.03';
-build_requires 'Test::More'    => '0.42';
-build_requires 'File::Remove'  => '1.40';
+test_requires 'File::Spec'    => 0;
+test_requires 'Test::Harness' => '2.03';
+test_requires 'Test::More'    => '0.42';
+test_requires 'File::Remove'  => '1.40';
 
 # Makes the recursive test script run
 # (to test recursive test support)
