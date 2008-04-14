@@ -10,7 +10,7 @@ BEGIN {
 	$VERSION = '0.71';
 }
 
-use Test::More tests => 64;
+use Test::More tests => 62;
 
 # Check their perl version
 ok( $] >= 5.004, "Your perl is new enough" );
@@ -32,7 +32,6 @@ my @classes = qw{
 	Module::Install::Metadata
 	Module::Install::PAR
 	Module::Install::Run
-	Module::Install::Scripts
 	Module::Install::Share
 	Module::Install::Win32
 	Module::Install::With
