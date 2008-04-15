@@ -1,6 +1,11 @@
 Changes for Perl extension Module-Install
 
-0.72 - Adam Kennedy
+0.72 Tue 15 Apr 2008 - Adam Kennedy
+	- Change docs to recommend the use of test_requires instead
+	  of build_requires. They do the same thing now, but this may
+	  change in the future and in that case better people use
+	  test_requires now as it is a more accurate description of
+	  intent. Also, it reads clearer. (ADAMK)
 	- Removed the command prompt_script, it did some unusual magic
 	  and it easy enough to replace with 2 lines of code in the
 	  Makefile.PL of anyone using it anyway (ADAMK)

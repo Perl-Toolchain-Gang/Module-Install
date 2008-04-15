@@ -8,31 +8,24 @@ Module::Install - Standalone, extensible Perl module installer
 
 In your F<Makefile.PL>: (Recommended Usage)
 
-    # Load the Module::Install bundled in ./inc/
-    use strict;
-    use inc::Module::Install;
-    
-    # Define metadata
-    name            'Your-Module';
-    all_from        'lib/Your/Module.pm';
-    
-    # Specific dependencies
-    requires        'Carp'              => 0;
-    requires        'File::Spec'        => '0.80';
-    build_requires  'Test::More'        => '0.42';
-    recommends      'Your::OtherModule' => '0.01';
-    
-    no_index        'directory'         => 'demos';
-    
-    install_script  'script/myscript';
-    
-    WriteAll;
+  use inc::Module::Install;
+  
+  # Define metadata
+  name           'Your-Module';
+  all_from       'lib/Your/Module.pm';
+  
+  # Specific dependencies
+  requires       'File::Spec' => '0.80';
+  test_requires  'Test::More' => '0.42';
+  no_index       'directory'  => 'demos';
+  install_script 'myscript';
+  
+  WriteAll;
 
 Quickly upgrade a legacy L<ExtUtil::MakeMaker> installer:
 
-    # Drop-in replacement to ExtUtils::MakeMaker
-    use inc::Module::Install;
-    WriteMakefile( ... );
+  use inc::Module::Install;
+  WriteMakefile( ... );
 
 =head1 DESCRIPTION
 
@@ -110,7 +103,7 @@ It provides the name of your distribution, which for a module like
 B<Your::Module> would normally be C<Your-Module>.
 
 This naming scheme is not hard and fast and you should note that
-distributions are actually a seperate naming scheme.
+distributions are actually a seperate naming scheme from modules.
 
 For example the L<LWP> modules come in a distribution called
 C<libwww-perl>.
@@ -205,7 +198,7 @@ version scanning tools.
 =head2 license
 
   license 'perl';
-  
+
 The C<license> command specifies the license for the distribution.
 
 Most often this value will be C<'perl'>, meaning I<"the same as for Perl
@@ -242,9 +235,9 @@ C<license> command summary.
 The C<perl_version> command is used to specify the minimum version of the
 perl interpreter your distribution requires.
 
-When specifying the version, you should try to use the normalised version
+When specifying the version, you should try to use the normalized version
 string. Perl version segments are 3 digits long, so a dependency on Perl
-5.6 will become C<'5.006'> and Perl 5.10 will become C<'5.010'>.
+5.6 will become C<'5.006'> and Perl 5.10.2 will become C<'5.010002'>.
 
 =head2 perl_version_from
 
@@ -278,34 +271,28 @@ case.
 A dependency on version zero indicates B<any> version of module is
 sufficient. Versions should generally be quoted for clarity.
 
-=head2 build_requires
+=head2 test_requires
 
-  build_requires 'Test::More' => '0.47';
+  test_requires 'Test::More' => '0.47';
 
-The C<build_requires> command indicates a build-time dependency for
+The C<test_requires> command indicates a test script dependency for
 the distribution. The specification format is identical to that of
 the C<requires> command.
 
-The C<build_requires> command is distinct from the C<requires> command
-in that it indicates a module that is need B<only> during the building
-and testing of the distribution (often a period of only a few seconds)
+The C<test_requires> command is distinct from the C<requires> command
+in that it indicates a module that is needed B<only> during the
+testing of the distribution (often a period of only a few seconds)
 but will B<not> be needed after the distribution is installed.
 
-The most common case by far for the use of C<build_requires> is for
-various testing modules to be specified in this way.
+The C<testrequires> command is used to allow the installer some
+flexibility in how it provides the module, and to allow downstream
+packagers (Debian, FreeBSD, ActivePerl etc) to retain only the
+dependencies needed for run-time operation.
 
-The C<build_requires> command is used to allow the installer some
-flexibility in how it provides the module.
-
-For example, the C<include> command is sometimes used by some authors
-along with C<build_requires> to bundle a small well-tested module into the
+The C<include> command is sometimes used by some authors along with
+C<test_requires> to bundle a small well-tested module into the
 distribution package itself rather than inflict yet another module
-installation on the user.
-
-As another example, when building a binary operating system packages
-(such as Debian's .deb packages) from a CPAN distribution, the testing
-is done once by the packager, and so the C<build_requires> dependency
-can be safely ignored by the binary package.
+installation on users installing from CPAN directly.
 
 =head2 configure_requires
 
@@ -324,15 +311,19 @@ scripts needed to rely on lowest-common-denominator approaches, or to
 bundle those dependencies using something like the C<include> command.
 
 The C<configure_requires> command creates an entry in the special
-configure_requires: key in the bundled F<META.yml> file.
+configure_requires: key in the distribution's F<META.yml> file.
 
-Although most of META.yml is considered advisory only, a L<CPAN> client
-will treat the contents of configure_requires: as authorative, and
-install the listed modules BEFORE it executes the Makefile.PL (from
-which it then determines the other dependencies).
+Although most of F<META.yml> is considered advisory only, a L<CPAN>
+client will treat the contents of configure_requires: as authorative,
+and install the listed modules B<before> it executes the F<Makefile.PL>
+(from which it then determines the other dependencies).
 
 Please note that support for configure_requires: in CPAN clients is not
-always reliable, and still cannot be relied upon.
+100% complete at time of writing, and still cannot be relied upon.
+
+Because B<Module::Install> itself only supports 5.004, it will silently
+add the equivalent of a C<configure_requires( perl => '5.004' );>
+command to your distribution.
 
 =head2 requires_external_bin
 
@@ -355,11 +346,12 @@ packages needed as a dependency.
 
 =head2 install_script
 
+  # The following are equivalent
   install_script 'script/scriptname'
 
 The C<install_script> command provides support for the installation of
 scripts that will become available at the console on both Unix and
-Windows (by wrapping it up as a .bat file).
+Windows (in the later case by wrapping it up as a .bat file).
 
 Note that is it normal practice to B<not> put a .pl on the end of such
 scripts, so that they feel more natural when being used.
@@ -385,16 +377,18 @@ directory, you need refer to it by name only.
   no_index directory => 'examples';
   no_index package   => 'DB';
 
-Quite often a distrubition will provide example or testing modules
-(.pm files) as well as the actual library modules.
+Quite often a distrubition will provide example scripts or testing
+modules (.pm files) as well as the actual library modules.
 
-In almost all situations, you do B<not> want these indexed in the master
-Perl packages list, or displayed on the L<http://search.cpan.org/> website,
-you just want them along for the ride.
+In almost all situations, you do B<not> want these indexed in the CPAN
+index, the master Perl packages list, or displayed on the
+L<http://search.cpan.org/> website, you just want them along for the
+ride.
 
-The C<no_index> command is used to indicate locations or modules where
-there might be non-library .pm files that the CPAN indexer and websites
-such as L<http://search.cpan.org/> should explicitly ignore.
+The C<no_index> command is used to indicate directories or files where
+there might be non-library .pm files or other files that the CPAN
+indexer and websites such as L<http://search.cpan.org/> should
+explicitly ignore.
 
 The most common situation is to ignore example or demo directories,
 but a variety of different situations may require a C<no_index> entry.
@@ -410,15 +404,14 @@ The F<inc>, F<t> and F<share> (if install_share is used) directories are
 automatically C<no_index>'ed for you if found and do not require an
 explicit command.
 
-To summarise, if you can see it on L<http://search.cpan.org/> and you
-shouldn't be able to, you need a C<no_index> entry.
+To summarize, if you can see it on L<http://search.cpan.org/> and you
+shouldn't be able to, you need a C<no_index> entry to remove it.
 
 =head2 WriteAll
 
-The C<WriteAll> command is generally the last command; it writes out
-F<META.yml> and F<Makefile> (or F<Build>) so the user can run the
-C<make>, C<make test>, C<make install> process. (or the F<Build.PL>
-equivalents).
+The C<WriteAll> command is generally the last command in the file;
+it writes out F<META.yml> and F<Makefile> so the user can run the
+C<make>, C<make test>, C<make install> install sequence.
 
 =head1 EXTENSIONS
 
@@ -494,7 +487,7 @@ prerequisites.
 
 The use of C<auto_install> is B<strongly> discouraged in any distribution
 to be uploaded to the CPAN, as the use of it violates the normal CPAN
-toolchain model.
+client to toolchain communication protocol.
 
 Support may be dropped at a future time, with some alternative process
 providing the equivalent functionality.
@@ -664,7 +657,7 @@ away this complexity.
 As long as you are going to periodically do incremental releases
 to get any bug fixes and new functionality, yes.
 
-You should also avoid the use of auto_install.
+You should also strongly avoid the use of auto_install.
 
 If you don't plan to do incremental releases, it might be a good
 idea to continue to wait for a while.
@@ -681,9 +674,9 @@ smallest possible F<Makefile.PL>.
 
   use inc::Module::Install;
   
-  name           'Method-Alias';
-  all_from       'lib/Method/Alias.pm';
-  build_requires 'Test::More' => '0.42';
+  name          'Method-Alias';
+  all_from      'lib/Method/Alias.pm';
+  test_requires 'Test::More' => '0.42';
 
 =head2 File::HomeDir
 
@@ -692,10 +685,10 @@ an installer that can handle different dependencies on different platforms.
 
   use inc::Module::Install;
   
-  name           'File-HomeDir';
-  all_from       'lib/File/HomeDir.pm';
-  requires       'File::Spec' => '0.80';
-  build_requires 'Test::More' => '0.47';
+  name          'File-HomeDir';
+  all_from      'lib/File/HomeDir.pm';
+  requires      'File::Spec' => '0.80';
+  test_requires 'Test::More' => '0.47';
   
   if ( $MacPerl::Version ) {
       # Needed on legacy Mac OS 9
@@ -707,7 +700,6 @@ an installer that can handle different dependencies on different platforms.
       requires 'Win32::TieRegistry' => 0;
   }
   
-  auto_install;
   WriteAll;
 
 =head1 TO DO
