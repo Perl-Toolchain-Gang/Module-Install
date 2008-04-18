@@ -1,6 +1,7 @@
 Changes for Perl extension Module-Install
 
 0.72 Tue 15 Apr 2008 - Adam Kennedy
+	- exit(0) on requires_external_bin to make it a real NA
 	- Change docs to recommend the use of test_requires instead
 	  of build_requires. They do the same thing now, but this may
 	  change in the future and in that case better people use

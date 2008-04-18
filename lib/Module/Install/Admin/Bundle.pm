@@ -71,5 +71,3 @@ sub bundle {
 }
 
 1;
-
-__END__
