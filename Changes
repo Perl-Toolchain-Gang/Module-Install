@@ -1,7 +1,16 @@
 Changes for Perl extension Module-Install
 
+0.73 - Adam Kennedy
+	- Aggressively increase dependencies for authors to make sure
+	  all the latest release-time tricks will work properly. (ADAMK)
+	- When generating META.yml where there is an overall Perl version
+	  dependency, add a test for unversioned core dependencies that
+	  MUST already be satified by the Perl dependency. (ADAMK)
+	- Merged Module::Install MANIFEST.SKIP into the repository
+	  default MANIFEST.SKIP file, and deleted the M:I one (ADAMK)
+
 0.72 Tue 15 Apr 2008 - Adam Kennedy
-	- exit(0) on requires_external_bin to make it a real NA
+	- exit(0) on requires_external_bin to make it a real NA (ADAMK)
 	- Change docs to recommend the use of test_requires instead
 	  of build_requires. They do the same thing now, but this may
 	  change in the future and in that case better people use

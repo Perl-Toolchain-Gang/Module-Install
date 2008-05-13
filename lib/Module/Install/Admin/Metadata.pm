@@ -6,7 +6,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '0.72';
+	$VERSION = '0.73';
 	@ISA     = 'Module::Install::Base';
 }
 
@@ -52,15 +52,30 @@ sub dump_meta {
 
 	delete $val->{sign};
 
-	if ( my $perl_version = delete $val->{perl_version} ) {
-		# Always canonical to three-dot version
+	my $perl_version = delete $val->{perl_version};
+	if ( $perl_version ) {
+		$val->{requires} ||= [];
+		my $requires = $val->{requires};
+
+		# Issue warnings for unversioned core modules that are
+		# already satisfied by the Perl version dependency.
+		require Module::CoreList;
+		my $corelist = $Module::CoreList::version{$perl_version};
+		if ( $corelist ) {
+			my @bad = grep { exists $corelist->{$_} }
+			          map  { $_->[0]   }
+			          grep { ! $_->[1] }
+			          @$requires;
+			foreach ( @bad ) {
+				print "WARNING: Unversioned dependency on '$_' is pointless when Perl minimum version is $perl_version\n";
+			}
+		}
+
+		# Canonicalize to three-dot version after Perl 5.6
 		if ( $perl_version >= 5.006 ) {
 			$perl_version =~ s{^(\d+)\.(\d\d\d)(\d*)}{join('.', $1, int($2||0), int($3||0))}e
 		}
-		$val->{requires} = [
-			[ perl => $perl_version ],
-			@{ $val->{requires} || [] },
-		];
+		unshift @$requires, [ perl => $perl_version ];
 	}
 
 	# Set a default 'unknown' license
@@ -84,9 +99,9 @@ sub dump_meta {
 	}
 
 	# Apply default no_index entries
-	$val->{no_index} ||= {};
+	$val->{no_index}              ||= {};
 	$val->{no_index}->{directory} ||= [];
-	foreach my $dir ( qw{ share inc t } ) {
+	foreach my $dir ( qw{ share inc t examples examples demo } ) {
 		next unless -d $dir;
 		push @{ $val->{no_index}->{directory} }, $dir;
 	}

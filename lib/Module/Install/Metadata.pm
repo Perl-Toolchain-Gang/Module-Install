@@ -5,7 +5,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {
-	$VERSION = '0.72';
+	$VERSION = '0.73';
 	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
 }
@@ -266,22 +266,25 @@ sub abstract_from {
 	 );
 }
 
+# Add both distribution and module name
 sub name_from {
-	my $self = shift;
+	my ($self, $file) = @_;
 	if (
-		Module::Install::_read($_[0]) =~ m/
+		Module::Install::_read($file) =~ m/
 		^ \s*
 		package \s*
 		([\w:]+)
 		\s* ;
 		/ixms
 	) {
-		my $name = $1;
+		my ($name, $module_name) = ($1, $1);
 		$name =~ s{::}{-}g;
 		$self->name($name);
+		unless ( $self->module_name ) {
+			$self->module_name($module_name);
+		}
 	} else {
-		die "Cannot determine name from $_[0]\n";
-		return;
+		die "Cannot determine name from $file\n";
 	}
 }
 
@@ -355,7 +358,7 @@ sub license_from {
 			$pattern =~ s{\s+}{\\s+}g;
 			if ( $license_text =~ /\b$pattern\b/i ) {
 				if ( $osi and $license_text =~ /All rights reserved/i ) {
-					warn "LEGAL WARNING: 'All rights reserved' may invalidate Open Source licenses. Consider removing it.";
+					print "WARNING: 'All rights reserved' in copyright may invalidate Open Source license.\n";
 				}
 				$self->license($license);
 				return 1;

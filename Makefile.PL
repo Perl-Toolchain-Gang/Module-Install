@@ -21,22 +21,21 @@ name          'Module-Install';
 author        'Adam Kennedy <adamk@cpan.org>';
 perl_version  '5.004';
 all_from      'lib/Module/Install.pm';
-requires      'YAML::Tiny'        => '1.26';
-requires      'Module::ScanDeps'  => '0.28';
-requires      'Module::CoreList'  => 0;
-requires      'PAR::Dist'         => '0.03';
-requires      'Archive::Tar'      => '0.23';
-requires      'ExtUtils::Install' => '0.3';
-requires      'ExtUtils::ParseXS' => 0;
-requires      'Module::Build'     => 0;
+requires      'YAML::Tiny'        => '1.30';
+requires      'Module::ScanDeps'  => '0.83';
+requires      'Module::CoreList'  => '2.15';
+requires      'PAR::Dist'         => '0.29';
+requires      'Archive::Tar'      => '1.38';
+requires      'ExtUtils::Install' => '1.50';
+requires      'ExtUtils::ParseXS' => '2.19';
+requires      'Module::Build'     => '0.2808';
+test_requires 'Test::Harness'     => '2.03';
+test_requires 'Test::More'        => '0.42';
+test_requires 'File::Remove'      => '1.40';
 
 # Should be a "requires", but we have to solve the
 # "auto-include File::Spec if version < 5.005" problem first.
-test_requires 'File::Spec'    => 0;
-
-test_requires 'Test::Harness' => '2.03';
-test_requires 'Test::More'    => '0.42';
-test_requires 'File::Remove'  => '1.40';
+test_requires 'File::Spec'        => '0.80';
 
 # Makes the recursive test script run
 # (to test recursive test support)
