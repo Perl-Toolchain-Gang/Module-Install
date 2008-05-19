@@ -21,7 +21,7 @@ sub install_share {
 	# If the module name and dist name don't math,
 	# the dist_dir won't subsequently work.
 	my $module_name = $self->name;
-	$module_name =~ s/-/::/;
+	$module_name =~ s/-/::/g;
 	unless ( $module_name eq $self->module_name ) {
 		die "For File::ShareDir::dist_dir to work, the module and distribution names much match";
 	}

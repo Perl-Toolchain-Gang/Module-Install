@@ -1,5 +1,8 @@
 Changes for Perl extension Module-Install
 
+0.74
+  - Fix incorrect comparison of module and distribution names (RJBS)
+
 0.73 Wed 14 May 2008 - Adam Kennedy
 	- Aggressively increase dependencies for authors to make sure
 	  all the latest release-time tricks will work properly. (ADAMK)
