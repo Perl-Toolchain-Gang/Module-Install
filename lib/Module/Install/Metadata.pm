@@ -293,7 +293,7 @@ sub perl_version_from {
 	if (
 		Module::Install::_read($_[0]) =~ m/
 		^
-		use \s*
+		(?:use|require) \s*
 		v?
 		([\d_\.]+)
 		\s* ;

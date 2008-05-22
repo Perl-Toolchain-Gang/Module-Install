@@ -2,6 +2,7 @@ Changes for Perl extension Module-Install
 
 0.74
   - Fix incorrect comparison of module and distribution names (RJBS)
+  - Allow "require" instead of "use" when finding required perl version (RJBS)
 
 0.73 Wed 14 May 2008 - Adam Kennedy
 	- Aggressively increase dependencies for authors to make sure
