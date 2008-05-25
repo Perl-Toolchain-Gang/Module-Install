@@ -21,7 +21,7 @@ name          'Module-Install';
 author        'Adam Kennedy <adamk@cpan.org>';
 perl_version  '5.004';
 all_from      'lib/Module/Install.pm';
-requires      'YAML::Tiny'        => '1.30';
+requires      'YAML::Tiny'        => '1.31';
 requires      'Module::ScanDeps'  => '0.83';
 requires      'Module::CoreList'  => '2.15';
 requires      'PAR::Dist'         => '0.29';

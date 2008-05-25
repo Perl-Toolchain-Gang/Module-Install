@@ -84,7 +84,7 @@ END_DIE
 
 # Build.PL was formerly supported, but no longer is due to excessive
 # difficulty in implementing every single feature twice.
-if ( $0 =~ /Build.PL$/i or -f 'Build.PL' ) { die <<"END_DIE" }
+if ( $0 =~ /Build.PL$/i ) { die <<"END_DIE" }
 
 Module::Install no longer supports Build.PL.
 

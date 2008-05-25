@@ -1,8 +1,10 @@
 Changes for Perl extension Module-Install
 
-0.74
-  - Fix incorrect comparison of module and distribution names (RJBS)
-  - Allow "require" instead of "use" when finding required perl version (RJBS)
+0.74 Mon 26 May 2008
+	- Fix incorrect comparison of module and distribution names (RJBS)
+	- Allow "require" instead of "use" when finding required perl version (RJBS)
+	- Remove the -f Build.PL check, as it was breaking people trying to
+	  convert from M:B to M:I or vice versa (MSTROUT)
 
 0.73 Wed 14 May 2008 - Adam Kennedy
 	- Aggressively increase dependencies for authors to make sure
