@@ -7,7 +7,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {
-	$VERSION = '0.74';
+	$VERSION = '0.75';
 	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
 }
@@ -50,7 +50,7 @@ Returns true if in an interactive environment, or false otherwise.
 
 sub interactive {
 	# Treat things interactively ONLY based on input
-	!! (-t STDIN and ! automated_testing);
+	!! (-t STDIN and ! automated_testing());
 }
 
 =pod
