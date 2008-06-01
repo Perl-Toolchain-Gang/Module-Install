@@ -22,7 +22,7 @@ sub install_share {
 	# the dist_dir won't subsequently work.
 	my $module_name = $self->name;
 	$module_name =~ s/-/::/g;
-	unless ( $module_name eq $self->module_name ) {
+	if ( defined $self->module_name and $module_name ne $self->module_name ) {
 		die "For File::ShareDir::dist_dir to work, the module and distribution names much match";
 	}
 
