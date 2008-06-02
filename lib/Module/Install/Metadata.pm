@@ -29,6 +29,7 @@ my @tuple_keys = qw{
 	requires
 	recommends
 	bundles
+	resources
 };
 
 sub Meta            { shift        }
@@ -71,7 +72,7 @@ sub configure_requires {
 		my $version = shift || 0;
 		push @{ $self->{values}->{configure_requires} }, [ $module, $version ];
 	}
-	$self->{values}{configure_requires};
+	$self->{values}->{configure_requires};
 }
 
 sub recommends {
@@ -81,7 +82,7 @@ sub recommends {
 		my $version = shift || 0;
 		push @{ $self->{values}->{recommends} }, [ $module, $version ];
 	}
-	$self->{values}{recommends};
+	$self->{values}->{recommends};
 }
 
 sub bundles {
@@ -91,7 +92,24 @@ sub bundles {
 		my $version = shift || 0;
 		push @{ $self->{values}->{bundles} }, [ $module, $version ];
 	}
-	$self->{values}{bundles};
+	$self->{values}->{bundles};
+}
+
+# Resource handling
+sub resources {
+	my $self = shift;
+	while ( @_ ) {
+		my $resource = shift or last;
+		my $value    = shift or next;
+		push @{ $self->{values}->{resources} }, [ $resource, $value ];
+	}
+	$self->{values}->{resources};
+}
+
+sub repository {
+	my $self = shift;
+	$self->resources( repository => shift );
+	return 1;
 }
 
 # Aliases for build_requires that will have alternative

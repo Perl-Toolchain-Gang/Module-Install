@@ -67,7 +67,7 @@ sub dump_meta {
 			          grep { ! $_->[1] }
 			          @$requires;
 			foreach ( @bad ) {
-				print "WARNING: Unversioned dependency on '$_' is pointless when Perl minimum version is $perl_version\n";
+				# print "WARNING: Unversioned dependency on '$_' is pointless when Perl minimum version is $perl_version\n";
 			}
 		}
 
@@ -109,6 +109,8 @@ sub dump_meta {
 	# Generate the structure we'll be dumping
 	my $meta = {};
 	foreach my $key ( $self->Meta_ScalarKeys ) {
+		next if $key eq 'installdirs';
+		next if $key eq 'tests';
 		$meta->{$key} = $val->{$key} if exists $val->{$key};
 	}
 	foreach my $key ( $self->Meta_TupleKeys ) {

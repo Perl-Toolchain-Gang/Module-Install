@@ -1,8 +1,14 @@
 Changes for Perl extension Module-Install
 
-0.75 - Adam Kennedy
+0.75 Mon  2 Jun 2008 - Adam Kennedy
 	- Documenting the smaller post Module::Build core package
 	  Module::Install::With and removed experimental warning (ADAMK)
+	- Disabled the broken install_share error check (CLACO)
+	- Disabled "pointless version 0" warning, as it encourages less
+	  metadata (ADAMK)
+	- Adding an experimental undocumented implementation of a
+	  "resources" and "repository" command (ADAMK)
+	- Don't dump "tests" and "installdirs" to META.yml (ADAMK)
 
 0.74 Mon 26 May 2008 - Adam Kennedy
 	- Fix incorrect comparison of module and distribution names (RJBS)

@@ -15,11 +15,12 @@ BEGIN {
 # (unique to this distribution) file ./lib/inc/Module/Install.pm instead
 # of the system inc::Module::Install or the bundled inc/Module::Install.
 use lib 'lib';
-use inc::Module::Install;
+use inc::Module::Install 0.75;
 
 name          'Module-Install';
 author        'Adam Kennedy <adamk@cpan.org>';
 perl_version  '5.004';
+repository    'http://svn.ali.as/cpan/trunk/Module-Install';
 all_from      'lib/Module/Install.pm';
 requires      'YAML::Tiny'        => '1.31';
 requires      'Module::ScanDeps'  => '0.83';
