@@ -6,7 +6,8 @@ Changes for Perl extension Module-Install
 	- Documentation patches to Module::Install::Admin and
 	  Module::Install::Base. (Adriano Ferreira, RT #27696)
 	- Corrected broken internal link in Module/Install.pod. (PJF)
-	- Added Test::Pod checks. (PJF) 
+	- The 'examples' directory will no longer be included
+	  twice in META.yml/no_index/directory. (PJF)
 
 0.75 Mon  2 Jun 2008 - Adam Kennedy
 	- Documenting the smaller post Module::Build core package

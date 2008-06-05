@@ -101,7 +101,7 @@ sub dump_meta {
 	# Apply default no_index entries
 	$val->{no_index}              ||= {};
 	$val->{no_index}->{directory} ||= [];
-	foreach my $dir ( qw{ share inc t examples examples demo } ) {
+	foreach my $dir ( qw{ share inc t examples demo } ) {
 		next unless -d $dir;
 		push @{ $val->{no_index}->{directory} }, $dir;
 	}
