@@ -44,7 +44,7 @@ much DWIM (Do What I Mean) as possible when writing them.
 The quickest way to get started with Module::Install is to copy the
 L</SYNOPSIS> from above and save it as your own F<Makefile.PL>. Then
 modify the file to suit your own particular case, using the list of
-commands documented in L</COMMANDS> below.
+commands documented in L</COMMON COMMANDS> below.
 
 If all you want to do is write an installer, go and do that now. You
 don't really need the rest of this description unless you are
