@@ -15,9 +15,10 @@ In your F<Makefile.PL>: (Recommended Usage)
   all_from       'lib/Your/Module.pm';
   
   # Specific dependencies
-  requires       'File::Spec' => '0.80';
-  test_requires  'Test::More' => '0.42';
-  no_index       'directory'  => 'demos';
+  requires       'File::Spec'  => '0.80';
+  test_requires  'Test::More'  => '0.42';
+  recommends     'Text::CSV_XS'=> '0.50';
+  no_index       'directory'   => 'demos';
   install_script 'myscript';
   
   WriteAll;
@@ -249,6 +250,19 @@ often this is done from the main module.
 
 The minimum version is detected by scanning the file for C<use 5.xxx>
 pragma calls in the module file.
+
+=head2 recommends
+
+  recommends 'Text::CSV_XS' => '0.50'
+
+The C<recommends> command indicates an optional run-time module that
+provides extra functionality.  Recommended dependencies are not
+needed to build or test your distribution, but are considered "nice
+to have".
+
+As with L</requires>, the dependency is on a B<module> and not
+a distribution.  A version of zero indicates that any version of
+the module is recommended.
 
 =head2 requires
 
