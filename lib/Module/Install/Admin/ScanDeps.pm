@@ -3,7 +3,7 @@ package Module::Install::Admin::ScanDeps;
 use Module::Install::Base;
 @ISA = qw(Module::Install::Base);
 
-$VERSION = '0.75';
+$VERSION = '0.76';
 
 use strict;
 

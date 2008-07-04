@@ -5,7 +5,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {
-	$VERSION = '0.75';
+	$VERSION = '0.76';
 	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
 }
@@ -16,9 +16,7 @@ my @scalar_keys = qw{
 	abstract
 	author
 	version
-	license
 	distribution_type
-	perl_version
 	tests
 	installdirs
 };
@@ -32,11 +30,18 @@ my @tuple_keys = qw{
 	resources
 };
 
-sub Meta            { shift        }
-sub Meta_ScalarKeys { @scalar_keys }
-sub Meta_TupleKeys  { @tuple_keys  }
+my @resource_keys = qw{
+	homepage
+	bugtracker
+	repository
+};
 
-foreach my $key (@scalar_keys) {
+sub Meta              { shift          }
+sub Meta_ScalarKeys   { @scalar_keys   }
+sub Meta_TupleKeys    { @tuple_keys    }
+sub Meta_ResourceKeys { @resource_keys }
+
+foreach my $key ( @scalar_keys ) {
 	*$key = sub {
 		my $self = shift;
 		return $self->{values}{$key} if defined wantarray and !@_;
@@ -45,12 +50,30 @@ foreach my $key (@scalar_keys) {
 	};
 }
 
+foreach my $key ( @resource_keys ) {
+	*$key = sub {
+		my $self = shift;
+		unless ( @_ ) {
+			return () unless $self->{values}{resources};
+			return map  { $_->[1] }
+			       grep { $_->[0] eq $key }
+			       @{ $self->{values}{resources} };
+		}
+		return $self->{values}{resources}{$key} unless @_;
+		my $uri = shift or die(
+			"Did not provide a value to $key()"
+		);
+		$self->resources( $key => $uri );
+		return 1;
+	};
+}
+
 sub requires {
 	my $self = shift;
 	while ( @_ ) {
 		my $module  = shift or last;
 		my $version = shift || 0;
-		push @{ $self->{values}->{requires} }, [ $module, $version ];
+		push @{ $self->{values}{requires} }, [ $module, $version ];
 	}
 	$self->{values}{requires};
 }
@@ -60,7 +83,7 @@ sub build_requires {
 	while ( @_ ) {
 		my $module  = shift or last;
 		my $version = shift || 0;
-		push @{ $self->{values}->{build_requires} }, [ $module, $version ];
+		push @{ $self->{values}{build_requires} }, [ $module, $version ];
 	}
 	$self->{values}{build_requires};
 }
@@ -70,9 +93,9 @@ sub configure_requires {
 	while ( @_ ) {
 		my $module  = shift or last;
 		my $version = shift || 0;
-		push @{ $self->{values}->{configure_requires} }, [ $module, $version ];
+		push @{ $self->{values}{configure_requires} }, [ $module, $version ];
 	}
-	$self->{values}->{configure_requires};
+	$self->{values}{configure_requires};
 }
 
 sub recommends {
@@ -80,9 +103,9 @@ sub recommends {
 	while ( @_ ) {
 		my $module  = shift or last;
 		my $version = shift || 0;
-		push @{ $self->{values}->{recommends} }, [ $module, $version ];
+		push @{ $self->{values}{recommends} }, [ $module, $version ];
 	}
-	$self->{values}->{recommends};
+	$self->{values}{recommends};
 }
 
 sub bundles {
@@ -90,26 +113,31 @@ sub bundles {
 	while ( @_ ) {
 		my $module  = shift or last;
 		my $version = shift || 0;
-		push @{ $self->{values}->{bundles} }, [ $module, $version ];
+		push @{ $self->{values}{bundles} }, [ $module, $version ];
 	}
-	$self->{values}->{bundles};
+	$self->{values}{bundles};
 }
 
 # Resource handling
+my %lc_resource = map { $_ => 1 } qw{
+	homepage
+	license
+	bugtracker
+	repository
+};
+
 sub resources {
 	my $self = shift;
 	while ( @_ ) {
-		my $resource = shift or last;
-		my $value    = shift or next;
-		push @{ $self->{values}->{resources} }, [ $resource, $value ];
+		my $name  = shift or last;
+		my $value = shift or next;
+		if ( $name eq lc $name and ! $lc_resource{$name} ) {
+			die("Unsupported reserved lowercase resource '$name'");
+		}
+		$self->{values}{resources} ||= [];
+		push @{ $self->{values}{resources} }, [ $name, $value ];
 	}
-	$self->{values}->{resources};
-}
-
-sub repository {
-	my $self = shift;
-	$self->resources( repository => shift );
-	return 1;
+	$self->{values}{resources};
 }
 
 # Aliases for build_requires that will have alternative
@@ -125,30 +153,64 @@ sub install_as_vendor  { $_[0]->installdirs('vendor') }
 
 sub sign {
 	my $self = shift;
-	return $self->{'values'}{'sign'} if defined wantarray and ! @_;
-	$self->{'values'}{'sign'} = ( @_ ? $_[0] : 1 );
+	return $self->{values}{sign} if defined wantarray and ! @_;
+	$self->{values}{sign} = ( @_ ? $_[0] : 1 );
 	return $self;
 }
 
 sub dynamic_config {
 	my $self = shift;
 	unless ( @_ ) {
-		warn "You MUST provide an explicit true/false value to dynamic_config, skipping\n";
+		warn "You MUST provide an explicit true/false value to dynamic_config\n";
 		return $self;
 	}
 	$self->{values}{dynamic_config} = $_[0] ? 1 : 0;
-	return $self;
+	return 1;
+}
+
+sub perl_version {
+	my $self = shift;
+	return $self->{values}{perl_version} unless @_;
+	my $version = shift or die(
+		"Did not provide a value to perl_version()"
+	);
+	$version =~ s/_.+$//;
+	$version = $version + 0; # Numify
+	unless ( $version >= 5.005 ) {
+		die "Module::Install only supports 5.005 or newer (use ExtUtils::MakeMaker)\n";
+	}
+	$self->{values}{perl_version} = $version;
+	return 1;
+}
+
+sub license {
+	my $self = shift;
+	return $self->{values}{license} unless @_;
+	my $license = shift or die(
+		'Did not provide a value to license()'
+	);
+	$self->{values}{license} = $license;
+
+	# Automatically fill in license URLs
+	if ( $license eq 'perl' ) {
+		$self->resources( license => 'http://dev.perl.org/licenses/' );
+	}
+
+	return 1;
 }
 
 sub all_from {
 	my ( $self, $file ) = @_;
 
 	unless ( defined($file) ) {
-		my $name = $self->name
-			or die "all_from called with no args without setting name() first";
+		my $name = $self->name or die(
+			"all_from called with no args without setting name() first"
+		);
 		$file = join('/', 'lib', split(/-/, $name)) . '.pm';
 		$file =~ s{.*/}{} unless -e $file;
-		die "all_from: cannot find $file from $name" unless -e $file;
+		unless ( -e $file ) {
+			die("all_from cannot find $file from $name");
+		}
 	}
 
 	# Some methods pull from POD instead of code.
@@ -227,8 +289,8 @@ sub features {
 	while ( my ( $name, $mods ) = splice( @_, 0, 2 ) ) {
 		$self->feature( $name, @$mods );
 	}
-	return $self->{values}->{features}
-		? @{ $self->{values}->{features} }
+	return $self->{values}{features}
+		? @{ $self->{values}{features} }
 		: ();
 }
 
@@ -302,7 +364,7 @@ sub name_from {
 			$self->module_name($module_name);
 		}
 	} else {
-		die "Cannot determine name from $file\n";
+		die("Cannot determine name from $file\n");
 	}
 }
 
@@ -388,6 +450,24 @@ sub license_from {
 	return 'unknown';
 }
 
+sub bugtracker_from {
+	my $self    = shift;
+	my $content = Module::Install::_read($_[0]);
+	my @links   = $content =~ m/L\<(http\:\/\/rt\.cpan\.org\/[^>]+)\>/g;
+	unless ( @links ) {
+		warn "Cannot determine bugtracker info from $_[0]\n";
+		return 0;
+	}
+	if ( @links > 1 ) {
+		warn "Found more than on rt.cpan.org link in $_[0]\n";
+		return 0;
+	}
+
+	# Set the bugtracker
+	bugtracker( $links[0] );
+	return 1;
+}
+
 sub install_script {
 	my $self = shift;
 	my $args = $self->makemaker_args;
@@ -398,7 +478,7 @@ sub install_script {
 		} elsif ( -d 'script' and -f "script/$_" ) {
 			push @$exe, "script/$_";
 		} else {
-			die "Cannot find script '$_'";
+			die("Cannot find script '$_'");
 		}
 	}
 }

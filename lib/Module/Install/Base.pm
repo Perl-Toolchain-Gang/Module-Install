@@ -1,6 +1,6 @@
 package Module::Install::Base;
 
-$VERSION = '0.75';
+$VERSION = '0.76';
 
 # Suspend handler for "redefined" warnings
 BEGIN {

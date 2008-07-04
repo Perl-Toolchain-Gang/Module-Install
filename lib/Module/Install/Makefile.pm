@@ -6,7 +6,7 @@ use ExtUtils::MakeMaker ();
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {
-	$VERSION = '0.75';
+	$VERSION = '0.76';
 	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
 }
@@ -35,9 +35,9 @@ sub prompt {
 
 sub makemaker_args {
 	my $self = shift;
-	my $args = ($self->{makemaker_args} ||= {});
-	  %$args = ( %$args, @_ ) if @_;
-	$args;
+	my $args = ( $self->{makemaker_args} ||= {} );
+	%$args = ( %$args, @_ );
+	return $args;
 }
 
 # For mm args that take multiple space-seperated args,
@@ -359,19 +359,19 @@ L<Module::Install>, L<CPAN::MakeMaker>, L<CPAN::MakeMaker::Philosophy>
 
 =head1 AUTHORS
 
+Adam Kennedy E<lt>adamk@cpan.orgE<gt>
+
 Audrey Tang E<lt>autrijus@autrijus.orgE<gt>
 
-Based on original works by Brian Ingerson E<lt>INGY@cpan.orgE<gt>
+Brian Ingerson E<lt>INGY@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002, 2003, 2004 by
-Audrey Tang E<lt>autrijus@autrijus.orgE<gt>,
-Brian Ingerson E<lt>ingy@cpan.orgE<gt>
+Some parts copyright 2008 Adam Kennedy.
+
+Copyright 2002, 2003, 2004 Audrey Tang and Brian Ingerson.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
-
-See L<http://www.perl.com/perl/misc/Artistic.html>
 
 =cut
