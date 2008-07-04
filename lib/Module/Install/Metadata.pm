@@ -37,9 +37,7 @@ my @resource_keys = qw{
 };
 
 sub Meta              { shift          }
-sub Meta_ScalarKeys   {
-	return ( @scalar_keys, 'perl_version', 'license' );
-}
+sub Meta_ScalarKeys   { @scalar_keys   }
 sub Meta_TupleKeys    { @tuple_keys    }
 sub Meta_ResourceKeys { @resource_keys }
 
