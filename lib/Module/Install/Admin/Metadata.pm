@@ -109,6 +109,7 @@ sub dump_meta {
 	# Generate the structure we'll be dumping
 	my $meta = {
 		resources => {},
+		license   => $val->{license},
 	};
 	foreach my $key ( $self->Meta_ScalarKeys ) {
 		next if $key eq 'installdirs';
