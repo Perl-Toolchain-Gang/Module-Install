@@ -338,13 +338,24 @@ sub _write {
 	close FH or die "close($_[0]): $!";
 }
 
-sub _version {
+sub _version ($) {
 	my $s = shift || 0;
 	   $s =~ s/^(\d+)\.?//;
 	my $l = $1 || 0;
 	my @v = map { $_ . '0' x (3 - length $_) } $s =~ /(\d{1,3})\D?/g;
 	   $l = $l . '.' . join '', @v if @v;
 	return $l + 0;
+}
+
+# Cloned from Params::Util::_CLASS
+sub _CLASS ($) {
+	(
+		defined $_[0]
+		and
+		! ref $_[0]
+		and
+		$_[0] =~ m/^[^\W\d]\w*(?:::\w+)*$/s
+	) ? $_[0] : undef;
 }
 
 1;

@@ -45,6 +45,8 @@ test_requires 'File::Spec'        => '0.80';
 # (to test recursive test support)
 tests_recursive;
 
+install_share;
+
 install_as_cpan;
 
 WriteAll;

@@ -17,6 +17,7 @@ Changes for Perl extension Module-Install
 	- Shifting minimum perl version for Module::Install to 5.005
 	  (Anything older should use ExtUtils::MakeMaker) (ADAMK)
 	- perl_version errors if it gets a value less that 5.005 (ADAMK)
+	- Implementing the new install_share implementation (ADAMK)
 
 0.75 Mon  2 Jun 2008 - Adam Kennedy
 	- Documenting the smaller post Module::Build core package

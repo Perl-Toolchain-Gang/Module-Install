@@ -11,27 +11,42 @@ BEGIN {
 }
 
 sub install_share {
-	my ($self, $dir) = @_;
-
-	if ( ! defined $dir ) {
-		die "Cannot find the 'share' directory" unless -d 'share';
-		$dir = 'share';
+	my $self = shift;
+	my $dir  = @_ ? pop   : 'share';
+	my $type = @_ ? shift : 'dist';
+	unless ( defined $type and $type eq 'module' or $type eq 'dist' ) {
+		die "Illegal or invalid share dir type '$type'";
+	}
+	unless ( defined $dir and -d $dir ) {
+		die "Illegal or missing directory install_share param";
 	}
 
-	# If the module name and dist name don't math,
-	# the dist_dir won't subsequently work.
-	# my $module_name = $self->name;
-	# $module_name =~ s/-/::/g;
-	# if ( defined $self->module_name and $module_name ne $self->module_name ) {
-	#	die "For File::ShareDir::dist_dir to work, the module and distribution names much match";
-	# }
+	# Split by type
+	if ( $type eq 'dist' ) {
+		die "Too many parameters to install_share" if @_;
 
-	$self->postamble(<<"END_MAKEFILE");
+		# Set up the install
+		$self->postamble(<<"END_MAKEFILE");
 config ::
 \t\$(NOECHO) \$(MOD_INSTALL) \\
-\t\t"$dir" \$(INST_AUTODIR)
+\t\t"$dir" \$(INST_LIB)\\auto\\share\\dist\\\$(DISTNAME)
 
 END_MAKEFILE
+	} else {
+		my $module = Module::Install::_CLASS($_[0]);
+		unless ( defined $module ) {
+			die "Missing or invalid module name '$_[0]'";
+		}
+		$module =~ s/::/-/g;
+
+		# Set up the install
+		$self->postamble(<<"END_MAKEFILE");
+config ::
+\t\$(NOECHO) \$(MOD_INSTALL) \\
+\t\t"$dir" \$(INST_LIB)\\auto\\share\\module\\$module
+
+END_MAKEFILE
+	}
 
 	# The above appears to behave incorrectly when used with old versions
 	# of ExtUtils::Install (known-bad on RHEL 3, with 5.8.0)
