@@ -22,6 +22,7 @@ sub install_share {
 	}
 
 	# Split by type
+	my $S = ($^O eq 'MSWin32') ? "\\" : "\/";
 	if ( $type eq 'dist' ) {
 		die "Too many parameters to install_share" if @_;
 
@@ -29,7 +30,7 @@ sub install_share {
 		$self->postamble(<<"END_MAKEFILE");
 config ::
 \t\$(NOECHO) \$(MOD_INSTALL) \\
-\t\t"$dir" \$(INST_LIB)\\auto\\share\\dist\\\$(DISTNAME)
+\t\t"$dir" \$(INST_LIB)${S}auto${S}share${S}dist${S}\$(DISTNAME)
 
 END_MAKEFILE
 	} else {
@@ -43,7 +44,7 @@ END_MAKEFILE
 		$self->postamble(<<"END_MAKEFILE");
 config ::
 \t\$(NOECHO) \$(MOD_INSTALL) \\
-\t\t"$dir" \$(INST_LIB)\\auto\\share\\module\\$module
+\t\t"$dir" \$(INST_LIB)${S}auto${S}share${S}module${S}$module
 
 END_MAKEFILE
 	}
