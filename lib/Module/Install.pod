@@ -764,6 +764,14 @@ L<CPAN::MakeMaker>, L<Inline::MakeMaker>
 
 L<ExtUtils::MakeMaker>
 
+=head1 SUPPORT
+
+Bugs should be reported via the CPAN bug tracker at
+
+L<http://rt.cpan.org/NoAuth/ReportBug.html?Queue=Module-Install>
+
+For other issues, contact the (topmost) author.
+
 =head1 AUTHORS
 
 Adam Kennedy E<lt>adamk@cpan.orgE<gt>
