@@ -21,6 +21,8 @@ name          'Module-Install';
 author        'Adam Kennedy <adamk@cpan.org>';
 perl_version  '5.005';
 all_from      'lib/Module/Install.pm';
+requires      'Devel::PPPort'     => '';
+requires      'File::Remove'      => '1.40';
 requires      'YAML::Tiny'        => '1.31';
 requires      'Module::ScanDeps'  => '0.83';
 requires      'Module::CoreList'  => '2.13';
@@ -31,7 +33,7 @@ requires      'ExtUtils::ParseXS' => '2.19';
 requires      'Module::Build'     => '0.2808';
 test_requires 'Test::Harness'     => '2.03';
 test_requires 'Test::More'        => '0.42';
-test_requires 'File::Remove'      => '1.40';
+
 
 # Normally this shouldn't be done in here, it should be done
 # by release automation. This is mostly for testing reasons.
@@ -45,7 +47,11 @@ test_requires 'File::Spec'        => '0.80';
 # (to test recursive test support)
 tests_recursive;
 
+# This isn't needed, but lets us test File::ShareDir support
 install_share;
+
+# This isn't needed, but lets us test Devel::PPPort support
+ppport;
 
 install_as_cpan;
 

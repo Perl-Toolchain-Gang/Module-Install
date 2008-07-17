@@ -1,6 +1,6 @@
 Changes for Perl extension Module-Install
 
-0.76 (Unreleased)
+0.76 Thu 17 Jul 2008
 	- ExtUtils::MakeMaker no longer complains when its version
 	  contains an underscore. (PJF, RT #35800)
 	- Documentation patches to Module::Install::Admin and
@@ -17,7 +17,10 @@ Changes for Perl extension Module-Install
 	- Shifting minimum perl version for Module::Install to 5.005
 	  (Anything older should use ExtUtils::MakeMaker) (ADAMK)
 	- perl_version errors if it gets a value less that 5.005 (ADAMK)
-	- Implementing the new install_share implementation (ADAMK)
+	- Created the new install_share implementation (ADAMK)
+	- Added the ppport function for adding ppport.h (ADAMK)
+	- Bumped File::Remove from test_requires to requires (ADAMK)
+	- Added dependency on Devel::PPPort for ppport (ADAMK)
 
 0.75 Mon  2 Jun 2008 - Adam Kennedy
 	- Documenting the smaller post Module::Build core package
