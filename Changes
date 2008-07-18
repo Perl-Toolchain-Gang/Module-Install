@@ -1,5 +1,15 @@
 Changes for Perl extension Module-Install
 
+0.77 (Unreleased)
+	- Don't break directories starting with inc(oming) (ADAMK, RT #30637)
+	- Adding more phrases to recognise GPL variants (ADAMK, RT #35195)
+	- Skip 03_autoinstall.t except at release, as it can hang in some
+	  situations (ADAMK, #29448)
+	- Add a file check to the all_from param (ADAMK, #24586)
+	- Fixed bug in can_run when PATH starts with a sep (ADAMK, #29866)
+	- Don't overwrite dist args if there is a preop (ADAMK, #36831)
+	- Bug fix in the command dispatcher (ADAMK, #27327)
+
 0.76 Thu 17 Jul 2008
 	- ExtUtils::MakeMaker no longer complains when its version
 	  contains an underscore. (PJF, RT #35800)

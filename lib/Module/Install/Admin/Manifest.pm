@@ -61,7 +61,7 @@ sub check_manifest {
 		$path =~ s/\s.*//;
 		$path =~ s/^\.[\\\/]//;
 		$path =~ s/[\\\/]/\//g;
-		next unless $path =~ m!^\Q$prefix\E!i;
+		next unless $path =~ m/^\Q$prefix\E\b/i;
 		$manifest{$path} = \$manifest->[$i];
 	}
 

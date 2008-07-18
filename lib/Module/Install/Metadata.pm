@@ -212,6 +212,9 @@ sub all_from {
 			die("all_from cannot find $file from $name");
 		}
 	}
+	unless ( -f $file ) {
+		die("The path '$file' does not exist, or is not a file");
+	}
 
 	# Some methods pull from POD instead of code.
 	# If there is a matching .pod, use that instead
@@ -423,8 +426,12 @@ sub license_from {
 		my $license_text = $1;
 		my @phrases      = (
 			'under the same (?:terms|license) as perl itself' => 'perl',        1,
+			'GNU general public license'                      => 'gpl',         1,
 			'GNU public license'                              => 'gpl',         1,
+			'GNU lesser general public license'               => 'lgpl',        1,
 			'GNU lesser public license'                       => 'lgpl',        1,
+			'GNU library general public license'              => 'lgpl',        1,
+			'GNU library public license'                      => 'lgpl',        1,
 			'BSD license'                                     => 'bsd',         1,
 			'Artistic license'                                => 'artistic',    1,
 			'GPL'                                             => 'gpl',         1,

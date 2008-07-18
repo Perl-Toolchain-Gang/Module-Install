@@ -6,7 +6,15 @@ BEGIN {
 }
 
 use strict;
-use Test::More tests => 6;
+use Test::More;
+BEGIN {
+	if ( $ENV{RELEASE_TESTING} ) {
+		plan( tests => 6 );
+	} else {
+		plan( skip_all => 'Skipping dangerous test' );
+		exit(0);
+	}
+}
 
 # Intercepts calls to WriteMakefile and prompt.
 my $mm_args;

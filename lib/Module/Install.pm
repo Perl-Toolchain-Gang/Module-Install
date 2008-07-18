@@ -124,8 +124,10 @@ sub autoload {
 			goto &$code unless $cwd eq $pwd;
 		}
 		$$sym =~ /([^:]+)$/ or die "Cannot autoload $who - $sym";
-		unshift @_, ( $self, $1 );
-		goto &{$self->can('call')} unless uc($1) eq $1;
+		unless ( uc($1) eq $1 ) {
+			unshift @_, ( $self, $1 );
+			goto &{$self->can('call')};
+		}
 	};
 }
 

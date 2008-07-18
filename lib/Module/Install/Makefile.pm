@@ -180,7 +180,9 @@ sub write {
 
 	my $user_preop = delete $args{dist}->{PREOP};
 	if (my $preop = $self->admin->preop($user_preop)) {
-		$args{dist} = $preop;
+		foreach my $key ( keys %$preop ) {
+			$args{dist}->{$key} = $preop->{$key};
+		}
 	}
 
 	my $mm = ExtUtils::MakeMaker::WriteMakefile(%args);
