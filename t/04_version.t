@@ -6,7 +6,7 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 13;
+use Test::More tests => 15;
 require_ok( 'inc::Module::Install' );
 
 my @data = qw{
@@ -16,6 +16,7 @@ my @data = qw{
 	1234   1234
 	1.2.3  1.2003
 	1.2_01 1.20001
+        5.008008 5.008008
 };
 
 while ( @data ) {
