@@ -9,7 +9,6 @@ Changes for Perl extension Module-Install
 	- Fixed bug in can_run when PATH starts with a sep (ADAMK, #29866)
 	- Don't overwrite dist args if there is a preop (ADAMK, #36831)
 	- Bug fix in the command dispatcher (ADAMK, #27327)
-        - Additional tests for version handling in t/04_version.t (PJF)
 
 0.76 Thu 17 Jul 2008
 	- ExtUtils::MakeMaker no longer complains when its version

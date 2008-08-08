@@ -340,6 +340,9 @@ sub _write {
 	close FH or die "close($_[0]): $!";
 }
 
+# _version is for processing module versions (eg, 1.03_05) not
+# Perl versions (eg, 5.8.1).
+
 sub _version ($) {
 	my $s = shift || 0;
 	   $s =~ s/^(\d+)\.?//;
