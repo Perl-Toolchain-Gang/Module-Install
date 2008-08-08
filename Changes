@@ -11,6 +11,7 @@ Changes for Perl extension Module-Install
 	- Bug fix in the command dispatcher (ADAMK, #27327)
         - perl_version now understands three-part Perl versions like
           5.8.1 (PJF, RT #38317)
+	- Numify version.pm objects when generating YAML (ADAMK)
 
 0.76 Thu 17 Jul 2008
 	- ExtUtils::MakeMaker no longer complains when its version

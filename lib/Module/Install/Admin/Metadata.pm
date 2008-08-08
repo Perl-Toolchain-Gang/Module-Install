@@ -132,6 +132,11 @@ sub dump_meta {
 		delete $meta->{resources};
 	}
 
+	# Support version.pm versions
+	if ( UNIVERSAL::isa($meta->{version}, 'version') ) {
+		$meta->{version} = $meta->{version}->numify;
+	}
+
 	YAML::Tiny::Dump($meta);
 }
 
