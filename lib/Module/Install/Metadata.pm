@@ -177,8 +177,9 @@ sub perl_version {
 
 	# Convert triple-part versions (eg, 5.6.1 or 5.8.9) to
 	# numbers (eg, 5.006001 or 5.008009).
+	# Also, convert double-part versions (eg, 5.8)
 
-	$version =~ s/^(\d+)\.(\d+)\.(\d+)$/sprintf("%d.%03d%03d",$1,$2,$3)/e;
+	$version =~ s/^(\d+)\.(\d+)(?:\.(\d+))?$/sprintf("%d.%03d%03d",$1,$2,$3 || 0)/e;
 
 	$version =~ s/_.+$//;
 	$version = $version + 0; # Numify

@@ -2,6 +2,11 @@ Changes for Perl extension Module-Install
 
 	- installdirs and install_as_* are now documented in
 	  Module/Install.pod (PJF, RT #25111)
+	- Applied patch RT #38443 from Oleg Kostyuk for two-part
+	  version numbers being passed to perl_version.  Calling
+	  'perl_version 5.8' should now work the same as
+	  'perl_version 5.008'.  Additional tests added to
+	  t/07_perl_version.t to check this.  (PJF, RT #38443)
 
 0.77 Fri  8 Aug 2008
 	- Don't break directories starting with inc(oming) (ADAMK, RT #30637)

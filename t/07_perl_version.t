@@ -6,7 +6,7 @@ BEGIN {
         $^W = 1;
 }
 
-use Test::More tests => 4;
+use Test::More tests => 5;
 require_ok( 'Module::Install::Metadata' );
 
 my $metadata = Module::Install::Metadata->new;
@@ -19,3 +19,6 @@ is($metadata->perl_version, 5.008001);
 
 $metadata->perl_version('5.10.1');
 is($metadata->perl_version, 5.010001);
+
+$metadata->perl_version('5.8');
+is($metadata->perl_version, 5.008);
