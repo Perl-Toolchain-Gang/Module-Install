@@ -421,6 +421,24 @@ explicit command.
 To summarize, if you can see it on L<http://search.cpan.org/> and you
 shouldn't be able to, you need a C<no_index> entry to remove it.
 
+=head2 installdirs, install_as_*
+
+  installdirs 'site';   # the default
+
+  install_as_core;      # alias for installdirs 'perl'
+  install_as_cpan;      # alias for installdirs 'site'
+  install_as_site;      # alias for installdirs 'site'
+  install_as_vendor;    # alias for installdirs 'vendor'
+
+The C<installdirs> and C<install_as> commands specify the location
+where the module should be installed; this is the equivalent to
+L<ExtUtils::MakeMaker>'s C<INSTALLDIRS> option.  For almost all
+regular modules, the default is recommended, and need not be
+changed.  Dual-life (core and CPAN) modules, as well as
+vendor-specific modules, may need to use the other options.
+
+If unsure, do not use this option.
+
 =head2 WriteAll
 
 The C<WriteAll> command is generally the last command in the file;

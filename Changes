@@ -1,5 +1,8 @@
 Changes for Perl extension Module-Install
 
+	- installdirs and install_as_* are now documented in
+	  Module/Install.pod (PJF, RT #25111)
+
 0.77 Fri  8 Aug 2008
 	- Don't break directories starting with inc(oming) (ADAMK, RT #30637)
 	- Adding more phrases to recognise GPL variants (ADAMK, RT #35195)
