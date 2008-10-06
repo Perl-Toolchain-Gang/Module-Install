@@ -20,7 +20,7 @@ sub remove_meta {
 		or die "Can't open META.yml for output:\n$!";
 	my $meta = do {local $/; <META>};
 	close META;
-	return unless $meta =~ /^generated_by: $pkg version $ver/m;
+	return unless $meta =~ /^generated_by: ["']?$pkg version $ver["']/m;
 	unless (-w 'META.yml') {
 		warn "Can't remove META.yml file. Not writable.\n";
 		return;
