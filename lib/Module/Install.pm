@@ -249,7 +249,7 @@ END_DIE
 sub load_extensions {
 	my ($self, $path, $top) = @_;
 
-	unless ( grep { lc $_ eq lc $self->{prefix} } @INC ) {
+	unless ( grep { !ref $_ and lc $_ eq lc $self->{prefix} } @INC ) {
 		unshift @INC, $self->{prefix};
 	}
 

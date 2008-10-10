@@ -167,7 +167,7 @@ sub load_all_extensions {
     unless ($self->{extensions}) {
         $self->{extensions} = [];
         foreach my $inc (@INC) {
-            next if $inc eq $self->{prefix} or ref($inc);
+            next if ref($inc) or $inc eq $self->{prefix};
             $self->load_extensions("$inc/$self->{path}", $self->{_top});
         }
     }
