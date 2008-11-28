@@ -451,9 +451,6 @@ sub license_from {
 		while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
 			$pattern =~ s{\s+}{\\s+}g;
 			if ( $license_text =~ /\b$pattern\b/i ) {
-				if ( $osi and $license_text =~ /All rights reserved/i ) {
-					print "WARNING: 'All rights reserved' in copyright may invalidate Open Source license.\n";
-				}
 				$self->license($license);
 				return 1;
 			}

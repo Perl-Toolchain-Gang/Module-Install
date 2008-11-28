@@ -10,6 +10,9 @@ Changes for Perl extension Module-Install
 	  'perl_version 5.8' should now work the same as
 	  'perl_version 5.008'.  Additional tests added to
 	  t/07_perl_version.t to check this.  (PJF, RT #38443)
+	- Module::Install no longer complains about the phrase
+	  "All rights reserved" in association with open source
+	  licenses.  (PJF, RT #41268)
 
 0.77 Fri  8 Aug 2008
 	- Don't break directories starting with inc(oming) (ADAMK, RT #30637)
