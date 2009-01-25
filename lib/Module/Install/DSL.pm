@@ -72,7 +72,7 @@ sub dsl2code {
 	}
 
 	# Join into the complete code block
-	return join( '', @code, 'WriteAll;' );
+	return join( '', @code, "WriteAll;\n" );
 }
 
 1;
