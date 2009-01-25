@@ -28,4 +28,5 @@ requires 'Carp', '0';
 requires 'Win32' if win32;
 test_requires 'Test::More';
 install_share;
+WriteAll;
 END_PERL
