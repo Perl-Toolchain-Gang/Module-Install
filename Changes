@@ -1,8 +1,9 @@
 Changes for Perl extension Module-Install
 
+0.78 Sun 25 Jan 2009
+	- Adding inc::Module::Install::DSL for simple installs
         - We now avoid poking references in @INC in case they
           have strange overload behaviours.  (PJF, RT #39929)
-
 	- installdirs and install_as_* are now documented in
 	  Module/Install.pod (PJF, RT #25111)
 	- Applied patch RT #38443 from Oleg Kostyuk for two-part
