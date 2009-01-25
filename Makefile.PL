@@ -30,7 +30,7 @@ requires      'PAR::Dist'         => '0.29';
 requires      'Archive::Tar'      => '1.44';
 requires      'ExtUtils::Install' => '1.52';
 requires      'ExtUtils::ParseXS' => '2.19';
-requires      'Module::Build'     => '0.31';
+requires      'Module::Build'     => '0.2804';
 test_requires 'Test::Harness'     => '3.13';
 test_requires 'Test::More'        => '0.86';
 
