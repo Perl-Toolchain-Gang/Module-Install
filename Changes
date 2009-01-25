@@ -1,7 +1,8 @@
 Changes for Perl extension Module-Install
 
 0.78 Sun 25 Jan 2009
-	- Adding inc::Module::Install::DSL for simple installs
+	- Much more aggressive dependencies, except PAR::Dist (ADAMK)
+	- Adding inc::Module::Install::DSL for simple installs (ADAMK)
         - We now avoid poking references in @INC in case they
           have strange overload behaviours.  (PJF, RT #39929)
 	- installdirs and install_as_* are now documented in
