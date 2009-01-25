@@ -20,7 +20,7 @@ sub remove_meta {
 		or die "Can't open META.yml for output:\n$!";
 	my $meta = do {local $/; <META>};
 	close META;
-	return unless $meta =~ /^generated_by: ["']?$pkg version $ver["']/m;
+	return unless $meta =~ /^generated_by: ["']?$pkg version $ver['"]/m;
 	unless (-w 'META.yml') {
 		warn "Can't remove META.yml file. Not writable.\n";
 		return;
@@ -101,9 +101,16 @@ sub dump_meta {
 	# Apply default no_index entries
 	$val->{no_index}              ||= {};
 	$val->{no_index}->{directory} ||= [];
-	foreach my $dir ( qw{ share inc t examples demo } ) {
-		next unless -d $dir;
-		push @{ $val->{no_index}->{directory} }, $dir;
+	SCOPE: {
+		my %seen = ();
+		$val->{no_index}->{directory} = [
+			sort
+			grep { not $seen{$_}++ }
+			grep { -d $_ } (
+				@{$val->{no_index}->{directory}},
+				qw{ share inc t examples demo },
+			)
+		];
 	}
 
 	# Generate the structure we'll be dumping

@@ -6,7 +6,7 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 4;
+use Test::More tests => 2;
 
 # Load the DSL module
 require_ok( 'Module::Install::DSL' );

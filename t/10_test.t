@@ -22,10 +22,13 @@ system "$^X Makefile.PL > $out 2> $err"; # check if STD* are correct
 
 ok(-e 'META.yml', 'META.yml created');
 my $meta = LoadFile('META.yml');
-#use Data::Dumper;
-#diag Dumper $meta;
-is_deeply( [sort @{ $meta->{no_index}{directory} }], [qw{ inc share t xt }], 'no_index is ok' )
-	or diag "no_index:  @{ $meta->{no_index}{directory} }";
+is_deeply(
+	[ sort @{ $meta->{no_index}->{directory} } ],
+	[ qw{ eg inc t } ],
+	'no_index is ok',
+) or diag(
+	"no_index: @{ $meta->{no_index}->{directory} }"
+);
 
 chdir '..';
 chdir '..';
