@@ -365,4 +365,4 @@ sub _CLASS ($) {
 
 1;
 
-# Copyright 2008 Adam Kennedy.
+# Copyright 2008 - 2009 Adam Kennedy.

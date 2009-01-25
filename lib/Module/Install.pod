@@ -800,7 +800,7 @@ Brian Ingerson E<lt>ingy@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002 - 2008 by Brian Ingerson, Audrey Tang
+Copyright 2002 - 2009 by Brian Ingerson, Audrey Tang
 and Adam Kennedy.
 
 This program is free software; you can redistribute it and/or
