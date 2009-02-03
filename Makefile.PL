@@ -54,3 +54,6 @@ ppport;
 install_as_cpan;
 
 WriteAll;
+
+# This isn't needed, but lets us test MYMETA.yml support
+WriteMyMeta;

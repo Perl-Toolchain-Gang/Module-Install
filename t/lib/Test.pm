@@ -18,11 +18,11 @@ BEGIN {
 }
 
 sub create_dist {
-	my $dist      = shift;
+	my $dist = shift;
+	my $opt  = shift || {};
 
 	# Clear out any existing directory
 	kill_dist( $dist );
-
 
 	my $home      = cwd;
 	my $dist_path = File::Spec->catdir('t', $dist);
@@ -31,25 +31,29 @@ sub create_dist {
 	mkdir($dist_lib,  0777) or return 0;
 	chdir $dist_path        or return 0;
 
-	open MANIFEST, '> MANIFEST' or return 0;
-	print MANIFEST <<"END_MANIFEST";
+	# Write the MANIFEST
+	open( MANIFEST, '>MANIFEST' ) or return 0;
+	print MANIFEST $opt->{MANIFEST} || <<"END_MANIFEST";
 MANIFEST
 Makefile.PL
-$dist.pm
+lib/$dist.pm
 END_MANIFEST
 	close MANIFEST;
 
-	open MAKEFILE_PL, '> Makefile.PL' or return 0;
-	print MAKEFILE_PL <<"END_MAKEFILE_PL";
+	# Write the configure script
+	open MAKEFILE_PL, '>Makefile.PL' or return 0;
+	print MAKEFILE_PL $opt->{'Makefile.PL'} || <<"END_MAKEFILE_PL";
 use inc::Module::Install;
 name    '$dist';
 license 'perl';
-WriteMakefile;
+WriteAll;
+WriteMyMeta;
 END_MAKEFILE_PL
 	close MAKEFILE_PL;
 
-	open MODULE, "> lib/$dist.pm" or return 0;
-	print MODULE <<"END_PERL_MODULE";
+	# Write the module file
+	open MODULE, ">lib/$dist.pm" or return 0;
+	print MODULE $opt->{"lib/$dist.pm"} || <<"END_MODULE";
 package $dist;
 \$VERSION = '3.21';
 use strict;
@@ -63,8 +67,9 @@ __END__
 $dist - A test module
 
 =cut
-END_PERL_MODULE
+END_MODULE
 	close MODULE;
+
 	chdir $home or return 0;
 	return 1;
 }

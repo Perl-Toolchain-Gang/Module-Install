@@ -490,4 +490,55 @@ sub _perl_version {
 	return $v;
 }
 
+
+
+
+
+######################################################################
+# MYMETA.yml Support
+
+sub WriteMyMeta {
+	$_[0]->write_mymeta;
+}
+
+sub write_mymeta {
+	my $self = shift;
+	
+	# If there's no existing META.yml there is nothing we can do
+	return unless -f 'META.yml';
+
+	# Merge the perl version into the dependencies
+	my $val  = $self->Meta->{values};
+	my $perl = delete $val->{perl_version};
+	if ( $perl ) {
+		$val->{requires} ||= [];
+		my $requires = $val->{requires};
+
+		# Canonize to three-dot version after Perl 5.6
+		if ( $perl >= 5.006 ) {
+			$perl =~ s{^(\d+)\.(\d\d\d)(\d*)}{join('.', $1, int($2||0), int($3||0))}e
+		}
+		unshift @$requires, [ perl => $perl ];
+	}
+
+	# Load the advisory META.yml file
+	require YAML::Tiny;
+	my @yaml = YAML::Tiny::LoadFile('META.yml');
+	my $meta = $yaml[0];
+
+	# Overwrite the non-configure dependency hashs
+	delete $meta->{requires};
+	delete $meta->{build_requires};
+	delete $meta->{recommends};
+	if ( exists $val->{requires} ) {
+		$meta->{requires} = { map { @$_ } @{ $val->{requires} } };
+	}
+	if ( exists $val->{build_requires} ) {
+		$meta->{build_requires} = { map { @$_ } @{ $val->{build_requires} } };
+	}
+
+	# Save as the MYMETA.yml file
+	YAML::Tiny::DumpFile('MYMETA.yml', $meta);
+}
+
 1;

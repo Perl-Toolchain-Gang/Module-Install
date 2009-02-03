@@ -2,6 +2,7 @@ Changes for Perl extension Module-Install
 
 0.79 Wed  4 Feb 2009
 	- Upgrading (and testing) Perl version normalisation
+	- Adding an experimental-grade implementation of MYMETA.yml
 
 0.78 Sun 25 Jan 2009
 	- Much more aggressive dependencies, except PAR::Dist (ADAMK)

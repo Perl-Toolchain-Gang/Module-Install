@@ -147,4 +147,18 @@ sub dump_meta {
 	YAML::Tiny::Dump($meta);
 }
 
+
+
+
+
+######################################################################
+# MYMETA.yml Support
+
+sub WriteMyMeta {
+	my $self = shift;
+	$self->configure_requires( 'YAML::Tiny' => 1.36 );
+	$self->write_mymeta;
+	return 1;
+}
+
 1;
