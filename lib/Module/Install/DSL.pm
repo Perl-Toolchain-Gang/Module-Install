@@ -47,7 +47,7 @@ turn it into Perl code.
 use strict;
 use vars qw{$VERSION $ISCORE};
 BEGIN {
-	$VERSION = '0.78';
+	$VERSION = '0.79';
 	$ISCORE  = 1;
 }
 
