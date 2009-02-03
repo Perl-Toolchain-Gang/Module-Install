@@ -1,5 +1,8 @@
 Changes for Perl extension Module-Install
 
+0.79 Wed  4 Feb 2009
+	- Upgrading (and testing) Perl version normalisation
+
 0.78 Sun 25 Jan 2009
 	- Much more aggressive dependencies, except PAR::Dist (ADAMK)
 	- Adding inc::Module::Install::DSL for simple installs (ADAMK)

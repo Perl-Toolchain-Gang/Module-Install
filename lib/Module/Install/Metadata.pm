@@ -175,19 +175,15 @@ sub perl_version {
 		"Did not provide a value to perl_version()"
 	);
 
-	# Convert triple-part versions (eg, 5.6.1 or 5.8.9) to
-	# numbers (eg, 5.006001 or 5.008009).
-	# Also, convert double-part versions (eg, 5.8)
+	# Normalize the version
+	$version = $self->_perl_version($version);
 
-	$version =~ s/^(\d+)\.(\d+)(?:\.(\d+))?$/sprintf("%d.%03d%03d",$1,$2,$3 || 0)/e;
-
-	$version =~ s/_.+$//;
-	$version = $version + 0; # Numify
+	# We don't support the reall old versions
 	unless ( $version >= 5.005 ) {
 		die "Module::Install only supports 5.005 or newer (use ExtUtils::MakeMaker)\n";
 	}
+
 	$self->{values}{perl_version} = $version;
-	return 1;
 }
 
 sub license {
@@ -477,6 +473,21 @@ sub bugtracker_from {
 	# Set the bugtracker
 	bugtracker( $links[0] );
 	return 1;
+}
+
+# Convert triple-part versions (eg, 5.6.1 or 5.8.9) to
+# numbers (eg, 5.006001 or 5.008009).
+# Also, convert double-part versions (eg, 5.8)
+sub _perl_version {
+	my $v = $_[-1];
+	$v =~ s/^([1-9])\.([1-9]\d?\d?)$/sprintf("%d.%03d",$1,$2)/e;	
+	$v =~ s/^([1-9])\.([1-9]\d?\d?)\.(0|[1-9]\d?\d?)$/sprintf("%d.%03d%03d",$1,$2,$3 || 0)/e;
+	$v =~ s/(\.\d\d\d)000$/$1/;
+	$v =~ s/_.+$//;
+	if ( ref($v) ) {
+		$v = $v + 0; # Numify
+	}
+	return $v;
 }
 
 1;

@@ -1,5 +1,4 @@
-# Normally we don't need to use strict, but for this one we'll
-# do it anyway.
+# Normally we don't need strict, but for this one we'll do it anyway.
 use strict;
 
 # Warnings need to be enabled this way, because Makefile.PL is not
@@ -15,7 +14,7 @@ BEGIN {
 # (unique to this distribution) file ./lib/inc/Module/Install.pm instead
 # of the system inc::Module::Install or the bundled inc/Module::Install.
 use lib 'lib';
-use inc::Module::Install 0.78;
+use inc::Module::Install 0.79;
 
 name          'Module-Install';
 author        'Adam Kennedy <adamk@cpan.org>';
