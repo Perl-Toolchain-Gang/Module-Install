@@ -10,17 +10,34 @@ BEGIN {
 	@ISA     = 'Module::Install::Base';
 }
 
+sub read_meta {
+	my $self = shift;
+
+	# Admin time only, so this should be okay to just die
+	require YAML::Tiny;
+
+	my @docs = YAML::Tiny::LoadFile('META.yml');
+	return $docs[0];
+}
+
+sub meta_generated_by_us {
+	my ($self, $req_version) = @_;
+
+	my $meta = $self->read_meta;
+	my $want  = ref($self->_top);
+
+	$want .= " version " . $req_version
+	  if defined $req_version;
+
+	return $meta->{generated_by} =~ /^\Q$want\E/;
+}
+
 sub remove_meta {
 	my $self = shift;
-	my $pkg  = ref($self->_top);
 	my $ver  = $self->_top->VERSION;
 
 	return unless -f 'META.yml';
-	open META, 'META.yml'
-		or die "Can't open META.yml for output:\n$!";
-	my $meta = do {local $/; <META>};
-	close META;
-	return unless $meta =~ /^generated_by: ["']?$pkg version $ver['"]/m;
+	return unless $self->meta_generated_by_us($ver);
 	unless (-w 'META.yml') {
 		warn "Can't remove META.yml file. Not writable.\n";
 		return;
@@ -35,7 +52,7 @@ sub remove_meta {
 sub write_meta {
 	my $self = shift;
 	if ( -f "META.yml" ) {
-		Module::Install::_read("META.yml") =~ /generated_by\:\s*(?:\'|\")\s*Module::Install/s or return;
+		return unless $self->meta_generated_by_us();
 	} else {
 		$self->clean_files('META.yml');
 	}
