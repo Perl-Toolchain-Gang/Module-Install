@@ -1,5 +1,7 @@
 Changes for Perl extension Module-Install
 
+        - Support for keywords in META.yml (CHORNY)
+
 0.80 Tue 17 Mar 2009
 	- Don't generate MYMETA.yml if we don't have YAML::Tiny, even if
 	  we've said we need it. This was breaking Catalyst. (ADAMK)

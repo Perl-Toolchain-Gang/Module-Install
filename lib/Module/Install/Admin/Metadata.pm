@@ -140,6 +140,9 @@ sub dump_meta {
 		next if $key eq 'tests';
 		$meta->{$key} = $val->{$key} if exists $val->{$key};
 	}
+	foreach my $key ( $self->Meta_ArrayKeys ) {
+		$meta->{$key} = $val->{$key} if exists $val->{$key};
+	}
 	foreach my $key ( $self->Meta_TupleKeys ) {
 		next unless exists $val->{$key};
 		$meta->{$key} = { map { @$_ } @{ $val->{$key} } };

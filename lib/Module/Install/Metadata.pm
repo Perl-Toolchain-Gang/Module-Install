@@ -36,16 +36,30 @@ my @resource_keys = qw{
 	repository
 };
 
+my @array_keys = qw{
+	keywords
+};
+
 sub Meta              { shift          }
 sub Meta_ScalarKeys   { @scalar_keys   }
 sub Meta_TupleKeys    { @tuple_keys    }
 sub Meta_ResourceKeys { @resource_keys }
+sub Meta_ArrayKeys    { @array_keys    }
 
 foreach my $key ( @scalar_keys ) {
 	*$key = sub {
 		my $self = shift;
 		return $self->{values}{$key} if defined wantarray and !@_;
 		$self->{values}{$key} = shift;
+		return $self;
+	};
+}
+
+foreach my $key ( @array_keys ) {
+	*$key = sub {
+		my $self = shift;
+		return $self->{values}{$key} if defined wantarray and !@_;
+		$self->{values}{$key} = [@_];
 		return $self;
 	};
 }
