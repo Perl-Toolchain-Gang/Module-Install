@@ -5,7 +5,7 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 2;
+use Test::More tests => 3;
 use YAML::Tiny qw(LoadFile);
 use File::Temp qw(tempdir);
 use File::Spec qw();
@@ -25,6 +25,13 @@ my $meta = LoadFile('META.yml');
 is_deeply(
 	[ sort @{ $meta->{no_index}->{directory} } ],
 	[ qw{ eg inc t } ],
+	'no_index is ok',
+) or diag(
+	"no_index: @{ $meta->{no_index}->{directory} }"
+);
+is_deeply(
+	$meta->{keywords},
+	[ 'kw1','kw 2'],
 	'no_index is ok',
 ) or diag(
 	"no_index: @{ $meta->{no_index}->{directory} }"
