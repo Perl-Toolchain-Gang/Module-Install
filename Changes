@@ -1,5 +1,9 @@
 Changes for Perl extension Module-Install
-        - will not ask about auto-installing mandatory dependencies, if
+
+0.80 Tue 17 Mar 2009
+	- Don't generate MYMETA.yml if we don't have YAML::Tiny, even if
+	  we've said we need it. This was breaking Catalyst. (ADAMK)
+        - Will not ask about auto-installing mandatory dependencies, if
           $ENV{PERL5_CPANPLUS_IS_RUNNING} is set (CHORNY)
 
 0.79 Wed  4 Feb 2009
