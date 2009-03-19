@@ -31,7 +31,7 @@ is_deeply(
 );
 is_deeply(
 	$meta->{keywords},
-	[ 'kw1','kw 2'],
+	[ 'kw1','kw 2','kw3'],
 	'no_index is ok',
 ) or diag(
 	"no_index: @{ $meta->{no_index}->{directory} }"

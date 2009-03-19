@@ -59,7 +59,8 @@ foreach my $key ( @array_keys ) {
 	*$key = sub {
 		my $self = shift;
 		return $self->{values}{$key} if defined wantarray and !@_;
-		$self->{values}{$key} = [@_];
+		$self->{values}{$key} ||= [];
+		push @{$self->{values}{$key}}, @_;
 		return $self;
 	};
 }
