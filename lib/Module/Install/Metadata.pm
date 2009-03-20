@@ -201,6 +201,27 @@ sub perl_version {
 	$self->{values}{perl_version} = $version;
 }
 
+#Stolen from M::B
+my %license_urls = (
+    perl         => 'http://dev.perl.org/licenses/',
+    apache       => 'http://apache.org/licenses/LICENSE-2.0',
+    artistic     => 'http://opensource.org/licenses/artistic-license.php',
+    artistic_2   => 'http://opensource.org/licenses/artistic-license-2.0.php',
+    lgpl         => 'http://opensource.org/licenses/lgpl-license.php',
+    lgpl2        => 'http://opensource.org/licenses/lgpl-2.1.php',
+    lgpl3        => 'http://opensource.org/licenses/lgpl-3.0.html',
+    bsd          => 'http://opensource.org/licenses/bsd-license.php',
+    gpl          => 'http://opensource.org/licenses/gpl-license.php',
+    gpl2         => 'http://opensource.org/licenses/gpl-2.0.php',
+    gpl3         => 'http://opensource.org/licenses/gpl-3.0.html',
+    mit          => 'http://opensource.org/licenses/mit-license.php',
+    mozilla      => 'http://opensource.org/licenses/mozilla1.1.php',
+    open_source  => undef,
+    unrestricted => undef,
+    restrictive  => undef,
+    unknown      => undef,
+);
+
 sub license {
 	my $self = shift;
 	return $self->{values}{license} unless @_;
@@ -210,8 +231,8 @@ sub license {
 	$self->{values}{license} = $license;
 
 	# Automatically fill in license URLs
-	if ( $license eq 'perl' ) {
-		$self->resources( license => 'http://dev.perl.org/licenses/' );
+	if ( $license_urls{$license} ) {
+		$self->resources( license => $license_urls{$license} );
 	}
 
 	return 1;

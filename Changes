@@ -1,6 +1,7 @@
 Changes for Perl extension Module-Install
 
         - Support for 'keywords' key in META.yml (CHORNY)
+        - More URLs for licenses (CHORNY)
 
 0.80 Tue 17 Mar 2009
 	- Don't generate MYMETA.yml if we don't have YAML::Tiny, even if
