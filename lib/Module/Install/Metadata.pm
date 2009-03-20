@@ -493,10 +493,19 @@ sub license_from {
 	return 'unknown';
 }
 
+sub _extract_bugtracker {
+	my $content = shift;
+	my @links   = $content =~ m#L<(\Qhttp://rt.cpan.org/\E[^>]+)>#g;
+	my %links;
+	@links{@links}=()x@links;
+	@links=keys %links;
+	return @links;
+}
+
 sub bugtracker_from {
 	my $self    = shift;
 	my $content = Module::Install::_read($_[0]);
-	my @links   = $content =~ m/L\<(http\:\/\/rt\.cpan\.org\/[^>]+)\>/g;
+	my @links   = _extract_bugtracker($content);
 	unless ( @links ) {
 		warn "Cannot determine bugtracker info from $_[0]\n";
 		return 0;
