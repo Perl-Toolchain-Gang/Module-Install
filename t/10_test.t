@@ -5,7 +5,7 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 3;
+use Test::More tests => 5;
 use YAML::Tiny qw(LoadFile);
 use File::Temp qw(tempdir);
 use File::Spec qw();
@@ -36,6 +36,8 @@ is_deeply(
 ) or diag(
 	"no_index: @{ $meta->{no_index}->{directory} }"
 );
+is($meta->{license},'apache','license');
+is($meta->{resources}{license},'http://apache.org/licenses/LICENSE-2.0','license URL');
 
 chdir '..';
 chdir '..';

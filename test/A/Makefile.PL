@@ -10,5 +10,6 @@ no_index      'directory'  => qw{ t xt share inc };
 install_share 'eg';
 keywords      'kw1','kw 2';
 keywords      'kw3';
+license       'apache';
 
 WriteAll;
