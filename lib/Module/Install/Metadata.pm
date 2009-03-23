@@ -83,55 +83,21 @@ foreach my $key ( @resource_keys ) {
 	};
 }
 
-sub requires {
-	my $self = shift;
-	while ( @_ ) {
-		my $module  = shift or last;
-		my $version = shift || 0;
-		push @{ $self->{values}{requires} }, [ $module, $version ];
-	}
-	$self->{values}{requires};
+foreach my $key ( grep {$_ ne "resources"} @tuple_keys) {
+	*$key = sub {
+		my $self = shift;
+		return $self->{values}{$key} unless @_;
+		my @added;
+		while ( @_ ) {
+			my $module  = shift or last;
+			my $version = shift || 0;
+			push @added, [ $module, $version ];
+		}
+		push @{ $self->{values}{$key} }, @added;
+		return map {@$_} @added;
+	};
 }
 
-sub build_requires {
-	my $self = shift;
-	while ( @_ ) {
-		my $module  = shift or last;
-		my $version = shift || 0;
-		push @{ $self->{values}{build_requires} }, [ $module, $version ];
-	}
-	$self->{values}{build_requires};
-}
-
-sub configure_requires {
-	my $self = shift;
-	while ( @_ ) {
-		my $module  = shift or last;
-		my $version = shift || 0;
-		push @{ $self->{values}{configure_requires} }, [ $module, $version ];
-	}
-	$self->{values}{configure_requires};
-}
-
-sub recommends {
-	my $self = shift;
-	while ( @_ ) {
-		my $module  = shift or last;
-		my $version = shift || 0;
-		push @{ $self->{values}{recommends} }, [ $module, $version ];
-	}
-	$self->{values}{recommends};
-}
-
-sub bundles {
-	my $self = shift;
-	while ( @_ ) {
-		my $module  = shift or last;
-		my $version = shift || 0;
-		push @{ $self->{values}{bundles} }, [ $module, $version ];
-	}
-	$self->{values}{bundles};
-}
 
 # Resource handling
 my %lc_resource = map { $_ => 1 } qw{
