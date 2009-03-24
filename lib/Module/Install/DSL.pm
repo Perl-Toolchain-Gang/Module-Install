@@ -3,7 +3,7 @@ package Module::Install::DSL;
 use strict;
 use vars qw{$VERSION $ISCORE};
 BEGIN {
-	$VERSION = '0.81';
+	$VERSION = '0.81_01';
 	$ISCORE  = 1;
 }
 

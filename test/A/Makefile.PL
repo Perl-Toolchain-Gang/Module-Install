@@ -1,4 +1,4 @@
-use inc::Module::Install 0.81;
+use inc::Module::Install;
 
 name          'A';
 license       'perl';

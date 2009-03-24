@@ -7,7 +7,7 @@ use vars qw{$VERSION};
 BEGIN {
 	$|       = 1;
 	$^W      = 1;
-	$VERSION = '0.81';
+	$VERSION = '0.81_01';
 }
 
 use Test::More tests => 2;

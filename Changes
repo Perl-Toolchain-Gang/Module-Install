@@ -1,6 +1,6 @@
 Changes for Perl extension Module-Install
 
-0.81 ???
+0.81_01 Tue 24 Mar 2009 - Adam Kennedy
 	- Use 3-argument open when Perl >= 5.006 (ADAMK)
         - Support for 'keywords' key in META.yml (CHORNY)
         - More URLs for licenses, test for this (CHORNY)

@@ -14,7 +14,7 @@ BEGIN {
 # (unique to this distribution) file ./lib/inc/Module/Install.pm instead
 # of the system inc::Module::Install or the bundled ./inc/Module/Install.pm
 use lib 'lib';
-use inc::Module::Install 0.81;
+use inc::Module::Install;
 
 name          'Module-Install';
 author        'Adam Kennedy <adamk@cpan.org>';
