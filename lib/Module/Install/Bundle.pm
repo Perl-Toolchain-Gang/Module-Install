@@ -9,7 +9,7 @@ use File::Basename ();
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {
-	$VERSION = '0.80';
+	$VERSION = '0.81';
 	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
 }

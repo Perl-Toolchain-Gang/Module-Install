@@ -18,21 +18,21 @@ BEGIN {
 	# version an author currently has installed.
 	# This allows it to implement any back-compatibility features
 	# it may want or need to.
-	$VERSION = '0.80';	
+	$VERSION = '0.81';	
 }
 
 if ( -d './inc' ) {
-  my $author = $^O eq 'VMS' ? './inc/_author' : './inc/.author';
-  if ( -d $author ) {
-    $Module::Install::AUTHOR = 1;
-    require File::Path;
-    File::Path::rmtree('inc');
-  }
+	my $author = $^O eq 'VMS' ? './inc/_author' : './inc/.author';
+	if ( -d $author ) {
+		$Module::Install::AUTHOR = 1;
+		require File::Path;
+		File::Path::rmtree('inc');
+	}
 } else {
-  $Module::Install::AUTHOR = 1;
+	$Module::Install::AUTHOR = 1;
 }
 
-unshift @INC, 'inc';
+unshift @INC, 'inc' unless $INC[0] eq 'inc';
 require Module::Install;
 
 1;
@@ -43,7 +43,7 @@ __END__
 
 =head1 NAME
 
-inc::Module::Install - Module::Install loader
+inc::Module::Install - Module::Install configuration system
 
 =head1 SYNOPSIS
 

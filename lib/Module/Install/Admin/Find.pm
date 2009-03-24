@@ -3,7 +3,7 @@ package Module::Install::Admin::Find;
 use Module::Install::Base;
 @ISA = qw(Module::Install::Base);
 
-$VERSION = '0.80';
+$VERSION = '0.81';
 
 use strict;
 use File::Find ();

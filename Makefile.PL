@@ -12,9 +12,9 @@ BEGIN {
 # bootstrap itself. Other module distributions using Module::Install
 # do not need it. It causes inc::Module::Install to load from the
 # (unique to this distribution) file ./lib/inc/Module/Install.pm instead
-# of the system inc::Module::Install or the bundled inc/Module::Install.
+# of the system inc::Module::Install or the bundled ./inc/Module/Install.pm
 use lib 'lib';
-use inc::Module::Install 0.79;
+use inc::Module::Install 0.81;
 
 name          'Module-Install';
 author        'Adam Kennedy <adamk@cpan.org>';
@@ -33,13 +33,16 @@ requires      'Module::Build'     => '0.2804';
 test_requires 'Test::Harness'     => '3.13';
 test_requires 'Test::More'        => '0.86';
 
-# Normally this shouldn't be done in here, it should be done
-# by release automation. This is mostly for testing reasons.
-repository    'http://svn.ali.as/cpan/trunk/Module-Install';
-
 # Should be a "requires", but we have to solve the
 # "auto-include File::Spec if version < 5.005" problem first.
 test_requires 'File::Spec'        => '3.2701';
+
+# We have to keep some files out of t to avoid them
+# being included in t/A.
+no_index( directory => 'test' );
+
+# Test configure_requires support (also needed by WriteMyMeta)
+configure_requires 'YAML::Tiny'   => '1.33';
 
 # Makes the recursive test script run
 # (to test recursive test support)
@@ -51,9 +54,16 @@ install_share;
 # This isn't needed, but lets us test Devel::PPPort support
 ppport;
 
+# This is a normal CPAN module
 install_as_cpan;
+
+# Normally this shouldn't be done in here, it should be done
+# by release automation. This is mostly for testing reasons.
+repository 'http://svn.ali.as/cpan/trunk/Module-Install';
+
+# This lets us test MYMETA.yml support
+mymeta;
 
 WriteAll;
 
-# This isn't needed, but lets us test MYMETA.yml support
-WriteMyMeta;
+1;

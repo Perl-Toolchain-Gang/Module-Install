@@ -8,7 +8,7 @@ use Config;
 
 use vars qw{$VERSION @ISA @EXPORT};
 BEGIN {
-	$VERSION = '0.80';
+	$VERSION = '0.81';
 	@ISA     = 'Exporter';
 	@EXPORT  = qw{
 		create_dist
@@ -43,9 +43,11 @@ END_MANIFEST
 	# Write the configure script
 	open MAKEFILE_PL, '>Makefile.PL' or return 0;
 	print MAKEFILE_PL $opt->{'Makefile.PL'} || <<"END_MAKEFILE_PL";
-use inc::Module::Install;
-name    '$dist';
-license 'perl';
+use inc::Module::Install 0.81;
+name          '$dist';
+license       'perl';
+requires_from 'lib/$dist.pm';
+requires      'File::Spec' => '0.79';
 WriteAll;
 WriteMyMeta;
 END_MAKEFILE_PL
@@ -55,8 +57,11 @@ END_MAKEFILE_PL
 	open MODULE, ">lib/$dist.pm" or return 0;
 	print MODULE $opt->{"lib/$dist.pm"} || <<"END_MODULE";
 package $dist;
+
 \$VERSION = '3.21';
+
 use strict;
+use File::Spec 0.80;
 
 1;
 

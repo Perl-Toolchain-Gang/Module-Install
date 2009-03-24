@@ -7,7 +7,7 @@ use Devel::PPPort ();
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '0.80';
+	$VERSION = '0.81';
 	@ISA     = qw{Module::Install::Base};
 }
 
@@ -17,12 +17,11 @@ sub ppport {
 	if ( -f $file ) {
 		# Update the file to a newer version
 		File::Remove::remove($file);
-		Devel::PPPort::WriteFile( $file ) or die "Failed to write $file";
-	} else {
-		# Install the file (and remove on realclean)
-		Devel::PPPort::WriteFile( $file ) or die "Failed to write $file";
-		$self->realclean_files( $file );
 	}
+
+	# Install the file (and remove on realclean)
+	Devel::PPPort::WriteFile( $file ) or die "Failed to write $file";
+	$self->realclean_files( $file );
 }
 
 1;

@@ -1,11 +1,11 @@
 #!/usr/bin/perl
 
+use strict;
 BEGIN {
 	$|  = 1;
 	$^W = 0;
 }
 
-use strict;
 use Test::More;
 BEGIN {
 	if ( $ENV{RELEASE_TESTING} ) {

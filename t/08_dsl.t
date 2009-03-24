@@ -1,6 +1,8 @@
 #!/usr/bin/perl
 
 # Tests for Module::Install::DSL
+
+use strict;
 BEGIN {
 	$|  = 1;
 	$^W = 1;
@@ -9,7 +11,7 @@ BEGIN {
 use Test::More tests => 2;
 
 # Load the DSL module
-require_ok( 'Module::Install::DSL' );
+require_ok( 'inc::Module::Install::DSL' );
 
 # Generate code from a simple dsl block
 my $code = Module::Install::DSL::dsl2code(<<'END_DSL');

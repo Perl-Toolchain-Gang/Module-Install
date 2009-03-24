@@ -1,14 +1,14 @@
-#!/usr/bin/perl -w
-use strict;
+#!/usr/bin/perl
 
+use strict;
 BEGIN {
         $|  = 1;
         $^W = 1;
 }
 
 use Test::More tests => 14;
-require_ok( 'Module::Install::Metadata' );
 
+require_ok( 'Module::Install::Metadata' );
 my $metadata = Module::Install::Metadata->new;
 
 

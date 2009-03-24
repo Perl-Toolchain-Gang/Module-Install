@@ -3,12 +3,17 @@ package Module::Install::Metadata;
 use strict 'vars';
 use Module::Install::Base;
 
-use vars qw{$VERSION $ISCORE @ISA};
+use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '0.80';
-	$ISCORE  = 1;
+	$VERSION = '0.81';
 	@ISA     = qw{Module::Install::Base};
+	$ISCORE  = 1;
 }
+
+my @boolean_keys = qw{
+	sign
+	mymeta
+};
 
 my @scalar_keys = qw{
 	name
@@ -41,16 +46,28 @@ my @array_keys = qw{
 };
 
 sub Meta              { shift          }
+sub Meta_BooleanKeys  { @boolean_keys  }
 sub Meta_ScalarKeys   { @scalar_keys   }
 sub Meta_TupleKeys    { @tuple_keys    }
 sub Meta_ResourceKeys { @resource_keys }
 sub Meta_ArrayKeys    { @array_keys    }
 
+foreach my $key ( @boolean_keys ) {
+	*$key = sub {
+		my $self = shift;
+		if ( defined wantarray and not @_ ) {
+			return $self->{values}->{$key};
+		}
+		$self->{values}->{$key} = ( @_ ? $_[0] : 1 );
+		return $self;
+	};
+}
+
 foreach my $key ( @scalar_keys ) {
 	*$key = sub {
 		my $self = shift;
-		return $self->{values}{$key} if defined wantarray and !@_;
-		$self->{values}{$key} = shift;
+		return $self->{values}->{$key} if defined wantarray and !@_;
+		$self->{values}->{$key} = shift;
 		return $self;
 	};
 }
@@ -58,9 +75,9 @@ foreach my $key ( @scalar_keys ) {
 foreach my $key ( @array_keys ) {
 	*$key = sub {
 		my $self = shift;
-		return $self->{values}{$key} if defined wantarray and !@_;
-		$self->{values}{$key} ||= [];
-		push @{$self->{values}{$key}}, @_;
+		return $self->{values}->{$key} if defined wantarray and !@_;
+		$self->{values}->{$key} ||= [];
+		push @{$self->{values}->{$key}}, @_;
 		return $self;
 	};
 }
@@ -69,12 +86,12 @@ foreach my $key ( @resource_keys ) {
 	*$key = sub {
 		my $self = shift;
 		unless ( @_ ) {
-			return () unless $self->{values}{resources};
+			return () unless $self->{values}->{resources};
 			return map  { $_->[1] }
 			       grep { $_->[0] eq $key }
-			       @{ $self->{values}{resources} };
+			       @{ $self->{values}->{resources} };
 		}
-		return $self->{values}{resources}{$key} unless @_;
+		return $self->{values}->{resources}->{$key} unless @_;
 		my $uri = shift or die(
 			"Did not provide a value to $key()"
 		);
@@ -83,21 +100,20 @@ foreach my $key ( @resource_keys ) {
 	};
 }
 
-foreach my $key ( grep {$_ ne "resources"} @tuple_keys) {
+foreach my $key ( grep { $_ ne "resources" } @tuple_keys) {
 	*$key = sub {
 		my $self = shift;
-		return $self->{values}{$key} unless @_;
+		return $self->{values}->{$key} unless @_;
 		my @added;
 		while ( @_ ) {
 			my $module  = shift or last;
 			my $version = shift || 0;
 			push @added, [ $module, $version ];
 		}
-		push @{ $self->{values}{$key} }, @added;
+		push @{ $self->{values}->{$key} }, @added;
 		return map {@$_} @added;
 	};
 }
-
 
 # Resource handling
 my %lc_resource = map { $_ => 1 } qw{
@@ -115,29 +131,22 @@ sub resources {
 		if ( $name eq lc $name and ! $lc_resource{$name} ) {
 			die("Unsupported reserved lowercase resource '$name'");
 		}
-		$self->{values}{resources} ||= [];
-		push @{ $self->{values}{resources} }, [ $name, $value ];
+		$self->{values}->{resources} ||= [];
+		push @{ $self->{values}->{resources} }, [ $name, $value ];
 	}
-	$self->{values}{resources};
+	$self->{values}->{resources};
 }
 
 # Aliases for build_requires that will have alternative
 # meanings in some future version of META.yml.
-sub test_requires      { shift->build_requires(@_) }
-sub install_requires   { shift->build_requires(@_) }
+sub test_requires     { shift->build_requires(@_) }
+sub install_requires  { shift->build_requires(@_) }
 
 # Aliases for installdirs options
-sub install_as_core    { $_[0]->installdirs('perl')   }
-sub install_as_cpan    { $_[0]->installdirs('site')   }
-sub install_as_site    { $_[0]->installdirs('site')   }
-sub install_as_vendor  { $_[0]->installdirs('vendor') }
-
-sub sign {
-	my $self = shift;
-	return $self->{values}{sign} if defined wantarray and ! @_;
-	$self->{values}{sign} = ( @_ ? $_[0] : 1 );
-	return $self;
-}
+sub install_as_core   { $_[0]->installdirs('perl')   }
+sub install_as_cpan   { $_[0]->installdirs('site')   }
+sub install_as_site   { $_[0]->installdirs('site')   }
+sub install_as_vendor { $_[0]->installdirs('vendor') }
 
 sub dynamic_config {
 	my $self = shift;
@@ -145,13 +154,13 @@ sub dynamic_config {
 		warn "You MUST provide an explicit true/false value to dynamic_config\n";
 		return $self;
 	}
-	$self->{values}{dynamic_config} = $_[0] ? 1 : 0;
+	$self->{values}->{dynamic_config} = $_[0] ? 1 : 0;
 	return 1;
 }
 
 sub perl_version {
 	my $self = shift;
-	return $self->{values}{perl_version} unless @_;
+	return $self->{values}->{perl_version} unless @_;
 	my $version = shift or die(
 		"Did not provide a value to perl_version()"
 	);
@@ -164,7 +173,7 @@ sub perl_version {
 		die "Module::Install only supports 5.005 or newer (use ExtUtils::MakeMaker)\n";
 	}
 
-	$self->{values}{perl_version} = $version;
+	$self->{values}->{perl_version} = $version;
 }
 
 #Stolen from M::B
@@ -190,11 +199,11 @@ my %license_urls = (
 
 sub license {
 	my $self = shift;
-	return $self->{values}{license} unless @_;
+	return $self->{values}->{license} unless @_;
 	my $license = shift or die(
 		'Did not provide a value to license()'
 	);
-	$self->{values}{license} = $license;
+	$self->{values}->{license} = $license;
 
 	# Automatically fill in license URLs
 	if ( $license_urls{$license} ) {
@@ -240,7 +249,7 @@ sub all_from {
 
 sub provides {
 	my $self     = shift;
-	my $provides = ( $self->{values}{provides} ||= {} );
+	my $provides = ( $self->{values}->{provides} ||= {} );
 	%$provides = (%$provides, @_) if @_;
 	return $provides;
 }
@@ -269,7 +278,7 @@ sub auto_provides {
 sub feature {
 	my $self     = shift;
 	my $name     = shift;
-	my $features = ( $self->{values}{features} ||= [] );
+	my $features = ( $self->{values}->{features} ||= [] );
 	my $mods;
 
 	if ( @_ == 1 and ref( $_[0] ) ) {
@@ -297,16 +306,16 @@ sub features {
 	while ( my ( $name, $mods ) = splice( @_, 0, 2 ) ) {
 		$self->feature( $name, @$mods );
 	}
-	return $self->{values}{features}
-		? @{ $self->{values}{features} }
+	return $self->{values}->{features}
+		? @{ $self->{values}->{features} }
 		: ();
 }
 
 sub no_index {
 	my $self = shift;
 	my $type = shift;
-	push @{ $self->{values}{no_index}{$type} }, @_ if $type;
-	return $self->{values}{no_index};
+	push @{ $self->{values}->{no_index}->{$type} }, @_ if $type;
+	return $self->{values}->{no_index};
 }
 
 sub read {
@@ -485,6 +494,17 @@ sub bugtracker_from {
 	return 1;
 }
 
+sub requires_from {
+	my $self     = shift;
+	my $content  = Module::Install::_readperl($_[0]);
+	my @requires = $content =~ m/^use\s+([^\W\d]\w*(?:::\w+)*)\s+([\d\.]+)/mg;
+	while ( @requires ) {
+		my $module  = shift @requires;
+		my $version = shift @requires;
+		$self->requires( $module => $version );
+	}
+}
+
 # Convert triple-part versions (eg, 5.6.1 or 5.8.9) to
 # numbers (eg, 5.006001 or 5.008009).
 # Also, convert double-part versions (eg, 5.8)
@@ -552,6 +572,7 @@ sub write_mymeta {
 	}
 
 	# Save as the MYMETA.yml file
+	print "Writing MYMETA.yml\n";
 	YAML::Tiny::DumpFile('MYMETA.yml', $meta);
 }
 

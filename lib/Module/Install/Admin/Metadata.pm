@@ -6,36 +6,33 @@ use Module::Install::Base;
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '0.80';
+	$VERSION = '0.81';
 	@ISA     = 'Module::Install::Base';
 }
 
 sub read_meta {
-	my $self = shift;
-
-	# Admin time only, so this should be okay to just die
+	# Admin time means no eval is needed
 	require YAML::Tiny;
 
+	my $self = shift;
 	my @docs = YAML::Tiny::LoadFile('META.yml');
 	return $docs[0];
 }
 
 sub meta_generated_by_us {
-	my ($self, $req_version) = @_;
-
+	my $self = shift;
+	my $need = shift;
 	my $meta = $self->read_meta;
-	my $want  = ref($self->_top);
-
-	$want .= " version " . $req_version
-	  if defined $req_version;
-
+	my $want = ref($self->_top);
+	if ( defined $need ) {
+		$want .= " version $need";
+	}
 	return $meta->{generated_by} =~ /^\Q$want\E/;
 }
 
 sub remove_meta {
 	my $self = shift;
 	my $ver  = $self->_top->VERSION;
-
 	return unless -f 'META.yml';
 	return unless $self->meta_generated_by_us($ver);
 	unless (-w 'META.yml') {

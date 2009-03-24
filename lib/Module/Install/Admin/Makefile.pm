@@ -6,7 +6,7 @@ use ExtUtils::MakeMaker ();
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '0.80';
+	$VERSION = '0.81';
 	@ISA     = qw{Module::Install::Base};
 }
 
@@ -21,8 +21,9 @@ sub postamble {
 
 realclean purge ::
 \t\$(RM_F) \$(DISTVNAME).tar\$(SUFFIX)
-\t\$(RM_RF) inc MANIFEST.bak _build
-\t\$(PERL) -I. "-M$admin_class" -e "remove_meta()"
+\t\$(RM_F) MANIFEST.bak _build
+\t\$(PERL) "-Ilib" "-M$admin_class" -e "remove_meta()"
+\t\$(RM_RF) inc
 
 reset :: purge
 

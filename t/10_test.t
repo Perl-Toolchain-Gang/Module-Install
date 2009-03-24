@@ -1,27 +1,29 @@
 #!/usr/bin/perl
 
+use strict;
 BEGIN {
 	$|  = 1;
 	$^W = 1;
 }
 
 use Test::More tests => 5;
-use YAML::Tiny qw(LoadFile);
-use File::Temp qw(tempdir);
-use File::Spec qw();
+use Config                ();
+use File::Spec::Functions ':ALL';
+use File::Temp            ();
+use YAML::Tiny            ();
 
-my $dir = tempdir ( CLEANUP => 1 );
+chdir( catdir('test', 'A') );
+unlink( 'META.yml', 'MYMETA.yml' );
 
-chdir 'test';
-chdir 'A';
+my $dir = File::Temp::tempdir( CLEANUP => 1 );
+my $out = File::Spec->catfile( $dir, 'out'  );
+my $err = File::Spec->catfile( $dir, 'err'  );
 
-unlink 'META.yml';
-my $out = File::Spec->catfile( $dir, 'out' );
-my $err = File::Spec->catfile( $dir, 'err' );
-system "$^X Makefile.PL > $out 2> $err"; # check if STD* are correct
+system("$^X Makefile.PL > $out 2> $err");
 
-ok(-e 'META.yml', 'META.yml created');
-my $meta = LoadFile('META.yml');
+ok( -e 'META.yml', 'META.yml created' );
+my $meta = YAML::Tiny::LoadFile('META.yml');
+
 is_deeply(
 	[ sort @{ $meta->{no_index}->{directory} } ],
 	[ qw{ eg inc t } ],
@@ -37,7 +39,6 @@ is_deeply(
 	"no_index: @{ $meta->{no_index}->{directory} }"
 );
 is($meta->{license},'apache','license');
-is($meta->{resources}{license},'http://apache.org/licenses/LICENSE-2.0','license URL');
+is($meta->{resources}->{license},'http://apache.org/licenses/LICENSE-2.0','license URL');
 
-chdir '..';
-chdir '..';
+chdir( catdir( updir(), updir() ) );
