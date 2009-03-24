@@ -528,7 +528,7 @@ sub _perl_version {
 # MYMETA.yml Support
 
 sub WriteMyMeta {
-	$_[0]->write_mymeta;
+	die "WriteMyMeta has been deprecated";
 }
 
 sub write_mymeta {

@@ -21,7 +21,6 @@ sub WriteAll {
 	);
 
 	$self->sign(1)                if $args{sign};
-	$self->Meta->write            if $args{meta};
 	$self->admin->WriteAll(%args) if $self->is_admin;
 
 	$self->check_nmake if $args{check_nmake};
@@ -34,6 +33,13 @@ sub WriteAll {
 	} else {
 		$self->Makefile->write;
 	}
+
+	# The Makefile write process adds a couple of dependencies,
+	# so write the META.yml files after the Makefile.
+	$self->Meta->write        if $args{meta};
+	$self->Meta->write_mymeta if $self->mymeta;
+
+	return 1;
 }
 
 1;

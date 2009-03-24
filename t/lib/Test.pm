@@ -1,8 +1,8 @@
 package t::lib::Test;
 
 use strict;
-use File::Spec;
-use File::Remove 'remove';
+use File::Spec   ();
+use File::Remove ();
 use Cwd;
 use Config;
 
@@ -48,8 +48,8 @@ name          '$dist';
 license       'perl';
 requires_from 'lib/$dist.pm';
 requires      'File::Spec' => '0.79';
+mymeta;
 WriteAll;
-WriteMyMeta;
 END_MAKEFILE_PL
 	close MAKEFILE_PL;
 
@@ -94,7 +94,7 @@ sub kill_dist {
 	my $dist = shift;
 	my $dir = File::Spec->catdir('t', $dist);
 	return 1 unless -d $dir;
-	remove( \1, $dir );
+	File::Remove::remove( \1, $dir );
 	return -d $dir ? 0 : 1;
 }
 

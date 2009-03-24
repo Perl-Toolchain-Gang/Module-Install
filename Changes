@@ -21,7 +21,10 @@ Changes for Perl extension Module-Install
 	- Add a "Writing MYMETA.yml" status message (ADAMK)
 	- Generalising boolean commands (ADAMK)
 	- Cleaner removal of files during realclean (ADAMK)
-	- 
+	- Write META.yml and MYMETA.yml after Makefile to pick up a couple
+	  of extra implicit dependencies. (ADAMK)
+	- Set a high configure_requires on ExtUtils::MakeMaker for any client
+	  that supports configure_requires. (ADAMK)
 
 0.80 Tue 17 Mar 2009 - Adam Kennedy
 	- Don't generate MYMETA.yml if we don't have YAML::Tiny, even if
