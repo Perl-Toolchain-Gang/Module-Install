@@ -8,8 +8,6 @@ Changes for Perl extension Module-Install
           will more correctly extract them (CHORNY)
 	- Adding version-normalising Module::Install::_cmp
 	  (for <=> equivalent on versions) (ADAMK)
-        - Will not ask about auto-installing mandatory dependencies
-	  if $ENV{PERL5_CPANPLUS_IS_RUNNING} is set (CHORNY)
 	- If the Makefile.PL time is in the future by only a few seconds
 	  (probably due to 2-second filesystem time rounding on Win32)
 	  sleep for 5 seconds to avoid the problem. (ADAMK)
@@ -26,7 +24,7 @@ Changes for Perl extension Module-Install
 	- Set a high configure_requires on ExtUtils::MakeMaker for any client
 	  that supports configure_requires. (ADAMK)
 	- Add a full resolution test for Module::Install::DSL (ADAMK)
-	- If we write MYMETA.yml, remote it at realclean time (ADAMK)
+	- If we write MYMETA.yml, remove it at realclean time (ADAMK)
 	- Removed the 'Removing META.yml' warning
 
 0.80 Tue 17 Mar 2009 - Adam Kennedy
