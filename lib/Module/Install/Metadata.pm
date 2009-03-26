@@ -5,7 +5,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '0.81_01';
+	$VERSION = '0.81';
 	@ISA     = qw{Module::Install::Base};
 	$ISCORE  = 1;
 }
@@ -573,7 +573,7 @@ sub write_mymeta {
 
 	# Save as the MYMETA.yml file
 	print "Writing MYMETA.yml\n";
-	YAML::Tiny::DumpFile('MYMETA.yml', $meta);
+	YAML::Tiny::DumpFile('MYMETA.yml', $meta);	
 }
 
 1;

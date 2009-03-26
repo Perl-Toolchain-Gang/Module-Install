@@ -18,7 +18,7 @@ BEGIN {
 	# version an author currently has installed.
 	# This allows it to implement any back-compatibility features
 	# it may want or need to.
-	$VERSION = '0.81_01';	
+	$VERSION = '0.81';	
 }
 
 if ( -d './inc' ) {
@@ -35,6 +35,11 @@ if ( -d './inc' ) {
 unshift @INC, 'inc' unless $INC[0] eq 'inc';
 require inc::Module::Install;
 require Module::Install::DSL;
+
+# Tie our import to the main one
+sub import {
+	goto &Module::Install::DSL::import;
+}
 
 1;
 

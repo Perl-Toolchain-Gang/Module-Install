@@ -5,7 +5,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '0.81_01';
+	$VERSION = '0.81';
 	@ISA     = qw{Module::Install::Base};
 	$ISCORE  = 1;
 }
@@ -27,6 +27,10 @@ sub WriteAll {
 	unless ( $self->makemaker_args->{PL_FILES} ) {
 		$self->makemaker_args( PL_FILES => {} );
 	}
+
+	# Until ExtUtils::MakeMaker support MYMETA.yml, make sure
+	# we clean it up properly ourself.
+	$self->realclean_files('MYMETA.yml');
 
 	if ( $args{inline} ) {
 		$self->Inline->write;

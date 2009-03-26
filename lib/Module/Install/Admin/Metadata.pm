@@ -6,7 +6,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '0.81_01';
+	$VERSION = '0.81';
 	@ISA     = 'Module::Install::Base';
 }
 
@@ -39,7 +39,7 @@ sub remove_meta {
 		warn "Can't remove META.yml file. Not writable.\n";
 		return;
 	}
-	warn "Removing auto-generated META.yml\n";
+	# warn "Removing auto-generated META.yml\n";
 	unless ( unlink 'META.yml' ) {
 		die "Couldn't unlink META.yml:\n$!";
 	}

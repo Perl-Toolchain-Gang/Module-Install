@@ -1,6 +1,6 @@
 Changes for Perl extension Module-Install
 
-0.81_01 Tue 24 Mar 2009 - Adam Kennedy
+0.81 Tue 24 Mar 2009 - Adam Kennedy
 	- Use 3-argument open when Perl >= 5.006 (ADAMK)
         - Support for 'keywords' key in META.yml (CHORNY)
         - More URLs for licenses, test for this (CHORNY)
@@ -25,6 +25,9 @@ Changes for Perl extension Module-Install
 	  of extra implicit dependencies. (ADAMK)
 	- Set a high configure_requires on ExtUtils::MakeMaker for any client
 	  that supports configure_requires. (ADAMK)
+	- Add a full resolution test for Module::Install::DSL (ADAMK)
+	- If we write MYMETA.yml, remote it at realclean time (ADAMK)
+	- Removed the 'Removing META.yml' warning
 
 0.80 Tue 17 Mar 2009 - Adam Kennedy
 	- Don't generate MYMETA.yml if we don't have YAML::Tiny, even if

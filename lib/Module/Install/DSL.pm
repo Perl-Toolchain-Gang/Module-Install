@@ -3,7 +3,7 @@ package Module::Install::DSL;
 use strict;
 use vars qw{$VERSION $ISCORE};
 BEGIN {
-	$VERSION = '0.81_01';
+	$VERSION = '0.81';
 	$ISCORE  = 1;
 }
 
@@ -21,10 +21,11 @@ sub import {
 
 	# Change inc::Module::Install::DSL to the regular one.
 	# Remove anything before the use inc::... line.
-	$dsl =~ s/.*?^\s*use\s+inc::Module::Install::DSL(\b[^;]*);\s*\n//sm;
+	$dsl =~ s/.*?^\s*use\s+(?:inc::)?Module::Install::DSL(\b[^;]*);\s*\n//sm;
 
 	# Convert the basic syntax to code
 	my $code = "package main;\n\n"
+	         . "use inc::Module::Install;\n\n"
 	         . dsl2code($dsl)
 	         . "\n\nWriteAll();\n";
 

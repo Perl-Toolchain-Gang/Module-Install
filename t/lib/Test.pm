@@ -8,7 +8,7 @@ use Config;
 
 use vars qw{$VERSION @ISA @EXPORT};
 BEGIN {
-	$VERSION = '0.81_01';
+	$VERSION = '0.81';
 	@ISA     = 'Exporter';
 	@EXPORT  = qw{
 		create_dist
@@ -29,7 +29,7 @@ sub create_dist {
 	my $dist_lib  = File::Spec->catdir('t', $dist, 'lib');
 	mkdir($dist_path, 0777) or return 0;
 	mkdir($dist_lib,  0777) or return 0;
-	chdir $dist_path        or return 0;
+	chdir($dist_path      ) or return 0;
 
 	# Write the MANIFEST
 	open( MANIFEST, '>MANIFEST' ) or return 0;

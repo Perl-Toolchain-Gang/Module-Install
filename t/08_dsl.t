@@ -8,7 +8,8 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 2;
+use Test::More tests => 5;
+use t::lib::Test;
 
 # Load the DSL module
 require_ok( 'inc::Module::Install::DSL' );
@@ -31,3 +32,21 @@ requires 'Win32' if win32;
 test_requires 'Test::More';
 install_share;
 END_PERL
+
+
+
+
+
+#####################################################################
+# Full scan dist run
+
+ok( create_dist( 'Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
+use inc::Module::Install::DSL 0.81;
+name          Foo
+license       perl
+requires_from lib/Foo.pm
+requires      File::Spec   0.79
+mymeta
+END_DSL
+ok( build_dist('Foo'),  'build_dist'  );
+ok( kill_dist('Foo'),   'kill_dist'   );
