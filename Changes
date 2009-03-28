@@ -1,5 +1,9 @@
 Changes for Perl extension Module-Install
 
+        - Fixes to Module/AutoInstall.pm: (MSTROUT)
+          - don't prompt for required dependencies under CPAN/CPANPLUS
+          - allow PERL_AUTOINSTALL_PREFER_CPAN env var to disable cpanp use
+
 0.81 Tue 24 Mar 2009 - Adam Kennedy
 	- Use 3-argument open when Perl >= 5.006 (ADAMK)
         - Support for 'keywords' key in META.yml (CHORNY)
