@@ -148,7 +148,7 @@ sub dump_meta {
 	if ($meta->{configure_requires}{'ExtUtils::MakeMaker'} ge '6.37_03') {
 	#Starting from this version ExtUtils::MakeMaker requires perl 5.6
 	        if (!$perl_version or $perl_version && $self->perl_version($perl_version)<5.006) {
-	                $meta->{configure_requires}{perl}='5.6.0';
+	                $meta->{requires}{perl}='5.6.0';
 	        }
 	}
 

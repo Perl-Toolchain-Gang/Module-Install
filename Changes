@@ -1,5 +1,7 @@
 Changes for Perl extension Module-Install
 
+        - if configure_requires has ExtUtils::MakeMaker and it's version
+          requires perl 5.6, require perl 5.6 for dist in META.yml (CHORNY)
         - Fixes to Module/AutoInstall.pm: (MSTROUT)
           - don't prompt for required dependencies under CPAN/CPANPLUS
           - allow PERL_AUTOINSTALL_PREFER_CPAN env var to disable cpanp use
