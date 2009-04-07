@@ -207,11 +207,17 @@ sub fix_up_makefile {
 	my $makefile = do { local $/; <MAKEFILE> };
 	close MAKEFILE or die $!;
 
-	$makefile =~ s/\b(test_harness\(\$\(TEST_VERBOSE\), )/$1'inc', /;
-	$makefile =~ s/( -I\$\(INST_ARCHLIB\))/ -Iinc$1/g;
-	$makefile =~ s/( "-I\$\(INST_LIB\)")/ "-Iinc"$1/g;
-	$makefile =~ s/^(FULLPERL = .*)/$1 "-Iinc"/m;
-	$makefile =~ s/^(PERL = .*)/$1 "-Iinc"/m;
+	my @I_dirs = $self->_find_extra_inc;
+	my $I_list = join(", ", map { qq{'$_'} } @I_dirs);
+	my $I_flags = join(" ", map { qq{-I$_} } @I_dirs);
+	my $I_flags_quoted = join(" ", map { qq{"-I$_"} } @I_dirs);
+	$makefile =~ s/\b(test_harness\(\$\(TEST_VERBOSE\), )/$1$I_list, /;
+	# don't know why this isn't quoted but it used to be just -Ilib
+	# so $I_flags does it the same way -- dagolden, 2009-04-07
+	$makefile =~ s/( -I\$\(INST_ARCHLIB\))/ $I_flags$1/g;
+	$makefile =~ s/( "-I\$\(INST_LIB\)")/ $I_flags_quoted$1/g;
+	$makefile =~ s/^(FULLPERL = .*)/$1 $I_flags_quoted/m;
+	$makefile =~ s/^(PERL = .*)/$1 $I_flags_quoted/m;
 
 	# Module::Install will never be used to build the Core Perl
 	# Sometimes PERL_LIB and PERL_ARCHLIB get written anyway, which breaks
@@ -243,6 +249,17 @@ sub postamble {
 	$self->{postamble} ||= $self->admin->postamble;
 	$self->{postamble} .= $text if defined $text;
 	$self->{postamble}
+}
+
+sub _find_extra_inc {
+	my ($self) = @_;
+	# Adapted from Module::Build::Base
+	my $quote = $^O eq 'MSWin32' ? q{"} : q{'};
+	my @default_inc = qx/$^X -le $quote print for \@INC $quote/;
+	chomp @default_inc;
+	my %seen;
+	$seen{$_}++ for @default_inc;
+	return grep { !$seen{$_}++ } @INC;
 }
 
 1;
