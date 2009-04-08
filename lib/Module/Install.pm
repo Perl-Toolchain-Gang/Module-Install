@@ -16,12 +16,10 @@ package Module::Install;
 #     3. The ./inc/ version of Module::Install loads
 # }
 
-BEGIN {
-	require 5.004;
-}
+use 5.005;
 use strict 'vars';
 
-use vars qw{$VERSION};
+use vars qw{$VERSION $MAIN};
 BEGIN {
 	# All Module::Install core packages now require synchronised versions.
 	# This will be used to ensure we don't accidentally load old or
@@ -29,7 +27,10 @@ BEGIN {
 	# This is not enforced yet, but will be some time in the next few
 	# releases once we can make sure it won't clash with custom
 	# Module::Install extensions.
-	$VERSION = '0.81';
+	$VERSION = '0.82';
+
+	# Storage for the pseudo-singleton
+	$MAIN    = undef;
 
 	*inc::Module::Install::VERSION = *VERSION;
 	@inc::Module::Install::ISA     = __PACKAGE__;
@@ -130,7 +131,7 @@ sub autoload {
 	$sym->{$cwd} = sub {
 		my $pwd = Cwd::cwd();
 		if ( my $code = $sym->{$pwd} ) {
-			# delegate back to parent dirs
+			# Delegate back to parent dirs
 			goto &$code unless $cwd eq $pwd;
 		}
 		$$sym =~ /([^:]+)$/ or die "Cannot autoload $who - $sym";
@@ -162,6 +163,9 @@ sub import {
 	delete $INC{"$self->{file}"};
 	delete $INC{"$self->{path}.pm"};
 
+	# Save to the singleton
+	$MAIN = $self;
+
 	return 1;
 }
 
@@ -175,8 +179,7 @@ sub preload {
 
 	my @exts = @{$self->{extensions}};
 	unless ( @exts ) {
-		my $admin = $self->{admin};
-		@exts = $admin->load_all_extensions;
+		@exts = $self->{admin}->load_all_extensions;
 	}
 
 	my %seen;

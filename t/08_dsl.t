@@ -41,6 +41,9 @@ END_PERL
 # Full scan dist run
 
 ok( create_dist( 'Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
+BEGIN {
+	\$DB::single = 1;
+}
 use inc::Module::Install::DSL 0.81;
 name          Foo
 license       perl

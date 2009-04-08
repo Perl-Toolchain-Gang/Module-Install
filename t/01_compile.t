@@ -7,13 +7,13 @@ use vars qw{$VERSION};
 BEGIN {
 	$|       = 1;
 	$^W      = 1;
-	$VERSION = '0.81';
+	$VERSION = '0.82';
 }
 
 use Test::More tests => 68;
 
 # Check their perl version
-ok( $] >= 5.004, "Your perl is new enough" );
+ok( $] >= 5.005, "Your perl is new enough" );
 
 my @classes = qw{
 	Module::Install::Base

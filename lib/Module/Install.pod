@@ -33,7 +33,7 @@ Quickly upgrade a legacy L<ExtUtil::MakeMaker> installer:
 B<Module::Install> is a package for writing installers for CPAN (or
 CPAN-like) distributions that are clean, simple, minimalist, act in a
 strictly correct manner with L<ExtUtils::MakeMaker>, and will run on
-any Perl installation version 5.004 or newer.
+any Perl installation version 5.005 or newer.
 
 The intent is to make it as easy as possible for CPAN authors (and
 especially for first-time CPAN authors) to have installers that follow
@@ -335,8 +335,8 @@ and install the listed modules B<before> it executes the F<Makefile.PL>
 Please note that support for configure_requires: in CPAN clients is not
 100% complete at time of writing, and still cannot be relied upon.
 
-Because B<Module::Install> itself only supports 5.004, it will silently
-add the equivalent of a C<configure_requires( perl => '5.004' );>
+Because B<Module::Install> itself only supports 5.005, it will silently
+add the equivalent of a C<configure_requires( perl => '5.005' );>
 command to your distribution.
 
 =head2 requires_external_bin

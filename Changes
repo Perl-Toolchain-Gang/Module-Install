@@ -1,21 +1,24 @@
 Changes for Perl extension Module-Install
 
-        - if configure_requires has ExtUtils::MakeMaker and it's version
-          requires perl 5.6, require perl 5.6 for dist in META.yml (CHORNY)
-        - Fixes to Module/AutoInstall.pm: (MSTROUT)
-          - don't prompt for required dependencies under CPAN/CPANPLUS
-          - allow PERL_AUTOINSTALL_PREFER_CPAN env var to disable cpanp use
+0.82 Wed  9 Apr 2009
+	- if configure_requires has ExtUtils::MakeMaker and it's version
+	  requires perl 5.6, require perl 5.6 for dist in META.yml (CHORNY)
+	- Fixes to Module/AutoInstall.pm: (MSTROUT)
+	  - don't prompt for required dependencies under CPAN/CPANPLUS
+	  - allow PERL_AUTOINSTALL_PREFER_CPAN env var to disable cpanp use
 	- non-default entries in @INC during Makefile.PL are replicated
 	  in Makefile (including 'inc').  E.g. "perl -Ifoo Makefile.PL",
 	  "make test" will ensure "foo" is added to @INC during testing)
 	  (DAGOLDEN)
+	- Module::Install::DSL now correctly installs itself into the
+	  generated tarball (ADAMK)
 
 0.81 Tue 24 Mar 2009 - Adam Kennedy
 	- Use 3-argument open when Perl >= 5.006 (ADAMK)
-        - Support for 'keywords' key in META.yml (CHORNY)
-        - More URLs for licenses, test for this (CHORNY)
-        - tests for extracting link to bugtracker,
-          will more correctly extract them (CHORNY)
+	- Support for 'keywords' key in META.yml (CHORNY)
+	- More URLs for licenses, test for this (CHORNY)
+	- tests for extracting link to bugtracker,
+	  will more correctly extract them (CHORNY)
 	- Adding version-normalising Module::Install::_cmp
 	  (for <=> equivalent on versions) (ADAMK)
 	- If the Makefile.PL time is in the future by only a few seconds
@@ -40,8 +43,8 @@ Changes for Perl extension Module-Install
 0.80 Tue 17 Mar 2009 - Adam Kennedy
 	- Don't generate MYMETA.yml if we don't have YAML::Tiny, even if
 	  we've said we need it. This was breaking Catalyst. (ADAMK)
-        - Will not ask about auto-installing mandatory dependencies, if
-          $ENV{PERL5_CPANPLUS_IS_RUNNING} is set (CHORNY)
+	- Will not ask about auto-installing mandatory dependencies, if
+	  $ENV{PERL5_CPANPLUS_IS_RUNNING} is set (CHORNY)
 
 0.79 Wed  4 Feb 2009 - Adam Kennedy
 	- Upgrading (and testing) Perl version normalisation
@@ -50,8 +53,8 @@ Changes for Perl extension Module-Install
 0.78 Sun 25 Jan 2009 - Adam Kennedy
 	- Much more aggressive dependencies, except PAR::Dist (ADAMK)
 	- Adding inc::Module::Install::DSL for simple installs (ADAMK)
-        - We now avoid poking references in @INC in case they
-          have strange overload behaviours.  (PJF, RT #39929)
+	- We now avoid poking references in @INC in case they
+	  have strange overload behaviours.  (PJF, RT #39929)
 	- installdirs and install_as_* are now documented in
 	  Module/Install.pod (PJF, RT #25111)
 	- Applied patch RT #38443 from Oleg Kostyuk for two-part
@@ -72,8 +75,8 @@ Changes for Perl extension Module-Install
 	- Fixed bug in can_run when PATH starts with a sep (ADAMK, #29866)
 	- Don't overwrite dist args if there is a preop (ADAMK, #36831)
 	- Bug fix in the command dispatcher (ADAMK, #27327)
-        - perl_version now understands three-part Perl versions like
-          5.8.1 (PJF, RT #38317)
+	- perl_version now understands three-part Perl versions like
+	  5.8.1 (PJF, RT #38317)
 	- Numify version.pm objects when generating YAML (ADAMK)
 
 0.76 Thu 17 Jul 2008 - Adam Kennedy
@@ -370,7 +373,7 @@ Changes for Perl extension Module-Install
 	  distribution source trees, not just single modules.
 	- Fix POD syntax so t/2-pod.t passes.
 	  Contributed by: Ishigaki Kenichi
-	- Disable 5.005-specific qr// construct in t/3-autoinstall.t so
+	- Disable 5.00503-specific qr// construct in t/3-autoinstall.t so
 	  Perl 5.004 can build this module again.
 	- YAML::Syck 0.27+ is now a preferred dependency over YAML 0.35+ for
 	  platforms with a C compiler and without either one available.

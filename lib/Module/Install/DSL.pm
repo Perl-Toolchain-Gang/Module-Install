@@ -3,7 +3,7 @@ package Module::Install::DSL;
 use strict;
 use vars qw{$VERSION $ISCORE};
 BEGIN {
-	$VERSION = '0.81';
+	$VERSION = '0.82';
 	$ISCORE  = 1;
 }
 
@@ -23,18 +23,31 @@ sub import {
 	# Remove anything before the use inc::... line.
 	$dsl =~ s/.*?^\s*use\s+(?:inc::)?Module::Install::DSL(\b[^;]*);\s*\n//sm;
 
+	# Load inc::Module::Install as we would in a regular Makefile.Pl
+	SCOPE: {
+		package main;
+
+		require inc::Module::Install;
+		inc::Module::Install->import;
+	}
+
+	# Add the ::DSL plugin to the list of packages in /inc
+	my $admin = $Module::Install::MAIN->{admin};
+	if ( $admin ) {
+		my $from = $INC{"$admin->{path}/DSL.pm"};
+		my $to   = "$admin->{base}/$admin->{prefix}/$admin->{path}/DSL.pm";
+		$admin->copy( $from => $to );
+	}
+
 	# Convert the basic syntax to code
 	my $code = "package main;\n\n"
-	         . "use inc::Module::Install;\n\n"
 	         . dsl2code($dsl)
 	         . "\n\nWriteAll();\n";
 
 	# Execute the script
 	eval $code;
-	if ( $@ ) {
-		# Eek
-		print STDERR "Failed to execute the generated code";
-	}
+	print STDERR "Failed to execute the generated code" if $@;
+
 	exit(0);
 }
 
