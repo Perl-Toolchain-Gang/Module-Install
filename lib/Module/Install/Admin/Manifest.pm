@@ -48,7 +48,7 @@ sub check_manifest {
 	my $manifest_skip = "$manifest_path.SKIP";
 	my @skip;
 
-	if (-f "$manifest_path.SKIP") {
+	if ( -f "$manifest_path.SKIP" ) {
 		open SKIP, $manifest_skip 
 			or die "Can't open $manifest_skip for input:\n$!";
 		@skip = map {chomp; $_} <SKIP>;
@@ -56,7 +56,7 @@ sub check_manifest {
 	}
 
 	my %manifest;
-	for (my $i = 0; $i < @$manifest; $i++) {
+	for ( my $i = 0; $i < @$manifest; $i++ ) {
 		my $path = $manifest->[$i];
 		$path =~ s/\s.*//;
 		$path =~ s/^\.[\\\/]//;
@@ -66,20 +66,23 @@ sub check_manifest {
 	}
 
 	ADDLOOP:
-	for my $pathname (sort $self->_find_files($prefix)) {
+	for my $pathname ( sort $self->_find_files($prefix) ) {
 		$pathname = "$relative_path/$pathname" if length($relative_path);
 		$pathname =~ s!//+!/!g;
 		next unless -f $pathname;
-		if (defined $manifest{$pathname}) {
+		if ( defined $manifest{$pathname} ) {
 			delete $manifest{$pathname};
 		} else {
-			for (@skip) {
+			for ( @skip ) {
 				next ADDLOOP if $pathname =~ /$_/;
 			}
 			return 0;
 		}
 	}
 	if ( keys %manifest ) {
+		foreach ( keys %manifest ) {
+			print "Found extra file $_\n";
+		}
 		return 0;
 	}
 	return 1;
@@ -92,17 +95,17 @@ sub _read_manifest {
 	my @relative_dirs = ();
 	my $cwd = Cwd::cwd();
 	my @cwd_dirs = File::Spec->splitdir($cwd);
-	while (@cwd_dirs) {
+	while ( @cwd_dirs ) {
 		last unless -f File::Spec->catfile(@cwd_dirs, 'Makefile.PL');
 		my $path = File::Spec->catfile(@cwd_dirs, 'MANIFEST');
-		if (-f $path) {
+		if ( -f $path ) {
 			$manifest_path = $path;
 			last;
 		}
 		unshift @relative_dirs, pop(@cwd_dirs);
 	}
 
-	unless (length($manifest_path)) {
+	unless ( length($manifest_path) ) {
 		warn "Can't locate the MANIFEST file for '$cwd'\n";
 		return;
 	}
