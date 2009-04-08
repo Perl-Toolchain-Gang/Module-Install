@@ -115,10 +115,10 @@ sub init {
 	my $self = shift;
 
 	$self->copy($INC{"$self->{path}.pm"} => $self->{file});
-	# $self->delete_package($self->{name});
 
-	unshift @INC, $self->{prefix}
-		unless grep { $_ eq $self->{prefix} } @INC;
+	unless ( grep { $_ eq $self->{prefix} } @INC ) {
+		unshift @INC, $self->{prefix};
+	}
 
 	delete $INC{"$self->{path}.pm"};
 	local $^W;
@@ -141,15 +141,13 @@ sub copy {
 	my $content;
 	my $in_pod;
 
-	while (<FROM>) {
-		if (/^=(?:b(?:egin|ack)|head\d|(?:po|en)d|item|(?:ove|fo)r)/) {
+	while ( <FROM> ) {
+		if ( /^=(?:b(?:egin|ack)|head\d|(?:po|en)d|item|(?:ove|fo)r)/ ) {
 			$in_pod = 1;
-		}
-		elsif (/^=cut\s*\z/ and $in_pod) {
+		} elsif ( /^=cut\s*\z/ and $in_pod ) {
 			$in_pod = 0;
 			print TO "#line $.\n";
-		}
-		elsif (!$in_pod) {
+		} elsif ( ! $in_pod ) {
 			print TO $_;
 		}
 	}
@@ -184,12 +182,12 @@ sub load {
 		# $copy = 0 if $XXX and $is_admin;
 		push @extobj, $obj if $copy xor $is_admin;
 	}
-
-	die "Cannot find an extension with method '$method'" unless @extobj;
-
-	my $obj = $self->pick($method, \@extobj);
+	unless ( @extobj ) {
+		die "Cannot find an extension with method '$method'";
+	}
 
 	# XXX - do we need to reload $obj from the new location?
+	my $obj = $self->pick($method, \@extobj);
 	$self->copy_package(ref($obj)) if $copy;
 
 	return $obj;
@@ -223,11 +221,11 @@ sub pick {
 	            map { [ $_ => -M $self->{pathnames}{ref($_)} ] } @$objects;
 
 	print "Multiple extensions found for method '$method':\n";
-	foreach my $i (1 .. @$objects) {
+	foreach my $i ( 1 .. @$objects ) {
 		print "\t$i. ", ref($objects->[$i-1]), "\n";
 	}
 
-	while (1) {
+	while ( 1 ) {
 		print "Please select one [1]: ";
 		chomp(my $choice = <STDIN>);
 		$choice ||= 1;
@@ -240,10 +238,10 @@ sub delete_package {
 	my ($self, $pkg) = @_;
 
 	# expand to full symbol table name if needed
-	unless ($pkg =~ /^main::.*::$/) {
-		$pkg = "main$pkg"       if      $pkg =~ /^::/;
-		$pkg = "main::$pkg"     unless  $pkg =~ /^main::/;
-		$pkg .= '::'            unless  $pkg =~ /::$/;
+	unless ( $pkg =~ /^main::.*::$/ ) {
+		$pkg = "main$pkg"   if     $pkg =~ /^::/;
+		$pkg = "main::$pkg" unless $pkg =~ /^main::/;
+		$pkg .= '::'        unless $pkg =~ /::$/;
 	}
 
 	my($stem, $leaf) = $pkg =~ m/(.*::)(\w+::)$/;

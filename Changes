@@ -1,6 +1,6 @@
 Changes for Perl extension Module-Install
 
-0.82 Wed  9 Apr 2009
+0.82 Wed  9 Apr 2009 - Adam Kennedy
 	- if configure_requires has ExtUtils::MakeMaker and it's version
 	  requires perl 5.6, require perl 5.6 for dist in META.yml (CHORNY)
 	- Fixes to Module/AutoInstall.pm: (MSTROUT)
@@ -12,6 +12,8 @@ Changes for Perl extension Module-Install
 	  (DAGOLDEN)
 	- Module::Install::DSL now correctly installs itself into the
 	  generated tarball (ADAMK)
+	- Preferentially dispatch leading-underscore methods used in plugins
+	  to the main Module::Install object (ADAMK)
 
 0.81 Tue 24 Mar 2009 - Adam Kennedy
 	- Use 3-argument open when Perl >= 5.006 (ADAMK)

@@ -93,6 +93,7 @@ END_DIE
 
 
 
+
 # Build.PL was formerly supported, but no longer is due to excessive
 # difficulty in implementing every single feature twice.
 if ( $0 =~ /Build.PL$/i ) { die <<"END_DIE" }
@@ -135,10 +136,18 @@ sub autoload {
 			goto &$code unless $cwd eq $pwd;
 		}
 		$$sym =~ /([^:]+)$/ or die "Cannot autoload $who - $sym";
-		unless ( uc($1) eq $1 ) {
-			unshift @_, ( $self, $1 );
-			goto &{$self->can('call')};
+		my $method = $1;
+		if ( uc($method) eq $method ) {
+			# Do nothing
+			return;
+		} elsif ( $method =~ /^_/ and $self->can($method) ) {
+			# Dispatch to the root M:I class
+			return $self->$method(@_);
 		}
+
+		# Dispatch to the appropriate plugin
+		unshift @_, ( $self, $1 );
+		goto &{$self->can('call')};
 	};
 }
 
@@ -262,7 +271,7 @@ END_DIE
 sub load_extensions {
 	my ($self, $path, $top) = @_;
 
-	unless ( grep { !ref $_ and lc $_ eq lc $self->{prefix} } @INC ) {
+	unless ( grep { ! ref $_ and lc $_ eq lc $self->{prefix} } @INC ) {
 		unshift @INC, $self->{prefix};
 	}
 

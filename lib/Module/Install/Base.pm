@@ -41,15 +41,16 @@ Constructor -- need to preserve at least _top
 =cut
 
 sub new {
-    my ($class, %args) = @_;
+	my ($class, %args) = @_;
 
-    foreach my $method ( qw(call load) ) {
-        *{"$class\::$method"} = sub {
-            shift()->_top->$method(@_);
-        } unless defined &{"$class\::$method"};
-    }
+	foreach my $method ( qw(call load) ) {
+		next if defined &{"$class\::$method"};
+		*{"$class\::$method"} = sub {
+			shift()->_top->$method(@_);
+		};
+	}
 
-    bless( \%args, $class );
+	bless( \%args, $class );
 }
 
 =pod
@@ -61,10 +62,12 @@ The main dispatcher - copy extensions if missing
 =cut
 
 sub AUTOLOAD {
-    my $self = shift;
-    local $@;
-    my $autoload = eval { $self->_top->autoload } or return;
-    goto &$autoload;
+	my $self = shift;
+	local $@;
+	my $autoload = eval {
+		$self->_top->autoload
+	} or return;
+	goto &$autoload;
 }
 
 =pod
@@ -75,7 +78,9 @@ Returns the top-level B<Module::Install> object.
 
 =cut
 
-sub _top { $_[0]->{_top} }
+sub _top {
+	$_[0]->{_top};
+}
 
 =pod
 
@@ -89,8 +94,12 @@ with an empty C<AUTOLOAD> method that does nothing at all.
 =cut
 
 sub admin {
-    $_[0]->_top->{admin} or Module::Install::Base::FakeAdmin->new;
+	$_[0]->_top->{admin}
+	or
+	Module::Install::Base::FakeAdmin->new;
 }
+
+=pod
 
 =item is_admin()
 
@@ -101,15 +110,17 @@ program start. True if that's the case. False, otherwise.
 =cut 
 
 sub is_admin {
-    $_[0]->admin->VERSION;
+	$_[0]->admin->VERSION;
 }
 
 sub DESTROY {}
 
 package Module::Install::Base::FakeAdmin;
 
-my $Fake;
-sub new { $Fake ||= bless(\@_, $_[0]) }
+my $fake;
+sub new {
+	$fake ||= bless(\@_, $_[0]);
+}
 
 sub AUTOLOAD {}
 

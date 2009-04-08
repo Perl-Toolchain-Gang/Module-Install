@@ -746,7 +746,7 @@ sub Write {
 sub postamble {
     $PostambleUsed = 1;
 
-    return << ".";
+    return <<"END_MAKE";
 
 config :: installdeps
 \t\$(NOECHO) \$(NOOP)
@@ -757,7 +757,7 @@ checkdeps ::
 installdeps ::
 \t$PostambleActions
 
-.
+END_MAKE
 
 }
 
