@@ -6,10 +6,6 @@ Changes for Perl extension Module-Install
 	- Fixes to Module/AutoInstall.pm: (MSTROUT)
 	  - don't prompt for required dependencies under CPAN/CPANPLUS
 	  - allow PERL_AUTOINSTALL_PREFER_CPAN env var to disable cpanp use
-	- non-default entries in @INC during Makefile.PL are replicated
-	  in Makefile (including 'inc').  E.g. "perl -Ifoo Makefile.PL",
-	  "make test" will ensure "foo" is added to @INC during testing)
-	  (DAGOLDEN)
 	- Module::Install::DSL now correctly installs itself into the
 	  generated tarball (ADAMK)
 	- Preferentially dispatch leading-underscore methods used in plugins
