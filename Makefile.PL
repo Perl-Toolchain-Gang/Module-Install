@@ -41,6 +41,13 @@ test_requires 'File::Spec'        => '3.2701';
 # being included in t/A.
 no_index( directory => 'test' );
 
+# Remove some extra test files
+clean_files( qw{
+	test/A/inc
+	test/A/META.yml
+	test/A/Makefile
+} );
+
 # Test configure_requires support (also needed by WriteMyMeta)
 configure_requires 'YAML::Tiny'   => '1.33';
 
@@ -65,5 +72,3 @@ repository 'http://svn.ali.as/cpan/trunk/Module-Install';
 mymeta;
 
 WriteAll;
-
-1;
