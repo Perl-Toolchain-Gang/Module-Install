@@ -1,7 +1,14 @@
 Changes for Perl extension Module-Install
 
+0.83 Tue 13 Apr 2009 - Adam Kennedy
+	- Module::Install::DSL wasn't correctly loading the main
+	  Module::Install package when trying to install on a host
+	  that didn't have M:I installed locally (CSJEWELL)
+	- Module::Install no longer supports Perl versions less than
+	  5.005, so we can now safely just "require" File::Spec (ADAMK)
+
 0.82 Wed  9 Apr 2009 - Adam Kennedy
-	- if configure_requires has ExtUtils::MakeMaker and it's version
+	- If configure_requires has ExtUtils::MakeMaker and it's version
 	  requires perl 5.6, require perl 5.6 for dist in META.yml (CHORNY)
 	- Fixes to Module/AutoInstall.pm: (MSTROUT)
 	  - don't prompt for required dependencies under CPAN/CPANPLUS
