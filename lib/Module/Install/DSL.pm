@@ -28,7 +28,6 @@ sub import {
 	# Load inc::Module::Install as we would in a regular Makefile.Pl
 	SCOPE: {
 		package main;
-
 		require inc::Module::Install;
 		inc::Module::Install->import;
 	}
