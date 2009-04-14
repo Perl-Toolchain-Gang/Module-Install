@@ -46,7 +46,7 @@ clean_files( qw{
 } );
 
 # Test configure_requires support (also needed by WriteMyMeta)
-configure_requires 'YAML::Tiny'   => '1.33';
+configure_requires 'YAML::Tiny' => '1.33';
 
 # Makes the recursive test script run
 # (to test recursive test support)

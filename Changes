@@ -1,6 +1,9 @@
 Changes for Perl extension Module-Install
 
-0.83 Tue 13 Apr 2009 - Adam Kennedy
+0.84 Tue 14 Apr 2009 - Adam Kennedy
+	- Fix incorrect if => unless conversion (CHORNY)
+
+0.83 Tue 14 Apr 2009 - Adam Kennedy
 	- Module::Install::DSL wasn't correctly loading the main
 	  Module::Install package when trying to install on a host
 	  that didn't have M:I installed locally (CSJEWELL)
