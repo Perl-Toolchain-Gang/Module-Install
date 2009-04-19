@@ -1,5 +1,8 @@
 Changes for Perl extension Module-Install
 
+0.85 Sun 19 Apr 2009 - Adam Kennedy
+	- All files no use strict to satisfy Kwalitee (ADAMK)
+
 0.84 Tue 14 Apr 2009 - Adam Kennedy
 	- Fix incorrect if => unless conversion (CHORNY)
 

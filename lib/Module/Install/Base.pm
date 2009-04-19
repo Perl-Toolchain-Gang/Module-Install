@@ -1,6 +1,10 @@
 package Module::Install::Base;
 
-$VERSION = '0.84';
+use strict 'vars';
+use vars qw{$VERSION};
+BEGIN {
+	$VERSION = '0.85';
+}
 
 # Suspend handler for "redefined" warnings
 BEGIN {
@@ -118,6 +122,7 @@ sub DESTROY {}
 package Module::Install::Base::FakeAdmin;
 
 my $fake;
+
 sub new {
 	$fake ||= bless(\@_, $_[0]);
 }

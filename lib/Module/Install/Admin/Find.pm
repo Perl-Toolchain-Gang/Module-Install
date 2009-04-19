@@ -1,12 +1,13 @@
 package Module::Install::Admin::Find;
 
-use Module::Install::Base;
-@ISA = qw(Module::Install::Base);
-
-$VERSION = '0.84';
-
 use strict;
 use File::Find ();
+use Module::Install::Base ();
+use vars qw{$VERSION @ISA};
+BEGIN {
+	$VERSION = '0.85';
+	@ISA = qw(Module::Install::Base);
+}
 
 sub find_extensions {
     my $self = shift;
