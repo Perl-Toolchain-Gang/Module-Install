@@ -414,21 +414,21 @@ This is used to interact with the debugger in some specific ways.
 See the F<META.yml> documentation for more details on what C<no_index>
 values are allowed.
 
-The F<inc>, F<t> and F<share> (if install_share is used) directories are
-automatically C<no_index>'ed for you if found and do not require an
-explicit command.
+The F<inc>, F<t> and F<share> (if C<install_share> is used) directories
+are automatically C<no_index>'ed for you if found and do not require
+an explicit command.
 
 To summarize, if you can see it on L<http://search.cpan.org/> and you
 shouldn't be able to, you need a C<no_index> entry to remove it.
 
 =head2 installdirs, install_as_*
 
-  installdirs 'site';   # the default
+  installdirs 'site'; # the default
 
-  install_as_core;      # alias for installdirs 'perl'
-  install_as_cpan;      # alias for installdirs 'site'
-  install_as_site;      # alias for installdirs 'site'
-  install_as_vendor;    # alias for installdirs 'vendor'
+  install_as_core;    # alias for installdirs 'perl'
+  install_as_cpan;    # alias for installdirs 'site'
+  install_as_site;    # alias for installdirs 'site'
+  install_as_vendor;  # alias for installdirs 'vendor'
 
 The C<installdirs> and C<install_as> commands specify the location
 where the module should be installed; this is the equivalent to
@@ -508,11 +508,12 @@ B<AUTOLOAD> functions into administrative extensions (instead of
 standard extensions) should use the B<Module::Install::Admin> module
 directly.  See L<Module::Install::Admin> for details.
 
-=head2 Extention List
+=head1 EXTENSIONS
 
-=over 4
+Detailed information is provided for all (some) of the relevant
+modules via their own POD documentation.
 
-=item Module::Install::AutoInstall
+=head2 Module::Install::AutoInstall
 
 Provides C<auto_install()> to automatically fetch and install
 prerequisites.
@@ -524,67 +525,67 @@ client to toolchain communication protocol.
 Support may be dropped at a future time, with some alternative process
 providing the equivalent functionality.
 
-=item Module::Install::Base
+=head2 Module::Install::Base
 
 The base class for all extensions
 
-=item Module::Install::Build
+=head2 Module::Install::Build
 
 Provides integration with L<Module::Build> via C<&Build-E<gt>write>.
 
-=item Module::Install::Bundle
+=head2 Module::Install::Bundle
 
 Provides the C<bundle> family of commands, allowing you to bundle
 another CPAN distribution within your distribution.
 
-=item Module::Install::Fetch
+=head2 Module::Install::Fetch
 
 Handles install-time fetching of files from remote servers via
 FTP and HTTP.
 
-=item Module::Install::Include
+=head2 Module::Install::Include
 
 Provides the C<include> family of commands for embedding modules
 that are only need at build-time in your distribution and won't
 be installed.
 
-=item Module::Install::Inline
+=head2 Module::Install::Inline
 
 Provides C<&Inline-E<gt>write> to replace B<Inline::MakeMaker>'s
 functionality for making B<Inline>-based modules (and cleaning up).
 
 However, you should invoke this with C<WriteAll( inline => 1 )>.
 
-=item Module::Install::Makefile
+=head2 Module::Install::Makefile
 
 Provides C<&Makefile-E<gt>write> to generate a F<Makefile> for you
 distribution.
 
-=item Module::Install::Metadata
+=head2 Module::Install::Metadata
 
 Provides C<&Meta-E<gt>write> to generate a F<META.yml> file for your
 distribution.
 
-=item Module::Install::PAR
+=head2 Module::Install::PAR
 
 Makes pre-compiled module binary packages from the built F<blib>
 directory, and download existing ones to save recompiling.
 
-=item Module::Install::Run
+=head2 Module::Install::Run
 
 Determines if commands are available on the user's machine, and runs
 them via B<IPC::Run3>.
 
-=item Module::Install::Scripts
+=head2 Module::Install::Scripts
 
 Handles packaging and installation of scripts to various bin dirs.
 
-=item Module::Install::Win32
+=head2 Module::Install::Win32
 
 Functions for installing modules on Win32 and finding/installing
 F<nmake.exe> for users that need it.
 
-=item Module::Install::WriteAll
+=head2 Module::Install::WriteAll
 
 Provides the C<WriteAll>, which writes all the requires files,
 such as F<META.yml> and either F<Makefile> or F<Build>.
@@ -613,30 +614,25 @@ If true, invokes C<sign> command to digitally sign erm... something.
 
 =back
 
-=item Module::Install::Admin::Find
+=head2 Module::Install::Admin::Find
 
 Package-time functions for finding extensions, installed packages
 and files in subdirectories.
 
-=item Module::Install::Admin::Manifest
+=head2 Module::Install::Admin::Manifest
 
 Package-time functions for manipulating and updating the
 F<MANIFEST> file.
 
-=item Module::Install::Admin::Metadata
+=head2 Module::Install::Admin::Metadata
 
 Package-time functions for manipulating and updating the
 F<META.yml> file.
 
-=item Module::Install::Admin::ScanDeps
+=head2 Module::Install::Admin::ScanDeps
 
 Package-time scanning for non-core dependencies via B<Module::ScanDeps>
 and B<Module::CoreList>.
-
-=back
-
-Detailed information is provided for all (some) of the relevant
-modules via their own POD documentation.
 
 =head1 FAQ
 
@@ -689,7 +685,7 @@ away this complexity.
 As long as you are going to periodically do incremental releases
 to get any bug fixes and new functionality, yes.
 
-You should also strongly avoid the use of auto_install.
+You should also B<strongly> avoid the use of C<auto_install>.
 
 If you don't plan to do incremental releases, it might be a good
 idea to continue to wait for a while.
@@ -736,8 +732,8 @@ an installer that can handle different dependencies on different platforms.
 
 =head1 TO DO
 
-Implement Module::Install::Compiled and Module::Install::Admin::Compiled
-to integrate the Module::Compiled "perl 6 to perl 5" functionality with
+Implement L<Module::Install::Compiled> and Module::Install::Admin::Compiled
+to integrate the L<Module::Compiled> "perl 6 to perl 5" functionality with
 Module::Install.
 Because this would add SIGNIFICANT dependencies (i.e. pugs!) this should
 almost certainly be distributed as a seperate distribution.
@@ -800,8 +796,7 @@ Brian Ingerson E<lt>ingy@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2002 - 2009 by Brian Ingerson, Audrey Tang
-and Adam Kennedy.
+Copyright 2002 - 2009 Brian Ingerson, Audrey Tang and Adam Kennedy.
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

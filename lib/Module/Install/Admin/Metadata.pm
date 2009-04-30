@@ -6,25 +6,19 @@ use Module::Install::Base;
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '0.85';
+	$VERSION = '0.86';
 	@ISA     = 'Module::Install::Base';
 }
 
 sub read_meta {
-	# Admin time means no eval is needed
-	require YAML::Tiny;
-	my $self = shift;
-	my @docs = YAML::Tiny::LoadFile('META.yml');
-	return $docs[0];
+	(YAML::Tiny::LoadFile('META.yml'))[0];
 }
 
 sub meta_generated_by_us {
-	my $self = shift;
-	my $need = shift;
-	my $meta = $self->read_meta;
-	my $want = ref($self->_top);
-	if ( defined $need ) {
-		$want .= " version $need";
+	my $meta = $_[0]->read_meta;
+	my $want = ref($_[0]->_top);
+	if ( defined $_[1] ) {
+		$want .= " version $_[1]";
 	}
 	return $meta->{generated_by} =~ /^\Q$want\E/;
 }
@@ -34,7 +28,7 @@ sub remove_meta {
 	my $ver  = $self->_top->VERSION;
 	return unless -f 'META.yml';
 	return unless $self->meta_generated_by_us($ver);
-	unless (-w 'META.yml') {
+	unless ( -w 'META.yml' ) {
 		warn "Can't remove META.yml file. Not writable.\n";
 		return;
 	}
@@ -121,7 +115,10 @@ sub dump_meta {
 			grep { not $seen{$_}++ }
 			grep { -d $_ } (
 				@{$val->{no_index}->{directory}},
-				qw{ share inc t examples demo },
+				qw{
+					share inc t xt test
+					example examples demo
+				},
 			)
 		];
 	}

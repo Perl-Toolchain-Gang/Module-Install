@@ -34,10 +34,6 @@ requires      'Module::Build'     => '0.2804';
 test_requires 'Test::Harness'     => '3.13';
 test_requires 'Test::More'        => '0.86';
 
-# We have to keep some files out of t to avoid them
-# being included in t/A.
-no_index( directory => 'test' );
-
 # Remove some extra test files
 clean_files( qw{
 	test/A/inc
