@@ -3,11 +3,9 @@
 # Compile testing for Module::Install
 
 use strict;
-use vars qw{$VERSION};
 BEGIN {
 	$|       = 1;
 	$^W      = 1;
-	$VERSION = '0.85';
 }
 
 use Test::More tests => 68;

@@ -3,11 +3,9 @@
 # Check that ppport works
 
 use strict;
-use vars qw{$VERSION};
 BEGIN {
-	$|       = 1;
-	$^W      = 1;
-	$VERSION = '0.85';
+	$|  = 1;
+	$^W = 1;
 }
 
 use Test::More tests => 1;
