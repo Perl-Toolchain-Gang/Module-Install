@@ -9,7 +9,7 @@ BEGIN {
 use Test::More;
 BEGIN {
 	if ( $ENV{RELEASE_TESTING} ) {
-		plan( tests => 6 );
+		plan( tests => 4 );
 	} else {
 		plan( skip_all => 'Skipping dangerous test' );
 		exit(0);
