@@ -17,7 +17,9 @@ my %FeatureMap = (
 
 # various lexical flags
 my ( @Missing, @Existing,  %DisabledTests, $UnderCPAN,     $HasCPANPLUS );
-my ( $Config,  $CheckOnly, $SkipInstall,   $AcceptDefault, $TestOnly );
+my (
+    $Config, $CheckOnly, $SkipInstall, $AcceptDefault, $TestOnly, $AllDeps
+);
 my ( $PostambleActions, $PostambleUsed );
 
 # See if it's a testing or non-interactive session
@@ -71,6 +73,9 @@ sub _init {
         }
         elsif ( $arg =~ /^--test(?:only)?$/ ) {
             $TestOnly = 1;
+        }
+        elsif ( $arg =~ /^--all(?:deps)?$/ ) {
+            $AllDeps = 1;
         }
     }
 }
@@ -191,6 +196,7 @@ sub import {
             and (
                 $CheckOnly
                 or ($mandatory and $UnderCPAN)
+                or $AllDeps
                 or _prompt(
                     qq{==> Auto-install the }
                       . ( @required / 2 )
@@ -991,6 +997,14 @@ B<Module::AutoInstall> uses a single environment variable,
 C<PERL_AUTOINSTALL>.  It is taken as the command line argument
 passed to F<Makefile.PL>; you could set it to either C<--defaultdeps> or
 C<--skipdeps> to avoid interactive behaviour.
+passed to F<Makefile.PL>; you could set it to C<--alldeps>, C<--defaultdeps>
+or C<--skipdeps>.
+
+C<--alldeps> will install both required and optional dependencies, while
+C<--defaultdeps> will only install required dependencies.
+
+C<--skipdeps> will avoid all interactive behaviour, and refrain from loading
+L<CPAN>.
 
 It also read from the C<PERL_EXTUTILS_AUTOINSTALL> environment variable if
 C<PERL_AUTOINSTALL> is not defined.

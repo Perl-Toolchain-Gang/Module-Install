@@ -1,6 +1,7 @@
 Changes for Perl extension Module-Install
 
 0.86 Sat  2 May 2009
+	- Add --alldeps option to say yes to optional dependencies (MSTROUT)
 	- Alter _check_lock to test the CPAN version and use
 	  PERL5_CPAN_IS_RUNNING if new enough so we don't accidentally
 	  configure CPAN unless it's so old we have no choice (MSTROUT)
