@@ -8,10 +8,13 @@ BEGIN {
 	$^W      = 1;
 }
 
-use Test::More tests => 67;
+use Test::More tests => 68;
 
 # Check their perl version
 ok( $] >= 5.005, "Your perl is new enough" );
+
+# Load the test class
+use_ok( 't::lib::Test' );
 
 my @classes = qw{
 	Module::Install::Base
@@ -45,6 +48,7 @@ my @classes = qw{
 	Module::Install::Admin::Metadata
 	Module::Install::Admin::ScanDeps
 	Module::Install::Admin::WriteAll
+	Module::Install
 	inc::Module::Install
 };
 
@@ -55,10 +59,8 @@ foreach my $class ( @classes ) {
 	no strict 'refs';
 	is(
 		${"${class}::VERSION"},
-		$Module::Install::VERSION,
+		$t::lib::Test::VERSION,
 		"$class \$VERSION matches"
 	);
 }
 
-# Load the test class
-use_ok( 't::lib::Test' );
