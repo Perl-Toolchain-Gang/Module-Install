@@ -996,16 +996,16 @@ This may cause inconsistent behaviours in pathetic situations.
 
 B<Module::AutoInstall> uses a single environment variable,
 C<PERL_AUTOINSTALL>.  It is taken as the command line argument
-passed to F<Makefile.PL>; you could set it to either C<--defaultdeps> or
-C<--skipdeps> to avoid interactive behaviour.
 passed to F<Makefile.PL>; you could set it to C<--alldeps>, C<--defaultdeps>
-or C<--skipdeps>.
+or C<--skipdeps> to avoid all interactive behaviour.
 
-C<--alldeps> will install both required and optional dependencies, while
-C<--defaultdeps> will only install required dependencies.
+C<--alldeps> will install all features, while
+C<--defaultdeps> will only install features for which the default answer is
+'y'.
 
-C<--skipdeps> will avoid all interactive behaviour, and refrain from loading
-L<CPAN>.
+C<--skipdeps> will refrain from loading L<CPAN> and not install anything, unless
+you're running under L<CPAN> or L<CPANPLUS>, in which case required dependencies
+will be installed.
 
 It also read from the C<PERL_EXTUTILS_AUTOINSTALL> environment variable if
 C<PERL_AUTOINSTALL> is not defined.
