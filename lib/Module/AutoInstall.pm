@@ -259,14 +259,15 @@ END_MESSAGE
 sub _check_lock {
     return unless @Missing or @_;
 
+    my $cpan_env = $ENV{PERL5_CPAN_IS_RUNNING};
+
     if ($ENV{PERL5_CPANPLUS_IS_RUNNING}) {
-        my $thing = $ENV{PERL5_CPAN_IS_RUNNING} ? 'CPAN' : 'CPANPLUS';
-        return _running_under($thing);
+        return _running_under($cpan_env ? 'CPAN' : 'CPANPLUS');
     }
 
     require CPAN;
 
-    if ($CPAN::VERSION > '1.89' && $ENV{PERL5_CPAN_IS_RUNNING}) {
+    if ($CPAN::VERSION > '1.89' && $cpan_env) {
         return _running_under('CPAN');
     }
 
