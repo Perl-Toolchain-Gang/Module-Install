@@ -1023,6 +1023,14 @@ Audrey Tang E<lt>autrijus@autrijus.orgE<gt>
 
 Adam Kennedy E<lt>adamk@cpan.orgE<gt>
 
+Matt S Trout E<lt>mst@shadowcat.co.uE<gt>
+
+=head1 IF THIS BREAKS
+
+Report a ticket to bugs-Module-Install <at> rt.cpan.org and cc Matt
+- I appear to have volunteered as primary maintainer for this stuff so
+if you run into any problems please tell me
+
 =head1 COPYRIGHT
 
 Copyright 2001, 2002, 2003, 2004, 2005, 2006 by Audrey Tang
