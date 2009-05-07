@@ -50,6 +50,10 @@ sub auto_include_deps {
 
 =pod
 
+=head1 NAME
+
+Module::Install::Admin::Include
+
 =head2 auto_include_dependent_dists
 
 Grabs everything in this module's build_requires and attempts to

@@ -1,5 +1,9 @@
 Changes for Perl extension Module-Install
 
+        - Module::Install::Admin::Include now had a '=head1 NAME',
+          which should avoid problems when generating man pages.
+          Many thanks to Simon Bertrang for the patch.  (PJF, RT #45811)
+
 0.87 Thu  7 May 2009
 	- The other half of MSTROUT's changes
         - A note mentioning to bug MSTROUT if you run into problems
