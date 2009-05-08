@@ -151,7 +151,7 @@ If the second argument is a file name
 it is used as the name of the file to download.
 
 If the file could not be fetched, a suitable error message
-about no package being availlable, yada yada yada, is printed.
+about no package being available, yada yada yada, is printed.
 You can turn this off by specifying a true third argument.
 
   # Try to fetch the package (see par_base) but
@@ -210,7 +210,7 @@ sub extract_par {
     else {
         die <<'HERE';
 Could not extract .par archive because neither Archive::Zip nor a
-working 'unzip' binary are availlable. Please consider installing
+working 'unzip' binary are available. Please consider installing
 Archive::Zip.
 HERE
     }
@@ -225,14 +225,14 @@ HERE
 =head2 make_par
 
 This directive requires PAR::Dist (version 0.03 or up) on your system.
-(And checks that it is availlable before continuing.)
+(And checks that it is available before continuing.)
 
 Creates a PAR::Dist archive from the 'blib/' subdirectory.
 
 First argument must be the name of the PAR::Dist archive to create.
 
 If your Makefile.PL has a C<par_base> directive, the C<make par>
-make target will be availlable. It uses this C<make_par> directive
+make target will be available. It uses this C<make_par> directive
 internally, so on your development system, you can do this to create
 a .par binary archive for your platform:
 
