@@ -1,5 +1,8 @@
 Changes for Perl extension Module-Install
 
+        - Tweak _check_lock to not load CPAN when new enough -and- no env
+	  vars present - otherwise we still accidentally configure the thing
+	  for no good reason (MSTROUT, feeling particularly dumb)
         - Module::Install::Admin::Include now had a '=head1 NAME',
           which should avoid problems when generating man pages.
           Many thanks to Simon Bertrang for the patch.  (PJF, RT #45811)

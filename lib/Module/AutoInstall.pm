@@ -267,8 +267,11 @@ sub _check_lock {
 
     require CPAN;
 
-    if ($CPAN::VERSION > '1.89' && $cpan_env) {
-        return _running_under('CPAN');
+    if ($CPAN::VERSION > '1.89') {
+        if ($cpan_env) {
+            return _running_under('CPAN');
+        }
+        return; # CPAN.pm new enough, don't need to check further
     }
 
     # last ditch attempt, this -will- configure CPAN, very sorry
