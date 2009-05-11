@@ -174,15 +174,24 @@ sub import {
             }
 
             # XXX: check for conflicts and uninstalls(!) them.
-            if (
-                defined( my $cur = _version_check( _load($mod), $arg ||= 0 ) ) )
+            my $cur = _load($mod);
+            if (_version_cmp ($cur, $arg) >= 0)
             {
                 print "loaded. ($cur" . ( $arg ? " >= $arg" : '' ) . ")\n";
                 push @Existing, $mod => $arg;
                 $DisabledTests{$_} = 1 for map { glob($_) } @skiptests;
             }
             else {
-                print "missing." . ( $arg ? " (would need $arg)" : '' ) . "\n";
+                if (not defined $cur)   # indeed missing
+                {
+                    print "missing." . ( $arg ? " (would need $arg)" : '' ) . "\n";
+                }
+                else
+                {
+                    # no need to check $arg as _version_cmp ($cur, undef) would satisfy >= above
+                    print "too old. ($cur < $arg)\n";
+                }
+
                 push @required, $mod => $arg;
             }
         }
@@ -312,7 +321,7 @@ sub install {
     while ( my ( $pkg, $ver ) = splice( @_, 0, 2 ) ) {
 
         # grep out those already installed
-        if ( defined( _version_check( _load($pkg), $ver ) ) ) {
+        if ( _version_cmp( _load($pkg), $ver ) >= 0 ) {
             push @installed, $pkg;
         }
         else {
@@ -351,7 +360,7 @@ sub install {
 
     # see if we have successfully installed them
     while ( my ( $pkg, $ver ) = splice( @modules, 0, 2 ) ) {
-        if ( defined( _version_check( _load($pkg), $ver ) ) ) {
+        if ( _version_cmp( _load($pkg), $ver ) >= 0 ) {
             push @installed, $pkg;
         }
         elsif ( $args{do_once} and open( FAILED, '>> .#autoinstall.failed' ) ) {
@@ -406,7 +415,7 @@ sub _install_cpanplus {
         my $success;
         my $obj = $modtree->{$pkg};
 
-        if ( $obj and defined( _version_check( $obj->{version}, $ver ) ) ) {
+        if ( $obj and _version_cmp( $obj->{version}, $ver ) >= 0 ) {
             my $pathname = $pkg;
             $pathname =~ s/::/\\W/;
 
@@ -499,7 +508,7 @@ sub _install_cpan {
         my $obj     = CPAN::Shell->expand( Module => $pkg );
         my $success = 0;
 
-        if ( $obj and defined( _version_check( $obj->cpan_version, $ver ) ) ) {
+        if ( $obj and _version_cmp( $obj->cpan_version, $ver ) >= 0 ) {
             my $pathname = $pkg;
             $pathname =~ s/::/\\W/;
 
@@ -563,7 +572,7 @@ sub _update_to {
     my $ver   = shift;
 
     return
-      if defined( _version_check( _load($class), $ver ) );  # no need to upgrade
+      if _version_cmp( _load($class), $ver ) >= 0;  # no need to upgrade
 
     if (
         _prompt( "==> A newer version of $class ($ver) is required. Install?",
@@ -672,9 +681,11 @@ sub _load_cpan {
 }
 
 # compare two versions, either use Sort::Versions or plain comparison
-sub _version_check {
+# return values same as <=>
+sub _version_cmp {
     my ( $cur, $min ) = @_;
-    return unless defined $cur;
+    return -1 unless defined $cur;  # if 0 keep comparing
+    return 1 unless $min;
 
     $cur =~ s/\s+$//;
 
@@ -685,16 +696,13 @@ sub _version_check {
             ) {
 
             # use version.pm if it is installed.
-            return (
-                ( version->new($cur) >= version->new($min) ) ? $cur : undef );
+            return version->new($cur) <=> version->new($min);
         }
         elsif ( $Sort::Versions::VERSION or defined( _load('Sort::Versions') ) )
         {
 
             # use Sort::Versions as the sorting algorithm for a.b.c versions
-            return ( ( Sort::Versions::versioncmp( $cur, $min ) != -1 )
-                ? $cur
-                : undef );
+            return Sort::Versions::versioncmp( $cur, $min );
         }
 
         warn "Cannot reliably compare non-decimal formatted versions.\n"
@@ -703,7 +711,7 @@ sub _version_check {
 
     # plain comparison
     local $^W = 0;    # shuts off 'not numeric' bugs
-    return ( $cur >= $min ? $cur : undef );
+    return $cur <=> $min;
 }
 
 # nothing; this usage is deprecated.

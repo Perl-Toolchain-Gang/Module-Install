@@ -1,5 +1,7 @@
 Changes for Perl extension Module-Install
 
+        - Show what version is currently installed when deps are not new
+          enough (patch by RIBASUSHI, applied by MSTROUT)
         - Tweak _check_lock to not load CPAN when new enough -and- no env
 	  vars present - otherwise we still accidentally configure the thing
 	  for no good reason (MSTROUT, feeling particularly dumb)
