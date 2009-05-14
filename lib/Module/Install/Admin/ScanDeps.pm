@@ -4,7 +4,7 @@ use strict;
 use Module::Install::Base ();
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '0.87';
+	$VERSION = '0.88';
 	@ISA = qw(Module::Install::Base);
 }
 
