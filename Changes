@@ -1,5 +1,9 @@
 Changes for Perl extension Module-Install
 
+0.89
+	- _load_cpan now also checks for $CPAN::Config before assuming that
+	  CPAN and its config are properly loaded (HDP)
+
 0.88 Thu 14 May 2009
 	- Show what version is currently installed when deps are not new
 	  enough (patch by RIBASUSHI, applied by MSTROUT)
