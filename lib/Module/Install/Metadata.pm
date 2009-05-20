@@ -439,21 +439,21 @@ sub license_from {
 	/ixms ) {
 		my $license_text = $1;
 		my @phrases      = (
-			'under the same (?:terms|license) as perl itself' => 'perl',        1,
-			'GNU general public license'                      => 'gpl',         1,
-			'GNU public license'                              => 'gpl',         1,
-			'GNU lesser general public license'               => 'lgpl',        1,
-			'GNU lesser public license'                       => 'lgpl',        1,
-			'GNU library general public license'              => 'lgpl',        1,
-			'GNU library public license'                      => 'lgpl',        1,
-			'BSD license'                                     => 'bsd',         1,
-			'Artistic license'                                => 'artistic',    1,
-			'GPL'                                             => 'gpl',         1,
-			'LGPL'                                            => 'lgpl',        1,
-			'BSD'                                             => 'bsd',         1,
-			'Artistic'                                        => 'artistic',    1,
-			'MIT'                                             => 'mit',         1,
-			'proprietary'                                     => 'proprietary', 0,
+			'under the same (?:terms|license) as (?:perl|the perl programming language) itself' => 'perl', 1,
+			'GNU general public license'         => 'gpl',         1,
+			'GNU public license'                 => 'gpl',         1,
+			'GNU lesser general public license'  => 'lgpl',        1,
+			'GNU lesser public license'          => 'lgpl',        1,
+			'GNU library general public license' => 'lgpl',        1,
+			'GNU library public license'         => 'lgpl',        1,
+			'BSD license'                        => 'bsd',         1,
+			'Artistic license'                   => 'artistic',    1,
+			'GPL'                                => 'gpl',         1,
+			'LGPL'                               => 'lgpl',        1,
+			'BSD'                                => 'bsd',         1,
+			'Artistic'                           => 'artistic',    1,
+			'MIT'                                => 'mit',         1,
+			'proprietary'                        => 'proprietary', 0,
 		);
 		while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
 			$pattern =~ s{\s+}{\\s+}g;

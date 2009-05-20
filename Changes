@@ -1,8 +1,11 @@
-Changes for Perl extension Module-Install
+Changes for Perl programming language extension Module-Install
 
-0.89
+0.89 Wed 20 May 2009
 	- _load_cpan now also checks for $CPAN::Config before assuming that
 	  CPAN and its config are properly loaded (HDP)
+	- Changes file is now TIOBE compatible (ADAMK)
+	- license_from now support a TIOBE-compatible declaration (ADAMK)
+	  (...under the same terms as the Perl programming language itself)
 
 0.88 Thu 14 May 2009
 	- Show what version is currently installed when deps are not new
