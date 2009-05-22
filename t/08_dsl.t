@@ -8,7 +8,7 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 5;
+use Test::More tests => 7;
 use t::lib::Test;
 
 # Load the DSL module
@@ -41,15 +41,13 @@ END_PERL
 # Full scan dist run
 
 ok( create_dist( 'Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
-BEGIN {
-	\$DB::single = 1;
-}
 use inc::Module::Install::DSL 0.81;
 name          Foo
 license       perl
 requires_from lib/Foo.pm
 requires      File::Spec   0.79
-mymeta
 END_DSL
 ok( build_dist('Foo'),  'build_dist'  );
+ok( -f File::Spec->catfile(qw(t Foo Makefile)) );
+ok( -f File::Spec->catfile(qw(t Foo META.yml)) );
 ok( kill_dist('Foo'),   'kill_dist'   );

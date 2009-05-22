@@ -48,7 +48,6 @@ name          '$dist';
 license       'perl';
 requires_from 'lib/$dist.pm';
 requires      'File::Spec' => '0.79';
-mymeta;
 WriteAll;
 END_MAKEFILE_PL
 	close MAKEFILE_PL;
@@ -81,10 +80,13 @@ END_MODULE
 
 sub build_dist {
 	my $dist      = shift;
+	my %params    = @_;
 	my $dist_path = File::Spec->catdir('t', $dist);
 	return 0 unless -d $dist_path;
 	my $home = cwd;
 	chdir $dist_path or return 0;
+	my $X_MYMETA = $params{MYMETA} || '';
+	local $ENV{X_MYMETA} = $X_MYMETA;
 	system($^X, "-I../../lib", "-I../../blib/lib", "Makefile.PL") == 0 or return 0;
 	chdir $home or return 0;
 	return 1;

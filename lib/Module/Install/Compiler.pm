@@ -1,14 +1,14 @@
 package Module::Install::Compiler;
 
 use strict;
-use Module::Install::Base;
-use File::Basename ();
+use File::Basename        ();
+use Module::Install::Base ();
 
-use vars qw{$VERSION $ISCORE @ISA};
+use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
 	$VERSION = '0.90';
+	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
-	@ISA     = qw{Module::Install::Base};
 }
 
 sub ppport {

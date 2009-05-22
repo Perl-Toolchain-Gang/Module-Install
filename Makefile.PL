@@ -23,7 +23,8 @@ all_from      'lib/Module/Install.pm';
 requires      'File::Spec'        => '3.2701';
 requires      'Devel::PPPort'     => '3.16';
 requires      'File::Remove'      => '1.42';
-requires      'YAML::Tiny'        => '1.36';
+requires      'YAML::Tiny'        => '1.38';
+requires      'JSON'              => '2.14';
 requires      'Module::ScanDeps'  => '0.89';
 requires      'Module::CoreList'  => '2.17';
 requires      'PAR::Dist'         => '0.29';
@@ -38,6 +39,8 @@ test_requires 'Test::More'        => '0.86';
 clean_files( qw{
 	test/A/inc
 	test/A/META.yml
+	test/A/MYMETA.yml
+	test/A/MYMETA.json
 	test/A/Makefile
 } );
 
@@ -60,8 +63,5 @@ install_as_cpan;
 # Normally this shouldn't be done in here, it should be done
 # by release automation. This is mostly for testing reasons.
 repository 'http://svn.ali.as/cpan/trunk/Module-Install';
-
-# This lets us test MYMETA.yml support
-mymeta;
 
 WriteAll;

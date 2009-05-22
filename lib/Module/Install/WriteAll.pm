@@ -1,7 +1,7 @@
 package Module::Install::WriteAll;
 
 use strict;
-use Module::Install::Base;
+use Module::Install::Base ();
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
@@ -51,8 +51,6 @@ sub WriteAll {
 		} else {
 			$self->Meta->write_mymeta_yaml;
 		}
-	} elsif ( $self->mymeta ) {
-		$self->Meta->write_mymeta_yaml;
 	}
 
 	return 1;

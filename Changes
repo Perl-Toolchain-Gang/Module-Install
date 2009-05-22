@@ -1,5 +1,8 @@
 Changes for Perl programming language extension Module-Install
 
+0.90 Fri 22 May 2009
+	- Adding a first implementation of MYMETA
+
 0.89 Wed 20 May 2009
 	- _load_cpan now also checks for $CPAN::Config before assuming that
 	  CPAN and its config are properly loaded (HDP)

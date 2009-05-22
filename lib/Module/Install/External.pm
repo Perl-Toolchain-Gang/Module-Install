@@ -3,7 +3,7 @@ package Module::Install::External;
 # Provides dependency declarations for external non-Perl things
 
 use strict;
-use Module::Install::Base;
+use Module::Install::Base ();
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {

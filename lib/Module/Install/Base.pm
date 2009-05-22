@@ -12,9 +12,6 @@ BEGIN {
 	$SIG{__WARN__} = sub { $w };
 }
 
-### This is the ONLY module that shouldn't have strict on
-# use strict;
-
 =pod
 
 =head1 NAME
@@ -25,7 +22,7 @@ Module::Install::Base - Base class for Module::Install extensions
 
 In a B<Module::Install> extension:
 
-    use Module::Install::Base;
+    use Module::Install::Base ();
     @ISA = qw(Module::Install::Base);
 
 =head1 DESCRIPTION
@@ -45,16 +42,14 @@ Constructor -- need to preserve at least _top
 =cut
 
 sub new {
-	my ($class, %args) = @_;
-
-	foreach my $method ( qw(call load) ) {
-		next if defined &{"$class\::$method"};
-		*{"$class\::$method"} = sub {
-			shift()->_top->$method(@_);
-		};
+	my $class = shift;
+	unless ( defined &{"${class}::call"} ) {
+		*{"${class}::call"} = sub { shift->_top->call(@_) };
 	}
-
-	bless( \%args, $class );
+	unless ( defined &{"${class}::load"} ) {
+		*{"${class}::load"} = sub { shift->_top->load(@_) };
+	}
+	bless { @_ }, $class;
 }
 
 =pod
@@ -66,12 +61,9 @@ The main dispatcher - copy extensions if missing
 =cut
 
 sub AUTOLOAD {
-	my $self = shift;
 	local $@;
-	my $autoload = eval {
-		$self->_top->autoload
-	} or return;
-	goto &$autoload;
+	my $func = eval { shift->_top->autoload } or return;
+	goto &$func;
 }
 
 =pod

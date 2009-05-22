@@ -1,13 +1,13 @@
 package Module::Install::Fetch;
 
 use strict;
-use Module::Install::Base;
+use Module::Install::Base ();
 
-use vars qw{$VERSION $ISCORE @ISA};
+use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '0.90';;
+	$VERSION = '0.90';
+	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
-	@ISA     = qw{Module::Install::Base};
 }
 
 sub get_file {

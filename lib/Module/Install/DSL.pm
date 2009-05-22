@@ -9,9 +9,6 @@ BEGIN {
 	@inc::Module::Install::DSL::ISA     = __PACKAGE__;
 }
 
-# Load the main Module::Install as usual.
-# require Module::Install;
-
 sub import {
 	# Read in the rest of the Makefile.PL
 	open 0 or die "Couldn't open $0: $!";

@@ -1,18 +1,17 @@
 package Module::Install::Metadata;
 
 use strict 'vars';
-use Module::Install::Base;
+use Module::Install::Base ();
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '0.90';;
-	@ISA     = qw{Module::Install::Base};
+	$VERSION = '0.90';
+	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
 }
 
 my @boolean_keys = qw{
 	sign
-	mymeta
 };
 
 my @scalar_keys = qw{
@@ -515,7 +514,8 @@ sub _perl_version {
 	$v =~ s/(\.\d\d\d)000$/$1/;
 	$v =~ s/_.+$//;
 	if ( ref($v) ) {
-		$v = $v + 0; # Numify
+		# Numify
+		$v = $v + 0;
 	}
 	return $v;
 }
@@ -525,7 +525,7 @@ sub _perl_version {
 
 
 ######################################################################
-# MYMETA.yml Support
+# MYMETA Support
 
 sub WriteMyMeta {
 	die "WriteMyMeta has been deprecated";

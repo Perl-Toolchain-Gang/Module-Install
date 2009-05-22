@@ -1,13 +1,13 @@
 package Module::Install::Admin;
 
 use strict 'vars';
-use File::Path ();
+use File::Path           ();
 use inc::Module::Install ();
 
 use vars qw{$VERSION @ISA};
 BEGIN {
 	$VERSION = '0.90';
-	@ISA     = qw{Module::Install};
+	@ISA     = 'Module::Install';
 }
 
 =pod
@@ -263,11 +263,10 @@ sub delete_package {
 }
 
 sub AUTOLOAD {
-	my $self = shift;
-	goto &{$self->autoload};
+	goto &{shift->autoload};
 }
 
-sub DESTROY {}
+sub DESTROY { }
 
 1;
 
