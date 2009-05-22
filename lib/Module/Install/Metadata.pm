@@ -5,7 +5,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '0.89';
+	$VERSION = '0.90';;
 	@ISA     = qw{Module::Install::Base};
 	$ISCORE  = 1;
 }
@@ -531,15 +531,50 @@ sub WriteMyMeta {
 	die "WriteMyMeta has been deprecated";
 }
 
-sub write_mymeta {
+sub write_mymeta_yaml {
 	my $self = shift;
-
-	# If there's no existing META.yml there is nothing we can do
-	return unless -f 'META.yml';
 
 	# We need YAML::Tiny to write the MYMETA.yml file
 	unless ( eval { require YAML::Tiny; 1; } ) {
 		return 1;
+	}
+
+	# Generate the data
+	my $meta = $self->_write_mymeta_data or return 1;
+
+	# Save as the MYMETA.yml file
+	print "Writing MYMETA.yml\n";
+	YAML::Tiny::DumpFile('MYMETA.yml', $meta);
+}
+
+sub write_mymeta_json {
+	my $self = shift;
+
+	# We need JSON to write the MYMETA.json file
+	unless ( eval { require JSON; 1; } ) {
+		return 1;
+	}
+
+	# Generate the data
+	my $meta = $self->_write_mymeta_data or return 1;
+
+	# Save as the MYMETA.yml file
+	print "Writing MYMETA.json\n";
+	Module::Install::_write(
+		'MYMETA.json',
+		JSON->new->pretty(1)->canonical->encode($meta),
+	);
+}
+
+sub _write_mymeta_data {
+	my $self = shift;
+
+	# If there's no existing META.yml there is nothing we can do
+	return undef unless -f 'META.yml';
+
+	# We need Parse::CPAN::Meta to load the file
+	unless ( eval { require Parse::CPAN::Meta; 1; } ) {
+		return undef;
 	}
 
 	# Merge the perl version into the dependencies
@@ -557,7 +592,7 @@ sub write_mymeta {
 	}
 
 	# Load the advisory META.yml file
-	my @yaml = YAML::Tiny::LoadFile('META.yml');
+	my @yaml = Parse::CPAN::Meta::LoadFile('META.yml');
 	my $meta = $yaml[0];
 
 	# Overwrite the non-configure dependency hashs
@@ -571,9 +606,7 @@ sub write_mymeta {
 		$meta->{build_requires} = { map { @$_ } @{ $val->{build_requires} } };
 	}
 
-	# Save as the MYMETA.yml file
-	print "Writing MYMETA.yml\n";
-	YAML::Tiny::DumpFile('MYMETA.yml', $meta);
+	return $meta;
 }
 
 1;

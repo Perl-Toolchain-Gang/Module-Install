@@ -5,7 +5,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '0.89';
+	$VERSION = '0.90';;
 	@ISA     = qw{Module::Install::Base};
 	$ISCORE  = 1;
 }
@@ -40,8 +40,20 @@ sub WriteAll {
 
 	# The Makefile write process adds a couple of dependencies,
 	# so write the META.yml files after the Makefile.
-	$self->Meta->write        if $args{meta};
-	$self->Meta->write_mymeta if $self->mymeta;
+	if ( $args{meta} ) {
+		$self->Meta->write;
+	}
+
+	# Experimental support for MYMETA
+	if ( $ENV{X_MYMETA} ) {
+		if ( $ENV{X_MYMETA} eq 'JSON' ) {
+			$self->Meta->write_mymeta_json;
+		} else {
+			$self->Meta->write_mymeta_yaml;
+		}
+	} elsif ( $self->mymeta ) {
+		$self->Meta->write_mymeta_yaml;
+	}
 
 	return 1;
 }
