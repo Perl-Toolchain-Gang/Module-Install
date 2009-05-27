@@ -1,5 +1,8 @@
 Changes for Perl programming language extension Module-Install
 
+0.91 Thu 28 May 2009
+	- Add missing dependency on Parse::CPAN::Meta
+
 0.90 Fri 22 May 2009
 	- Adding a first implementation of MYMETA
 

@@ -20,6 +20,7 @@ name          'Module-Install';
 author        'Adam Kennedy <adamk@cpan.org>';
 perl_version  '5.005';
 all_from      'lib/Module/Install.pm';
+requires      'Parse::CPAN::Meta' => '1.39';
 requires      'File::Spec'        => '3.2701';
 requires      'Devel::PPPort'     => '3.16';
 requires      'File::Remove'      => '1.42';
