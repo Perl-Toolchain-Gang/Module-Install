@@ -6,7 +6,7 @@ BEGIN {
         $^W = 1;
 }
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 
 require_ok( 'Module::Install::Metadata' );
 
@@ -53,3 +53,15 @@ SCOPE: {
 		"bugtrackers: @links"
 	);
 }
+
+SCOPE: {
+	my @links=Module::Install::Metadata::_extract_bugtracker('L<http://github.com/marcusramberg/mojomojo/issues>');
+	is_deeply(
+		\@links,
+		[ 'http://github.com/marcusramberg/mojomojo/issues' ],
+		'1 bugtracker (github.com) extracted',
+	) or diag(
+		"bugtrackers: @links"
+	);
+}
+

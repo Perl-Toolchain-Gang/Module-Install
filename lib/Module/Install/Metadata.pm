@@ -468,7 +468,7 @@ sub license_from {
 }
 
 sub _extract_bugtracker {
-	my @links   = $_[0] =~ m#L<(\Qhttp://rt.cpan.org/\E[^>]+)>#g;
+	my @links   = $_[0] =~ m#L<(\Qhttp://rt.cpan.org/\E[^>]+|\Qhttp://github.com/\E[\w_]+/[\w_]+/issues)>#g;
 	my %links;
 	@links{@links}=();
 	@links=keys %links;

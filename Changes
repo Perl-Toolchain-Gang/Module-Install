@@ -1,5 +1,7 @@
 Changes for Perl programming language extension Module-Install
 
+        - support github.com bugtracker (CHORNY)
+
 0.91 Thu 28 May 2009
 	- Add missing dependency on Parse::CPAN::Meta
 
