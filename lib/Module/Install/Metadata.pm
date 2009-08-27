@@ -484,7 +484,7 @@ sub bugtracker_from {
 		return 0;
 	}
 	if ( @links > 1 ) {
-		warn "Found more than on rt.cpan.org link in $_[0]\n";
+		warn "Found more than one bugtracker link in $_[0]\n";
 		return 0;
 	}
 
