@@ -4,7 +4,7 @@ Changes for Perl programming language extension Module-Install
 
 0.92 to be released
 	- Made the matching phrase for the perl license a bit shorter
-	  to allow "the same terms as Perl 5.10" etc
+	  to allow "the same terms as Perl 5.10" etc (ISHIGAKI)
 
 0.91 Thu 28 May 2009
 	- Add missing dependency on Parse::CPAN::Meta
