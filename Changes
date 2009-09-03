@@ -1,10 +1,10 @@
 Changes for Perl programming language extension Module-Install
 
-        - support github.com bugtracker (CHORNY)
-
 0.92 to be released
+        - support github.com bugtracker (CHORNY)
 	- Made the matching phrase for the perl license a bit shorter
 	  to allow "the same terms as Perl 5.10" etc (ISHIGAKI)
+        - refactor part of license_from to separate sub, tests for a new sub (CHORNY)
 
 0.91 Thu 28 May 2009
 	- Add missing dependency on Parse::CPAN::Meta

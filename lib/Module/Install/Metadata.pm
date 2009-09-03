@@ -424,10 +424,9 @@ sub author_from {
 	}
 }
 
-sub license_from {
-	my $self = shift;
+sub _extract_license {
 	if (
-		Module::Install::_read($_[0]) =~ m/
+		$_[0] =~ m/
 		(
 			=head \d \s+
 			(?:licen[cs]e|licensing|copyright|legal)\b
@@ -455,16 +454,24 @@ sub license_from {
 			'proprietary'                        => 'proprietary', 0,
 		);
 		while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
-			$pattern =~ s{\s+}{\\s+}g;
+			$pattern =~ s#\s+#\\s+#g;
 			if ( $license_text =~ /\b$pattern\b/i ) {
-				$self->license($license);
-				return 1;
+			        return $license;
 			}
 		}
+	} else {
+	        return;
 	}
+}
 
-	warn "Cannot determine license info from $_[0]\n";
-	return 'unknown';
+sub license_from {
+	my $self = shift;
+	if (my $license=_extract_license(Module::Install::_read($_[0]))) {
+		$self->license($license);
+	} else {
+		warn "Cannot determine license info from $_[0]\n";
+		return 'unknown';
+	}
 }
 
 sub _extract_bugtracker {

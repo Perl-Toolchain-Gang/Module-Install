@@ -6,7 +6,7 @@ BEGIN {
         $^W = 1;
 }
 
-use Test::More tests => 6;
+use Test::More tests => 8;
 
 require_ok( 'Module::Install::Metadata' );
 
@@ -64,4 +64,18 @@ SCOPE: {
 		"bugtrackers: @links"
 	);
 }
+
+
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 copyright\nunder the same terms as the perl programming language\n=cut\n");
+		is($l, 'perl', 'Perl license detected',
+	);
+}
+
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 copyright\nAs LGPL license\n=cut\n");
+		is($l, 'lgpl', 'LGPL detected',
+	);
+}
+
 
