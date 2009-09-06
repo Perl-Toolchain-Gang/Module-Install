@@ -6,7 +6,7 @@ use ExtUtils::MakeMaker ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.03';
+	$VERSION = '1.03_01';
 }
 
 # special map on pre-defined feature sets
@@ -126,6 +126,7 @@ sub import {
 
     $UnderCPAN = _check_lock(1) unless $SkipInstall;
 
+    my %planned_to_install;
     while ( my ( $feature, $modules ) = splice( @args, 0, 2 ) ) {
         my ( @required, @tests, @skiptests );
         my $default  = 1;
@@ -181,6 +182,12 @@ sub import {
                 push @Existing, $mod => $arg;
                 $DisabledTests{$_} = 1 for map { glob($_) } @skiptests;
             }
+            elsif (exists $planned_to_install{$mod} and 
+              _version_cmp($planned_to_install{$mod}, $arg) >= 0) {
+                #already planned for install
+                print "planned. ($planned_to_install{$mod})\n";
+                $DisabledTests{$_} = 1 for map { glob($_) } @skiptests;
+            }
             else {
                 if (not defined $cur)   # indeed missing
                 {
@@ -217,6 +224,9 @@ sub import {
           )
         {
             push( @Missing, @required );
+            while ( my ( $mod, $arg ) = splice( @required, 0, 2 ) ) {
+                $planned_to_install{$mod}=$arg || 0;
+            }
             $DisabledTests{$_} = 1 for map { glob($_) } @skiptests;
         }
 
@@ -228,6 +238,9 @@ sub import {
             =~ /^[Nn]/ )
         {
             push( @Missing, @required );
+            while ( my ( $mod, $arg ) = splice( @required, 0, 2 ) ) {
+                $planned_to_install{$mod}=$arg || 0;
+            }
             $DisabledTests{$_} = 1 for map { glob($_) } @skiptests;
         }
 
