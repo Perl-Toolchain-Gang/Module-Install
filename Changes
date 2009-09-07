@@ -3,7 +3,8 @@ Changes for Perl programming language extension Module-Install
 0.92 to be released
         - feature(s)+auto_install will remember when module is planned for installation
           and will not ask again (CHORNY)
-        - support github.com bugtracker (CHORNY)
+        - Add group actions (all/default/none) by user for feature(s)+auto_install (CHORNY)
+        - Support github.com bugtracker (CHORNY)
 	- Made the matching phrase for the perl license a bit shorter
 	  to allow "the same terms as Perl 5.10" etc (ISHIGAKI)
         - refactor part of license_from to separate sub, tests for a new sub (CHORNY)

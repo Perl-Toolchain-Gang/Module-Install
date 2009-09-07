@@ -6,7 +6,7 @@ use ExtUtils::MakeMaker ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.03_02';
+	$VERSION = '1.03_04';
 }
 
 # special map on pre-defined feature sets
@@ -15,10 +15,11 @@ my %FeatureMap = (
     '-core' => 'Core Features',
 );
 
+use vars qw/$AcceptDefault/; #will be localized
 # various lexical flags
 my ( @Missing, @Existing,  %DisabledTests, $UnderCPAN,     $HasCPANPLUS );
 my (
-    $Config, $CheckOnly, $SkipInstall, $AcceptDefault, $TestOnly, $AllDeps
+    $Config, $CheckOnly, $SkipInstall, $TestOnly, $AllDeps
 );
 my ( $PostambleActions, $PostambleUsed );
 
@@ -91,11 +92,42 @@ sub _prompt {
     print "$default\n";
     return $default;
 }
-
+my $prompt_state='';
 sub _prompt_feature {
     my ( $prompt, $default ) = @_;
     my $def_string=$default ? 'y' : 'n';
-    return (_prompt($prompt,$def_string)=~ /^[Yy]/?1:0);
+    if ($prompt_state) {
+        if ($prompt_state eq 'all') {
+            local $AcceptDefault=1;
+            _prompt($prompt,'y');
+            return 1;
+        } elsif  ($prompt_state eq 'default') {
+            local $AcceptDefault=1;
+            _prompt($prompt,$def_string);
+            return $default;
+        } elsif  ($prompt_state eq 'none') {
+            local $AcceptDefault=1;
+            _prompt($prompt,'n');
+            return 0;
+        } else {
+            die;
+        }
+    } else {
+        my $answ=lc _prompt($prompt."\n===> y/n, all: [a]ll,by [d]efault,none",$def_string);
+        if ($answ=~/^a/) {
+            $prompt_state='all';
+            return 1;
+        } elsif ($answ=~/^d/) {
+            $prompt_state='default';
+            return $default;
+        } elsif ($answ eq 'none') {
+            $prompt_state='none';
+            return 0;
+        } elsif ($answ=~/^y/) {
+            return 1;
+        }
+        return 0;
+    }
 }
 
 # the workhorse
