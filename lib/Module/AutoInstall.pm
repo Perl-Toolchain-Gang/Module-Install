@@ -6,7 +6,7 @@ use ExtUtils::MakeMaker ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.03_04';
+	$VERSION = '1.03';
 }
 
 # special map on pre-defined feature sets
@@ -15,11 +15,10 @@ my %FeatureMap = (
     '-core' => 'Core Features',
 );
 
-use vars qw/$AcceptDefault/; #will be localized
 # various lexical flags
 my ( @Missing, @Existing,  %DisabledTests, $UnderCPAN,     $HasCPANPLUS );
 my (
-    $Config, $CheckOnly, $SkipInstall, $TestOnly, $AllDeps
+    $Config, $CheckOnly, $SkipInstall, $AcceptDefault, $TestOnly, $AllDeps
 );
 my ( $PostambleActions, $PostambleUsed );
 
@@ -92,43 +91,6 @@ sub _prompt {
     print "$default\n";
     return $default;
 }
-my $prompt_state='';
-sub _prompt_feature {
-    my ( $prompt, $default ) = @_;
-    my $def_string=$default ? 'y' : 'n';
-    if ($prompt_state) {
-        if ($prompt_state eq 'all') {
-            local $AcceptDefault=1;
-            _prompt($prompt,'y');
-            return 1;
-        } elsif  ($prompt_state eq 'default') {
-            local $AcceptDefault=1;
-            _prompt($prompt,$def_string);
-            return $default;
-        } elsif  ($prompt_state eq 'none') {
-            local $AcceptDefault=1;
-            _prompt($prompt,'n');
-            return 0;
-        } else {
-            die;
-        }
-    } else {
-        my $answ=lc _prompt($prompt."\n===> y/n, all: [a]ll,by [d]efault,none",$def_string);
-        if ($answ=~/^a/) {
-            $prompt_state='all';
-            return 1;
-        } elsif ($answ=~/^d/) {
-            $prompt_state='default';
-            return $default;
-        } elsif ($answ eq 'none') {
-            $prompt_state='none';
-            return 0;
-        } elsif ($answ=~/^y/) {
-            return 1;
-        }
-        return 0;
-    }
-}
 
 # the workhorse
 sub import {
@@ -164,7 +126,6 @@ sub import {
 
     $UnderCPAN = _check_lock(1) unless $SkipInstall;
 
-    my %planned_to_install;
     while ( my ( $feature, $modules ) = splice( @args, 0, 2 ) ) {
         my ( @required, @tests, @skiptests );
         my $default  = 1;
@@ -220,12 +181,6 @@ sub import {
                 push @Existing, $mod => $arg;
                 $DisabledTests{$_} = 1 for map { glob($_) } @skiptests;
             }
-            elsif (exists $planned_to_install{$mod} and 
-              _version_cmp($planned_to_install{$mod}, $arg) >= 0) {
-                #already planned for install
-                print "planned. ($planned_to_install{$mod})\n";
-                $DisabledTests{$_} = 1 for map { glob($_) } @skiptests;
-            }
             else {
                 if (not defined $cur)   # indeed missing
                 {
@@ -251,19 +206,17 @@ sub import {
                 $CheckOnly
                 or ($mandatory and $UnderCPAN)
                 or $AllDeps
-                or _prompt_feature(
+                or _prompt(
                     qq{==> Auto-install the }
                       . ( @required / 2 )
                       . ( $mandatory ? ' mandatory' : ' optional' )
-                      . qq{ module(s) from CPAN?},$default
-                )
+                      . qq{ module(s) from CPAN?},
+                    $default ? 'y' : 'n',
+                ) =~ /^[Yy]/
             )
           )
         {
             push( @Missing, @required );
-            while ( my ( $mod, $arg ) = splice( @required, 0, 2 ) ) {
-                $planned_to_install{$mod}=$arg || 0;
-            }
             $DisabledTests{$_} = 1 for map { glob($_) } @skiptests;
         }
 
@@ -275,9 +228,6 @@ sub import {
             =~ /^[Nn]/ )
         {
             push( @Missing, @required );
-            while ( my ( $mod, $arg ) = splice( @required, 0, 2 ) ) {
-                $planned_to_install{$mod}=$arg || 0;
-            }
             $DisabledTests{$_} = 1 for map { glob($_) } @skiptests;
         }
 
