@@ -6,7 +6,7 @@ use ExtUtils::MakeMaker ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.03_01';
+	$VERSION = '1.03_02';
 }
 
 # special map on pre-defined feature sets
@@ -90,6 +90,12 @@ sub _prompt {
     print $prompt, ' [', ( $y ? 'Y' : 'y' ), '/', ( $y ? 'n' : 'N' ), '] ';
     print "$default\n";
     return $default;
+}
+
+sub _prompt_feature {
+    my ( $prompt, $default ) = @_;
+    my $def_string=$default ? 'y' : 'n';
+    return (_prompt($prompt,$def_string)=~ /^[Yy]/?1:0);
 }
 
 # the workhorse
@@ -213,13 +219,12 @@ sub import {
                 $CheckOnly
                 or ($mandatory and $UnderCPAN)
                 or $AllDeps
-                or _prompt(
+                or _prompt_feature(
                     qq{==> Auto-install the }
                       . ( @required / 2 )
                       . ( $mandatory ? ' mandatory' : ' optional' )
-                      . qq{ module(s) from CPAN?},
-                    $default ? 'y' : 'n',
-                ) =~ /^[Yy]/
+                      . qq{ module(s) from CPAN?},$default
+                )
             )
           )
         {
