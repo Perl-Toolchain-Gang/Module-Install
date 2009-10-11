@@ -387,7 +387,7 @@ sub name_from {
 sub _extract_perl_version {
 	if (
 		$_[0] =~ m/
-		^
+		^\s*
 		(?:use|require) \s*
 		v?
 		([\d_\.]+)

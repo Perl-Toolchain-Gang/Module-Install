@@ -6,6 +6,7 @@ Changes for Perl programming language extension Module-Install
 	  to allow "the same terms as Perl 5.10" etc (ISHIGAKI)
         - refactor part of license_from to separate sub, tests for a new sub (CHORNY)
         - refactor part of perl_version_from to separate sub, tests for a new sub (CHORNY)
+        - Allow spaces at the start of string when using perl_version_from (CHORNY)
 
 0.91 Thu 28 May 2009
 	- Add missing dependency on Parse::CPAN::Meta
