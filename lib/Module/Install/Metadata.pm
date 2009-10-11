@@ -384,10 +384,9 @@ sub name_from {
 	}
 }
 
-sub perl_version_from {
-	my $self = shift;
+sub _extract_perl_version {
 	if (
-		Module::Install::_read($_[0]) =~ m/
+		$_[0] =~ m/
 		^
 		(?:use|require) \s*
 		v?
@@ -397,6 +396,16 @@ sub perl_version_from {
 	) {
 		my $perl_version = $1;
 		$perl_version =~ s{_}{}g;
+		return $perl_version;
+	} else {
+		return;
+	}
+}
+
+sub perl_version_from {
+	my $self = shift;
+	my $perl_version=_extract_perl_version(Module::Install::_read($_[0]));
+	if ($perl_version) {
 		$self->perl_version($perl_version);
 	} else {
 		warn "Cannot determine perl version info from $_[0]\n";

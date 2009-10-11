@@ -6,7 +6,7 @@ BEGIN {
         $^W = 1;
 }
 
-use Test::More tests => 8;
+use Test::More tests => 10;
 
 require_ok( 'Module::Install::Metadata' );
 
@@ -79,3 +79,14 @@ SCOPE: {
 }
 
 
+SCOPE: {
+	my $version=Module::Install::Metadata::_extract_perl_version("use 5.10.0;");
+		is($version, '5.10.0', 'perl 5.10.0 detected',
+	);
+}
+
+SCOPE: {
+	my $version=Module::Install::Metadata::_extract_perl_version("use strict;");
+		is($version, undef, 'no perl prereq',
+	);
+}
