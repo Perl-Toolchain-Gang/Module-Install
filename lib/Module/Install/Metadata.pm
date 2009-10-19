@@ -229,6 +229,8 @@ sub all_from {
 		die("The path '$file' does not exist, or is not a file");
 	}
 
+    $self->{values}{all_from} = $file;
+
 	# Some methods pull from POD instead of code.
 	# If there is a matching .pod, use that instead
 	my $pod = $file;
