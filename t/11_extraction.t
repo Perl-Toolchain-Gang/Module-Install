@@ -6,7 +6,7 @@ BEGIN {
         $^W = 1;
 }
 
-use Test::More tests => 10;
+use Test::More tests => 12;
 
 require_ok( 'Module::Install::Metadata' );
 
@@ -65,9 +65,39 @@ SCOPE: {
 	);
 }
 
+SCOPE: {
+	my @links=Module::Install::Metadata::_extract_bugtracker('L<http://code.google.com/p/www-mechanize/issues/list>');
+	is_deeply(
+		\@links,
+		[ 'http://code.google.com/p/www-mechanize/issues/list' ],
+		'1 bugtracker (code.google.com) extracted',
+	) or diag(
+		"bugtrackers: @links"
+	);
+}
+
+
+
 
 SCOPE: {
 	my $l=Module::Install::Metadata::_extract_license("=head1 copyright\nunder the same terms as the perl programming language\n=cut\n");
+		is($l, 'perl', 'Perl license detected',
+	);
+}
+
+SCOPE: {
+        my $text="=head1 LICENSE
+
+This is free software, you may use it and distribute it under
+the same terms as Perl itself.
+
+=head1 SEE ALSO
+
+test
+
+=cut
+";
+	my $l=Module::Install::Metadata::_extract_license($text);
 		is($l, 'perl', 'Perl license detected',
 	);
 }

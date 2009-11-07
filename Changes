@@ -1,13 +1,14 @@
 Changes for Perl programming language extension Module-Install
 
 0.92 to be released
-        - support github.com bugtracker (CHORNY)
+        - Support github.com bugtracker (CHORNY)
 	- Made the matching phrase for the perl license a bit shorter
 	  to allow "the same terms as Perl 5.10" etc (ISHIGAKI)
-        - refactor part of license_from to separate sub, tests for a new sub (CHORNY)
-        - refactor part of perl_version_from to separate sub, tests for a new sub (CHORNY)
+        - Refactor part of license_from to separate sub, tests for a new sub (CHORNY)
+        - Refactor part of perl_version_from to separate sub, tests for a new sub (CHORNY)
         - Allow spaces at the start of string when using perl_version_from (CHORNY)
-    - all_from() now stores the filename in the 'all_from' key for later reuse
+	- all_from() now stores the filename in the 'all_from' key for later reuse (MARCEL)
+        - Support code.google.com bugtracker (CHORNY)
 
 0.91 Thu 28 May 2009
 	- Add missing dependency on Parse::CPAN::Meta
