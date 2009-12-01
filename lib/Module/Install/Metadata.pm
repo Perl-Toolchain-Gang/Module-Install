@@ -440,7 +440,7 @@ sub _extract_license {
 		$_[0] =~ m/
 		(
 			=head \d \s+
-			(?:licen[cs]e|licensing|copyright|legal)\b
+			(?:licen[cs]e|licensing|copyrights?|legal)\b
 			.*?
 		)
 		(=head\\d.*|=cut.*|)

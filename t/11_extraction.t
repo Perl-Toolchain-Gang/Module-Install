@@ -6,7 +6,7 @@ BEGIN {
         $^W = 1;
 }
 
-use Test::More tests => 12;
+use Test::More tests => 13;
 
 require_ok( 'Module::Install::Metadata' );
 
@@ -94,6 +94,18 @@ the same terms as Perl itself.
 =head1 SEE ALSO
 
 test
+
+=cut
+";
+	my $l=Module::Install::Metadata::_extract_license($text);
+		is($l, 'perl', 'Perl license detected',
+	);
+}
+
+SCOPE: {
+        my $text="=head1 COPYRIGHTS
+
+This module is distributed under the same terms as Perl itself.
 
 =cut
 ";
