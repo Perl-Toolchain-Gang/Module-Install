@@ -1,6 +1,6 @@
 Changes for Perl programming language extension Module-Install
 
-0.92  Fri 12 Nov 2009
+0.92  Tue  1 Dec 2009
 	- Support github.com bugtracker (CHORNY)
 	- Made the matching phrase for the perl license a bit shorter
 	  to allow "the same terms as Perl 5.10" etc (ISHIGAKI)
@@ -10,6 +10,7 @@ Changes for Perl programming language extension Module-Install
 	- all_from() now stores the filename in the 'all_from' key for later reuse (MARCEL)
 	- Support code.google.com bugtracker (CHORNY)
 	- If the DSL code fails, say why (ADAMK)
+	- autoinstall doesn't die on CPAN-1.81 (JJORE)
 
 0.91 Thu 28 May 2009
 	- Add missing dependency on Parse::CPAN::Meta
