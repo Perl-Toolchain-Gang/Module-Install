@@ -164,7 +164,7 @@ sub write {
 	# Merge both kinds of requires into prereq_pm
 	my $prereq = ($args->{PREREQ_PM} ||= {});
 	%$prereq = ( %$prereq,
-		map { @$_ }
+		map { @$_ } # flatten [module => version]
 		map { @$_ }
 		grep $_,
 		($self->configure_requires, $self->build_requires, $self->requires)
@@ -173,7 +173,7 @@ sub write {
 	# Remove any reference to perl, PREREQ_PM doesn't support it
 	delete $args->{PREREQ_PM}->{perl};
 
-	# merge both kinds of requires into prereq_pm
+	# Delete bundled dists from prereq_pm
 	my $subdirs = ($args->{DIR} ||= []);
 	if ($self->bundles) {
 		foreach my $bundle (@{ $self->bundles }) {
