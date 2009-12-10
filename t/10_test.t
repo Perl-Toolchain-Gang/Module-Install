@@ -6,7 +6,7 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 5;
+use Test::More tests => 6;
 use Config                ();
 use File::Spec::Functions ':ALL';
 use File::Temp            ();
@@ -20,6 +20,8 @@ my $out = File::Spec->catfile( $dir, 'out'  );
 my $err = File::Spec->catfile( $dir, 'err'  );
 
 system("$^X Makefile.PL > $out 2> $err");
+
+#Test META.yml
 
 ok( -e 'META.yml', 'META.yml created' );
 my $meta = YAML::Tiny::LoadFile('META.yml');
@@ -40,5 +42,8 @@ is_deeply(
 );
 is($meta->{license},'apache','license');
 is($meta->{resources}->{license},'http://apache.org/licenses/LICENSE-2.0','license URL');
+
+#Test Makefile
+ok( -e 'Makefile', 'Makefile created' );
 
 chdir( catdir( updir(), updir() ) );
