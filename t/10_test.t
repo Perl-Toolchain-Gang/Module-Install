@@ -6,11 +6,12 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 6;
+use Test::More tests => 7;
 use Config                ();
 use File::Spec::Functions ':ALL';
 use File::Temp            ();
 use YAML::Tiny            ();
+use Symbol;
 
 chdir( catdir('test', 'A') );
 unlink( 'META.yml', 'MYMETA.yml' );
@@ -45,5 +46,11 @@ is($meta->{resources}->{license},'http://apache.org/licenses/LICENSE-2.0','licen
 
 #Test Makefile
 ok( -e 'Makefile', 'Makefile created' );
+
+my $mf = gensym;
+open $mf,'<Makefile';
+my @lines=<$mf>;
+my ($line )=grep {$_=~/^#\s+PREREQ_PM/} @lines;
+ok($line,'PREREQ_PM found');
 
 chdir( catdir( updir(), updir() ) );
