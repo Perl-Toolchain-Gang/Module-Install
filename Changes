@@ -13,8 +13,9 @@ Changes for Perl programming language extension Module-Install
 	- autoinstall doesn't die on CPAN-1.81 (JJORE)
 	- Check 'copyrights' section for license also (CHORNY)
 	- Test passing correct params to EU::MM (CHORNY)
-	- Use BUILD_REQUIRES EU::MM param (CHORNY)
+	- Use BUILD_REQUIRES EU::MM param to have better OS packages (CHORNY)
 	- Bundled prereqs will be removed from build prereqs only (CHORNY)
+	- Use MIN_PERL_VERSION EU::MM param (CHORNY)
 
 0.91 Thu 28 May 2009
 	- Add missing dependency on Parse::CPAN::Meta

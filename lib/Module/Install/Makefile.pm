@@ -203,6 +203,10 @@ sub write {
 		eval "use $perl_version; 1"
 			or die "ERROR: perl: Version $] is installed, "
 			. "but we need version >= $perl_version";
+
+		if ( eval($ExtUtils::MakeMaker::VERSION) >= 6.48 ) {
+			$args->{MIN_PERL_VERSION} = $perl_version;
+		}
 	}
 
 	$args->{INSTALLDIRS} = $self->installdirs;
