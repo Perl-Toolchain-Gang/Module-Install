@@ -87,7 +87,9 @@ sub build_dist {
 	chdir $dist_path or return 0;
 	my $X_MYMETA = $params{MYMETA} || '';
 	local $ENV{X_MYMETA} = $X_MYMETA;
-	system($^X, "-I../../lib", "-I../../blib/lib", "Makefile.PL") == 0 or return 0;
+
+	my @run_params=@{ $params{run_params} || [] };
+	system($^X, "-I../../lib", "-I../../blib/lib", "Makefile.PL",@run_params) == 0 or return 0;
 	chdir $home or return 0;
 	return 1;
 }
