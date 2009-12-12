@@ -12,6 +12,7 @@ Changes for Perl programming language extension Module-Install
 	- If the DSL code fails, say why (ADAMK)
 	- autoinstall doesn't die on CPAN-1.81 (JJORE)
 	- Check 'copyrights' section for license also (CHORNY)
+	- Test passing coreect params to EU::MM (CHORNY)
 
 0.91 Thu 28 May 2009
 	- Add missing dependency on Parse::CPAN::Meta
