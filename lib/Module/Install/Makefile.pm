@@ -161,17 +161,28 @@ sub write {
 		delete $args->{SIGN};
 	}
 
-	# Merge both kinds of requires into prereq_pm
 	my $prereq = ($args->{PREREQ_PM} ||= {});
 	%$prereq = ( %$prereq,
 		map { @$_ } # flatten [module => version]
 		map { @$_ }
 		grep $_,
-		($self->configure_requires, $self->build_requires, $self->requires)
+		($self->requires)
 	);
 
 	# Remove any reference to perl, PREREQ_PM doesn't support it
 	delete $args->{PREREQ_PM}->{perl};
+
+	# Merge both kinds of requires into BUILD_REQUIRES
+	my $build_prereq = ($args->{BUILD_REQUIRES} ||= {});
+	%$build_prereq = ( %$build_prereq,
+		map { @$_ } # flatten [module => version]
+		map { @$_ }
+		grep $_,
+		($self->configure_requires, $self->build_requires)
+	);
+
+	# Remove any reference to perl, BUILD_REQUIRES doesn't support it
+	delete $args->{BUILD_REQUIRES}->{perl};
 
 	# Delete bundled dists from prereq_pm
 	my $subdirs = ($args->{DIR} ||= []);
@@ -179,8 +190,13 @@ sub write {
 		foreach my $bundle (@{ $self->bundles }) {
 			my ($file, $dir) = @$bundle;
 			push @$subdirs, $dir if -d $dir;
-			delete $prereq->{$file};
+			delete $build_prereq->{$file}; #Delete from build prereqs only
 		}
+	}
+
+	if ( eval($ExtUtils::MakeMaker::VERSION) < 6.55_03 ) {
+		%$prereq = (%$prereq,%$build_prereq);
+		delete $args->{BUILD_REQUIRES};
 	}
 
 	if ( my $perl_version = $self->perl_version ) {

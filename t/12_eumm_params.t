@@ -6,9 +6,10 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 7;
+use Test::More tests => 10;
 use File::Spec;
 use t::lib::Test;
+require ExtUtils::MakeMaker;
 
 sub _read {
 	local *FH;
@@ -35,6 +36,13 @@ SCOPE: {
 	eval ($content);
 	ok( !$@,'correct content');
 	ok( exists $PREREQ_PM->{'File::Spec'});
-	#ok( kill_dist('Foo'),   'kill_dist'   );
+	if ( eval($ExtUtils::MakeMaker::VERSION) < 6.55_03 ) {
+		ok( exists $PREREQ_PM->{'ExtUtils::MakeMaker'});
+		ok( !exists $BUILD_REQUIRES->{'ExtUtils::MakeMaker'});
+	} else { #best to check both because user can have any version
+		ok( exists $BUILD_REQUIRES->{'ExtUtils::MakeMaker'});
+		ok( !exists $PREREQ_PM->{'ExtUtils::MakeMaker'});
+	}
+	ok( kill_dist('Foo'),   'kill_dist'   );
 }
 

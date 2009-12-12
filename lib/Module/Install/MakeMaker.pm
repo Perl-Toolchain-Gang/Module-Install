@@ -35,6 +35,12 @@ sub WriteMakefile {
         }
     }
 
+    if (my $prereq = delete($args{BUILD_REQUIRES})) {
+        while (my($k,$v) = each %$prereq) {
+            $self->build_requires($k,$v);
+        }
+    }
+
     # put the remaining args to makemaker_args
     $self->makemaker_args(%args);
 }
