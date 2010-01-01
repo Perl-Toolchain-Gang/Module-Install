@@ -1,6 +1,6 @@
 Changes for Perl programming language extension Module-Install
 
-0.92  Tue  1 Dec 2009
+0.92  ?
 	- Support github.com bugtracker (CHORNY)
 	- Made the matching phrase for the perl license a bit shorter
 	  to allow "the same terms as Perl 5.10" etc (ISHIGAKI)
@@ -16,6 +16,7 @@ Changes for Perl programming language extension Module-Install
 	- Use BUILD_REQUIRES EU::MM param to have better OS packages (CHORNY)
 	- Bundled prereqs will be removed from build prereqs only (CHORNY)
 	- Use MIN_PERL_VERSION EU::MM param (CHORNY)
+	- better search for 'Perl' license (CHORNY)
 
 0.91 Thu 28 May 2009
 	- Add missing dependency on Parse::CPAN::Meta

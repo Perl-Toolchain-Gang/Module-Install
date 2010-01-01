@@ -6,7 +6,7 @@ BEGIN {
         $^W = 1;
 }
 
-use Test::More tests => 13;
+use Test::More tests => 14;
 
 require_ok( 'Module::Install::Metadata' );
 
@@ -119,6 +119,34 @@ SCOPE: {
 		is($l, 'lgpl', 'LGPL detected',
 	);
 }
+
+SCOPE: {
+        my $text=<<'EOT';
+=head1 COPYRIGHT AND LICENCE
+
+... is free software; you can redistribute it and/or modify it under
+the terms of Perl itself, that is to say, under the terms of either:
+
+=over 4
+
+=item *
+
+The GNU General Public License as published by the Free Software Foundation;
+either version 2, or (at your option) any later version, or
+
+=item *
+
+The "Artistic License" which comes with Perl.
+
+=back
+
+=cut
+EOT
+	my $l=Module::Install::Metadata::_extract_license($text);
+		is($l, 'perl', 'Perl license detected',
+	);
+}
+
 
 
 SCOPE: {

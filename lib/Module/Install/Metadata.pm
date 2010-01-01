@@ -449,6 +449,7 @@ sub _extract_license {
 		my $license_text = $1;
 		my @phrases      = (
 			'under the same (?:terms|license) as (?:perl|the perl programming language)' => 'perl', 1,
+			'under the terms of (?:perl|the perl programming language) itself' => 'perl', 1,
 			'GNU general public license'         => 'gpl',         1,
 			'GNU public license'                 => 'gpl',         1,
 			'GNU lesser general public license'  => 'lgpl',        1,
@@ -465,7 +466,7 @@ sub _extract_license {
 			'proprietary'                        => 'proprietary', 0,
 		);
 		while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
-			$pattern =~ s#\s+#\\s+#g;
+			$pattern =~ s#\s+#\\s+#gs;
 			if ( $license_text =~ /\b$pattern\b/i ) {
 			        return $license;
 			}
