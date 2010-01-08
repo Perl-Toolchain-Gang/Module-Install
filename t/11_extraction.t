@@ -6,7 +6,7 @@ BEGIN {
         $^W = 1;
 }
 
-use Test::More tests => 14;
+use Test::More tests => 15;
 
 require_ok( 'Module::Install::Metadata' );
 
@@ -152,6 +152,12 @@ EOT
 SCOPE: {
 	my $version=Module::Install::Metadata::_extract_perl_version("use 5.10.0;");
 		is($version, '5.10.0', 'perl 5.10.0 detected',
+	);
+}
+
+SCOPE: {
+	my $version=Module::Install::Metadata::_extract_perl_version("   use 5.010;");
+		is($version, '5.010', 'perl 5.10.0 detected',
 	);
 }
 
