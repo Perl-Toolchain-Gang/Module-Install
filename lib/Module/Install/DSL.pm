@@ -44,7 +44,7 @@ sub import {
 
 	# Execute the script
 	eval $code;
-	print STDERR "Failed to execute the generated code: $@" if $@;
+	print STDERR "Failed to execute the generated code...\n$@" if $@;
 
 	exit(0);
 }

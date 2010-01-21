@@ -1,22 +1,28 @@
 Changes for Perl programming language extension Module-Install
 
-0.92  ?
+0.92 Thu 21 Jan 2010
 	- Support github.com bugtracker (CHORNY)
 	- Made the matching phrase for the perl license a bit shorter
 	  to allow "the same terms as Perl 5.10" etc (ISHIGAKI)
-	- Refactor part of license_from to separate sub, tests for a new sub (CHORNY)
-	- Refactor part of perl_version_from to separate sub, tests for a new sub (CHORNY)
-	- Allow spaces at the start of string when using perl_version_from (CHORNY)
-	- all_from() now stores the filename in the 'all_from' key for later reuse (MARCEL)
+	- Refactor part of license_from to separate sub, tests for a new
+	  sub (CHORNY)
+	- Refactor part of perl_version_from to separate sub, tests for
+	  a new sub (CHORNY)
+	- Allow spaces at the start of string when using
+	  perl_version_from (CHORNY)
+	- The all_from command now stores the filename in the 'all_from'
+	  key for later reuse (MARCEL)
 	- Support code.google.com bugtracker (CHORNY)
 	- If the DSL code fails, say why (ADAMK)
-	- autoinstall doesn't die on CPAN-1.81 (JJORE)
+	- Now autoinstall doesn't die on CPAN-1.81 (JJORE)
 	- Check 'copyrights' section for license also (CHORNY)
 	- Test passing correct params to EU::MM (CHORNY)
-	- Use BUILD_REQUIRES EU::MM param to have better OS packages (CHORNY)
+	- Use BUILD_REQUIRES EU::MM param for better OS packages (CHORNY)
 	- Bundled prereqs will be removed from build prereqs only (CHORNY)
 	- Use MIN_PERL_VERSION EU::MM param (CHORNY)
-	- better search for 'Perl' license (CHORNY)
+	- Better search for 'Perl' license (CHORNY)
+	- Adding 'makemaker' command to make EU:MM version conditionals
+	  easier (ADAMK)
 
 0.91 Thu 28 May 2009
 	- Add missing dependency on Parse::CPAN::Meta

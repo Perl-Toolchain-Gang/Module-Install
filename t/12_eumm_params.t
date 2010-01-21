@@ -55,6 +55,6 @@ END_DSL
 		ok( !exists $PREREQ_PM->{'ExtUtils::MakeMaker'});
 		is( $MIN_PERL_VERSION, '5.005' , 'correct Perl version');
 	}
-	ok( kill_dist('Foo'),   'kill_dist'   );
+	ok( kill_dist('Foo'), 'kill_dist' );
 }
 

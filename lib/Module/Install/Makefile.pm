@@ -33,6 +33,17 @@ sub prompt {
 	}
 }
 
+# Store a cleaned up version of the MakeMaker version,
+# since we need to behave differently in a variety of
+# ways based on the MM version.
+my $makemaker = eval $ExtUtils::MakeMaker::VERSION;
+
+# If we are passed a param, do a "newer than" comparison.
+# Otherwise, just return the MakeMaker version.
+sub makemaker {
+	( @_ < 2 or $makemaker >= eval($_[1]) ) ? $makemaker : 0
+}
+
 sub makemaker_args {
 	my $self = shift;
 	my $args = ( $self->{makemaker_args} ||= {} );
@@ -43,7 +54,7 @@ sub makemaker_args {
 # For mm args that take multiple space-seperated args,
 # append an argument to the current list.
 sub makemaker_append {
-	my $self = sShift;
+	my $self = shift;
 	my $name = shift;
 	my $args = $self->makemaker_args;
 	$args->{name} = defined $args->{$name}
@@ -129,12 +140,13 @@ sub write {
 		# an underscore, even though its own version may contain one!
 		# Hence the funny regexp to get rid of it.  See RT #35800
 		# for details.
-		$self->build_requires( 'ExtUtils::MakeMaker' => $ExtUtils::MakeMaker::VERSION =~ /^(\d+\.\d+)/ );
-		$self->configure_requires( 'ExtUtils::MakeMaker' => $ExtUtils::MakeMaker::VERSION =~ /^(\d+\.\d+)/ );
+		my $v = $ExtUtils::MakeMaker::VERSION =~ /^(\d+\.\d+)/;
+		$self->build_requires(     'ExtUtils::MakeMaker' => $v );
+		$self->configure_requires( 'ExtUtils::MakeMaker' => $v );
 	} else {
 		# Allow legacy-compatibility with 5.005 by depending on the
 		# most recent EU:MM that supported 5.005.
-		$self->build_requires( 'ExtUtils::MakeMaker' => 6.42 );
+		$self->build_requires(     'ExtUtils::MakeMaker' => 6.42 );
 		$self->configure_requires( 'ExtUtils::MakeMaker' => 6.42 );
 	}
 
@@ -151,10 +163,10 @@ sub write {
 		$args->{ABSTRACT} = $self->abstract;
 		$args->{AUTHOR}   = $self->author;
 	}
-	if ( eval($ExtUtils::MakeMaker::VERSION) >= 6.10 ) {
+	if ( $self->makemaker(6.10) ) {
 		$args->{NO_META} = 1;
 	}
-	if ( eval($ExtUtils::MakeMaker::VERSION) > 6.17 and $self->sign ) {
+	if ( $self->makemaker(6.17) and $self->sign ) {
 		$args->{SIGN} = 1;
 	}
 	unless ( $self->is_admin ) {
@@ -194,7 +206,7 @@ sub write {
 		}
 	}
 
-	if ( eval($ExtUtils::MakeMaker::VERSION) < 6.55_03 ) {
+	unless ( $self->makemaker('6.55_03') ) {
 		%$prereq = (%$prereq,%$build_prereq);
 		delete $args->{BUILD_REQUIRES};
 	}
@@ -204,7 +216,7 @@ sub write {
 			or die "ERROR: perl: Version $] is installed, "
 			. "but we need version >= $perl_version";
 
-		if ( eval($ExtUtils::MakeMaker::VERSION) >= 6.48 ) {
+		if ( $self->makemaker(6.48) ) {
 			$args->{MIN_PERL_VERSION} = $perl_version;
 		}
 	}

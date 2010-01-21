@@ -11,7 +11,7 @@ BEGIN {
 	$ISCORE  = 1;
 }
 
-my $makefile;
+my $makefile = undef;
 
 sub WriteMakefile {
     my ($self, %args) = @_;
