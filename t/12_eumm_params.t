@@ -10,7 +10,7 @@ use Test::More tests => 11;
 use File::Spec;
 use t::lib::Test;
 require ExtUtils::MakeMaker;
-use vars qw{ $PREREQ_PM, $MIN_PERL_VERSION, $BUILD_REQUIRES };
+use vars qw{ $PREREQ_PM $MIN_PERL_VERSION $BUILD_REQUIRES };
 
 # Done in evals to avoid confusing Perl::MinimumVersion
 eval( $] >= 5.006 ? <<'END_NEW' : <<'END_OLD' ); die $@ if $@;
