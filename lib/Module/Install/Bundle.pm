@@ -40,14 +40,14 @@ sub bundle {
         $self->bundles($name, $target);
 
         next if eval "use $name $version; 1";
-        mkdir $target or die $! unless -d $target;
+        mkdir( $target, 0777 ) or die $! unless -d $target;
 
         # XXX - clean those directories upon "make clean"?
         File::Find::find({
             wanted => sub {
                 my $out = $_;
                 $out =~ s/$bundle_dir/./i;
-                mkdir $out if -d;
+                mkdir( $out, 0777 ) if -d;
                 File::Copy::copy($_ => $out) unless -d;
             },
             no_chdir => 1,

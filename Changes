@@ -23,6 +23,7 @@ Changes for Perl programming language extension Module-Install
 	- Better search for 'Perl' license (CHORNY)
 	- Adding 'makemaker' command to make EU:MM version conditionals
 	  easier (ADAMK)
+	- Removed a variety of Perl::MinimumVersion complaints (ADAMK)
 
 0.91 Thu 28 May 2009
 	- Add missing dependency on Parse::CPAN::Meta

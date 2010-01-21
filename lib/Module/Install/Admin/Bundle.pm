@@ -33,7 +33,7 @@ sub bundle {
     $conf->set_conf( signature => 0 );
     $conf->set_conf( md5       => 0 );
 
-    mkdir $bundle_dir;
+    mkdir( $bundle_dir, 0777 );
 
     my %bundles;
 

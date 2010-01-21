@@ -10,18 +10,26 @@ use Test::More tests => 11;
 use File::Spec;
 use t::lib::Test;
 require ExtUtils::MakeMaker;
+use vars qw{ $PREREQ_PM, $MIN_PERL_VERSION, $BUILD_REQUIRES };
 
+# Done in evals to avoid confusing Perl::MinimumVersion
+eval( $] >= 5.006 ? <<'END_NEW' : <<'END_OLD' ); die $@ if $@;
 sub _read {
 	local *FH;
-	if ( $] >= 5.006 ) {
-		open( FH, '<', $_[0] ) or die "open($_[0]): $!";
-	} else {
-		open( FH, "< $_[0]"  ) or die "open($_[0]): $!";
-	}
+	open( FH, '<', $_[0] ) or die "open($_[0]): $!";
 	my $string = do { local $/; <FH> };
 	close FH or die "close($_[0]): $!";
 	return $string;
 }
+END_NEW
+sub _read {
+	local *FH;
+	open( FH, "< $_[0]"  ) or die "open($_[0]): $!";
+	my $string = do { local $/; <FH> };
+	close FH or die "close($_[0]): $!";
+	return $string;
+}
+END_OLD
 
 # Regular build
 SCOPE: {
@@ -42,7 +50,6 @@ END_DSL
 	my $content=_read($file);
 	ok( $content,'file is not empty');
 	ok( $content =~ s/^.*\$PREREQ_PM = \{/\$PREREQ_PM = {/s,'PREREQ_PM found');
-	our ($PREREQ_PM, $MIN_PERL_VERSION, $BUILD_REQUIRES);
 	eval ($content);
 	ok( !$@,'correct content');
 	ok( exists $PREREQ_PM->{'File::Spec'});
