@@ -1,5 +1,7 @@
 Changes for Perl programming language extension Module-Install
 
+	- Better search for 'Perl' license (CHORNY)
+
 0.92 Thu 21 Jan 2010
 	- Support github.com bugtracker (CHORNY)
 	- Made the matching phrase for the perl license a bit shorter
