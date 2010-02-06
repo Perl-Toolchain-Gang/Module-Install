@@ -10,4 +10,4 @@ BEGIN {
 
 use Test::More tests => 1;
 
-ok( $ENV{RELEASE_TESTING}, 'RELEASE_TESTING is enabled' );
+ok( 1, 'Running xt tests' );
