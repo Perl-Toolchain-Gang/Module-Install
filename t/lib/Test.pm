@@ -15,8 +15,29 @@ BEGIN {
 		build_dist
 		kill_dist
 		run_makefile_pl
+		add_file
+		_read
 	};
 }
+
+# Done in evals to avoid confusing Perl::MinimumVersion
+eval( $] >= 5.006 ? <<'END_NEW' : <<'END_OLD' ); die $@ if $@;
+sub _read {
+	local *FH;
+	open( FH, '<', $_[0] ) or die "open($_[0]): $!";
+	my $string = do { local $/; <FH> };
+	close FH or die "close($_[0]): $!";
+	return $string;
+}
+END_NEW
+sub _read {
+	local *FH;
+	open( FH, "< $_[0]"  ) or die "open($_[0]): $!";
+	my $string = do { local $/; <FH> };
+	close FH or die "close($_[0]): $!";
+	return $string;
+}
+END_OLD
 
 sub create_dist {
 	my $dist = shift;
@@ -76,6 +97,24 @@ END_MODULE
 	close MODULE;
 
 	chdir $home or return 0;
+	return 1;
+}
+
+sub add_file {
+	my $dist      = shift;
+	my ($path, $content) = @_;
+	my $dist_path = File::Spec->catdir('t', $dist);
+	return 0 unless -d $dist_path;
+
+	my ($vol, $subdir, $file) = File::Spec->splitpath($path);
+	my $dist_subdir = File::Spec->catdir($dist_path, $subdir);
+	my $dist_file   = File::Spec->catfile($dist_subdir, $file);
+	mkdir($dist_subdir, 0777) or return 0;
+
+	open FILE, "> $dist_file" or return 0;
+	print FILE $content;
+	close FILE;
+
 	return 1;
 }
 

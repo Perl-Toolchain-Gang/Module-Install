@@ -117,7 +117,7 @@ sub tests_recursive {
 	%test_dir = ();
 	require File::Find;
 	File::Find::find( \&_wanted_t, $dir );
-	if ( -d 'xt' and ($ENV{RELEASE_TESTING} or $self->author) ) {
+	if ( -d 'xt' and ($ENV{RELEASE_TESTING} or $Module::Install::AUTHOR) ) {
 		File::Find::find( \&_wanted_t, 'xt' );
 	}
 	$self->tests( join ' ', map { "$_/*.t" } sort keys %test_dir );
@@ -162,7 +162,7 @@ sub write {
 	$DB::single = 1;
 	if ( $self->tests ) {
 		$args->{test} = { TESTS => $self->tests };
-	} elsif ( -d 'xt' and ($self->author or $ENV{RELEASE_TESTING}) ) {
+	} elsif ( -d 'xt' and ($Module::Install::AUTHOR or $ENV{RELEASE_TESTING}) ) {
 		$args->{test} = {
 			TESTS => join( ' ', map { "$_/*.t" } grep { -d $_ } qw{ t xt } ),
 		};

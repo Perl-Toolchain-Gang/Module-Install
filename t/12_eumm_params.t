@@ -12,25 +12,6 @@ use t::lib::Test;
 require ExtUtils::MakeMaker;
 use vars qw{ $PREREQ_PM $MIN_PERL_VERSION $BUILD_REQUIRES };
 
-# Done in evals to avoid confusing Perl::MinimumVersion
-eval( $] >= 5.006 ? <<'END_NEW' : <<'END_OLD' ); die $@ if $@;
-sub _read {
-	local *FH;
-	open( FH, '<', $_[0] ) or die "open($_[0]): $!";
-	my $string = do { local $/; <FH> };
-	close FH or die "close($_[0]): $!";
-	return $string;
-}
-END_NEW
-sub _read {
-	local *FH;
-	open( FH, "< $_[0]"  ) or die "open($_[0]): $!";
-	my $string = do { local $/; <FH> };
-	close FH or die "close($_[0]): $!";
-	return $string;
-}
-END_OLD
-
 # Regular build
 SCOPE: {
 	#ok( create_dist('Foo'), 'create_dist' );
