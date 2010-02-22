@@ -10,10 +10,6 @@ use Test::More;
 use File::Spec;
 use t::lib::Test;
 
-eval { require Module::Install::AuthorTests };
-plan skip_all => 'requires Module::Install::AuthorTests' if $@;
-diag "Module::Install::AuthorTests: $Module::Install::AuthorTests::VERSION";
-
 plan tests => 15;
 
 SCOPE: {
@@ -24,7 +20,6 @@ author        'Someone';
 license       'perl';
 perl_version  '5.005';
 requires_from 'lib/Foo.pm';
-author_tests('xt');
 WriteAll;
 END_DSL
 
@@ -48,7 +43,6 @@ author        'Someone';
 license       'perl';
 perl_version  '5.005';
 requires_from 'lib/Foo.pm';
-author_tests('xt');
 WriteAll;
 END_DSL
 
