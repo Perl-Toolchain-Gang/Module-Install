@@ -57,6 +57,10 @@ TEST
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+	if ( $ENV{RELEASE_TESTING} ) {
+		ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
+	} else {
+		ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+	}
 	ok( kill_dist('Foo'), 'kill_dist' );
 }
