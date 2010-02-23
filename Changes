@@ -1,5 +1,8 @@
 Changes for Perl programming language extension Module-Install
 
+0.94 Tue 23 Feb 2010
+	- Fixed critical author/xt bug (ADAMK)
+
 0.93 Sun  7 Feb 2010
 	- Better search for 'Perl' license (CHORNY)
 	- Added automatic executing of xt tests during either author()
