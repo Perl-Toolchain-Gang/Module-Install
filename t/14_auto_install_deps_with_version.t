@@ -15,7 +15,7 @@ use vars qw{ $PREREQ_PM $MIN_PERL_VERSION $BUILD_REQUIRES };
 plan skip_all => 'your perl is new enough to have File::Spec 3.30 in core' if $] > 5.010000;
 plan skip_all => 'your File::Spec is not new enough for this test' if $File::Spec::VERSION < 3.30;
 
-#plan tests => 15;
+plan tests => 20;
 
 SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
@@ -72,5 +72,3 @@ END_DSL
 	ok( -f $file_spec, 'File::Spec is bundled');
 	ok( kill_dist('Foo'), 'kill_dist' );
 }
-
-done_testing;
