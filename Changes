@@ -2,6 +2,8 @@ Changes for Perl programming language extension Module-Install
 
 0.95 to be released
 	- Resolved #51614: POD nits (by Frank Wiegand) (ISHIGAKI)
+	- Resolved #51077: auto_include_deps would mention the
+	  (test|build)_requires version. (by Tokuhiro Matsuno) (ISHIGAKI)
 
 0.94 Tue 23 Feb 2010
 	- Fixed critical author/xt bug (ADAMK)

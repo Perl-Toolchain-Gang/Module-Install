@@ -17,8 +17,8 @@ sub include {
 }
 
 sub include_deps {
-	my $self = shift;
-	my $deps = $self->admin->scan_dependencies($_[0]) or return;
+	my ($self, $module, $version) = @_;
+	my $deps = $self->admin->scan_dependencies($module, $self->perl_version, $version) or return;
 	foreach my $key ( sort keys %$deps ) {
 		$self->include($key);
 	}
@@ -39,12 +39,13 @@ sub auto_include {
 sub auto_include_deps {
 	my $self = shift;
 	foreach my $module (
-		map  { $_->[0] }
-		map  { @$_     }
-		grep { $_      }
+		map  { $_  }
+		map  { @$_ }
+		grep { $_  }
 		$self->build_requires
 	) {
-		$self->include_deps($module);
+		my ($name, $version) = @{$module};
+		$self->include_deps($name, $version);
 	}
 }
 

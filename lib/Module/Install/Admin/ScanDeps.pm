@@ -9,7 +9,7 @@ BEGIN {
 }
 
 sub scan_dependencies {
-    my ($self, $pkg, $perl_version) = @_;
+    my ($self, $pkg, $perl_version, $pkg_version) = @_;
 
     return if $pkg eq 'perl';
 
@@ -25,7 +25,7 @@ END_MESSAGE
     die "Module::CoreList has no information on perl $perl_version"
         unless exists $Module::CoreList::version{$perl_version};
 
-    if (my $min_version = Module::CoreList->first_release($pkg)) {
+    if (my $min_version = Module::CoreList->first_release($pkg, $pkg_version)) {
         return if $min_version <= $perl_version;
     }
 
