@@ -1,5 +1,8 @@
 Changes for Perl programming language extension Module-Install
 
+0.95 to be released
+	- Resolved #51614: POD nits (by Frank Wiegand) (ISHIGAKI)
+
 0.94 Tue 23 Feb 2010
 	- Fixed critical author/xt bug (ADAMK)
 
