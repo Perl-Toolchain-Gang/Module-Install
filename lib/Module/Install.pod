@@ -336,7 +336,7 @@ Please note that support for configure_requires: in CPAN clients is not
 100% complete at time of writing, and still cannot be relied upon.
 
 Because B<Module::Install> itself only supports 5.005, it will silently
-add the equivalent of a C<configure_requires( perl => '5.005' );>
+add the equivalent of a C<< configure_requires( perl => '5.005' ); >>
 command to your distribution.
 
 =head2 requires_external_bin
@@ -554,7 +554,7 @@ be installed.
 Provides C<&Inline-E<gt>write> to replace B<Inline::MakeMaker>'s
 functionality for making B<Inline>-based modules (and cleaning up).
 
-However, you should invoke this with C<WriteAll( inline => 1 )>.
+However, you should invoke this with C<< WriteAll( inline => 1 ) >>.
 
 =head2 Module::Install::Makefile
 
