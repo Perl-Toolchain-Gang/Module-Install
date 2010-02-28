@@ -157,8 +157,14 @@ sub write {
 	my $args = $self->makemaker_args;
 	$args->{DISTNAME} = $self->name;
 	$args->{NAME}     = $self->module_name || $self->name;
-	$args->{VERSION}  = $self->version;
 	$args->{NAME}     =~ s/-/::/g;
+	$args->{VERSION}  = $self->version or die <<'EOT';
+ERROR: Can't determine distribution version. Please specify it
+explicitly via 'version' in Makefile.PL, or set a valid $VERSION
+in a module, and provide its file path via 'version_from' (or
+'all_from' if you prefer) in Makefile.PL.
+EOT
+
 	$DB::single = 1;
 	if ( $self->tests ) {
 		my @tests = split ' ', $self->tests;
