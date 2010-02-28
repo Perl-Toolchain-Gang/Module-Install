@@ -19,6 +19,7 @@ SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use Module::Install 0.81;  # should use "use inc::Module::Install"!
 name          'Foo';
+version       '0.01';
 author        'Someone';
 license       'perl';
 perl_version  '5.005';

@@ -18,6 +18,7 @@ SCOPE: {
         ok( create_dist( 'Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install 0.81;
 name          'Foo';
+version       '0.01';
 license       'perl';
 perl_version  '5.005';
 requires_from 'lib/Foo.pm';

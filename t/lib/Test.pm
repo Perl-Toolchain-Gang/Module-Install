@@ -67,6 +67,7 @@ END_MANIFEST
 	print MAKEFILE_PL $opt->{'Makefile.PL'} || <<"END_MAKEFILE_PL";
 use inc::Module::Install 0.81;
 name          '$dist';
+version       '0.01';
 license       'perl';
 requires_from 'lib/$dist.pm';
 requires      'File::Spec' => '0.79';

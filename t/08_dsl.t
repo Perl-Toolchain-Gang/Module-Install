@@ -43,6 +43,7 @@ END_PERL
 ok( create_dist( 'Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install::DSL 0.81;
 name          Foo
+version       0.01
 license       perl
 requires_from lib/Foo.pm
 requires      File::Spec   0.79

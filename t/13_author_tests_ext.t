@@ -18,6 +18,7 @@ SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install 0.81;
 name          'Foo';
+version       '0.01';
 author        'Someone';
 license       'perl';
 perl_version  '5.005';
@@ -43,6 +44,7 @@ SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install 0.81;
 name          'Foo';
+version       '0.01';
 author        'Someone';
 license       'perl';
 perl_version  '5.005';
@@ -77,6 +79,7 @@ SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install 0.81;
 name          'Foo';
+version       '0.01';
 author        'Someone';
 license       'perl';
 perl_version  '5.005';
@@ -106,6 +109,7 @@ SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install 0.81;
 name          'Foo';
+version       '0.01';
 author        'Someone';
 license       'perl';
 perl_version  '5.005';
