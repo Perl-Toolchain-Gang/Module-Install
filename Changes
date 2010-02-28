@@ -6,6 +6,8 @@ Changes for Perl programming language extension Module-Install
 	  (test|build)_requires version. (by Tokuhiro Matsuno) (ISHIGAKI)
 	- Resolved #51267: Consider moving load checks to import so
 	  require M::I will succeed (by David Golden) (ISHIGAKI)
+	- Resolved #55050: Module::Install::AuthorTests is broken with
+	  M::I 0.93 and 0.94 (by AEvar Arnfjord Bjarmason) (ISHIGAKI)
 
 0.94 Tue 23 Feb 2010
 	- Fixed critical author/xt bug (ADAMK)
