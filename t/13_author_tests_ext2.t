@@ -10,9 +10,9 @@ use Test::More;
 use File::Spec;
 use t::lib::Test;
 
-eval "require Module::Install::AuthorTests";
-plan skip_all => "requires Module::Install::AuthorTests" if $@;
-plan tests => 36;
+eval "require Module::Install::ExtraTests";
+plan skip_all => "requires Module::Install::ExtraTests" if $@;
+plan tests => 40;
 
 SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
@@ -23,11 +23,12 @@ author        'Someone';
 license       'perl';
 perl_version  '5.005';
 requires_from 'lib/Foo.pm';
-author_tests  'xt';
+extra_tests;
 WriteAll;
 END_DSL
 
 	ok( add_test('Foo', 'xt/test.t'), 'added xt' );
+	ok( add_test('Foo', 'xt/author/test.t'), 'added xt/author' );
 	ok( build_dist('Foo'), 'build_dist' );
 	my $file = File::Spec->catfile(qw(t Foo Makefile));
 	ok(-f $file);
@@ -48,11 +49,12 @@ author        'Someone';
 license       'perl';
 perl_version  '5.005';
 requires_from 'lib/Foo.pm';
-author_tests  'xt';
+extra_tests;
 WriteAll;
 END_DSL
 
 	ok( add_test('Foo', 'xt/test.t'), 'added xt' );
+	ok( add_test('Foo', 'xt/author/test.t'), 'added xt/author' );
 	ok( build_dist('Foo'), 'build_dist' );
 	rmdir File::Spec->catdir(qw(t Foo inc .author)); # non-author-mode
 	unlink File::Spec->catdir(qw(t Foo Makefile));
@@ -83,12 +85,13 @@ license       'perl';
 perl_version  '5.005';
 requires_from 'lib/Foo.pm';
 tests_recursive;
-author_tests  'xt';
+extra_tests;
 WriteAll;
 END_DSL
 
 	ok( add_test('Foo', 't/test.t'), 'added t' );
 	ok( add_test('Foo', 'xt/test.t'), 'added xt' );
+	ok( add_test('Foo', 'xt/author/test.t'), 'added xt/author' );
 	ok( build_dist('Foo'), 'build_dist' );
 	my $file = File::Spec->catfile(qw(t Foo Makefile));
 	ok(-f $file);
@@ -110,12 +113,13 @@ license       'perl';
 perl_version  '5.005';
 requires_from 'lib/Foo.pm';
 tests_recursive;
-author_tests  'xt';
+extra_tests;
 WriteAll;
 END_DSL
 
 	ok( add_test('Foo', 't/test.t'), 'added t' );
 	ok( add_test('Foo', 'xt/test.t'), 'added xt' );
+	ok( add_test('Foo', 'xt/author/test.t'), 'added xt/author' );
 	ok( build_dist('Foo'), 'build_dist' );
 	rmdir File::Spec->catdir(qw(t Foo inc .author)); # non-author-mode
 	unlink File::Spec->catdir(qw(t Foo Makefile));

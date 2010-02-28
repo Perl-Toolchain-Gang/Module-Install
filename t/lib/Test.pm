@@ -16,6 +16,7 @@ BEGIN {
 		kill_dist
 		run_makefile_pl
 		add_file
+		add_test
 		_read
 	};
 }
@@ -118,6 +119,8 @@ sub add_file {
 
 	return 1;
 }
+
+sub add_test { add_file(@_, qq{print "1..1\nok 1\n";}) }
 
 sub build_dist {
 	my $dist      = shift;
