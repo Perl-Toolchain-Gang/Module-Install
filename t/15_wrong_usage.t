@@ -26,6 +26,7 @@ requires_from 'lib/Foo.pm';
 WriteAll;
 END_DSL
 
+	my $home = File::Spec->rel2abs(File::Spec->curdir);
 	if ($has_capture_tiny) {
 		my $ret;
 		my $out = Capture::Tiny::capture_merged(sub { $ret = build_dist('Foo') });
@@ -40,6 +41,7 @@ END_DSL
 			pass "test skipped";
 		}
 	}
+	chdir $home;
 
 	ok( kill_dist('Foo'), 'kill_dist' );
 }
