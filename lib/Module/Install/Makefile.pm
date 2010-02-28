@@ -161,8 +161,10 @@ sub write {
 	$args->{NAME}     =~ s/-/::/g;
 	$DB::single = 1;
 	if ( $self->tests ) {
+		my @tests = split ' ', $self->tests;
+		my %seen;
 		$args->{test} = {
-			TESTS => $self->tests,
+			TESTS => (join ' ', grep {!$seen{$_}++} @tests),
 		};
 	} elsif ( -d 'xt' and ($Module::Install::AUTHOR or $ENV{RELEASE_TESTING}) ) {
 		$args->{test} = {
