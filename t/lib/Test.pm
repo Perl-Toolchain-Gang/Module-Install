@@ -94,6 +94,15 @@ __END__
 
 $dist - A test module
 
+=head1 AUTHORS
+
+Foo Bar
+
+=head1 COPYRIGHT
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
 =cut
 END_MODULE
 	close MODULE;
