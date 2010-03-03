@@ -40,7 +40,7 @@ END_DSL
 	eval ($content);
 	ok( !$@,'correct content');
 	ok( exists $PREREQ_PM->{'File::Spec'});
-	ok( $PREREQ_PM->{'File::Spec'} == 0.6);
+	ok( $BUILD_REQUIRES->{'File::Spec'} || $PREREQ_PM->{'File::Spec'} == 0.6);
 	my $file_spec = File::Spec->catfile(qw(t Foo inc File Spec.pm));
 	ok( !-f $file_spec, 'File::Spec is not bundled');
 	ok( kill_dist('Foo'), 'kill_dist' );
@@ -69,7 +69,7 @@ END_DSL
 	eval ($content);
 	ok( !$@,'correct content');
 	ok( exists $PREREQ_PM->{'File::Spec'});
-	ok( $PREREQ_PM->{'File::Spec'} == 3.30);
+	ok( $BUILD_REQUIRES->{'File::Spec'} || $PREREQ_PM->{'File::Spec'} == 3.30);
 	my $file_spec = File::Spec->catfile(qw(t Foo inc File Spec.pm));
 	ok( -f $file_spec, 'File::Spec is bundled');
 	ok( kill_dist('Foo'), 'kill_dist' );
