@@ -18,7 +18,6 @@ my @scalar_keys = qw{
 	name
 	module_name
 	abstract
-	author
 	version
 	distribution_type
 	tests
@@ -42,7 +41,10 @@ my @resource_keys = qw{
 
 my @array_keys = qw{
 	keywords
+	author
 };
+
+*authors = \&author;
 
 sub Meta              { shift          }
 sub Meta_BooleanKeys  { @boolean_keys  }
@@ -241,7 +243,7 @@ sub all_from {
 	$self->name_from($file)         unless $self->name;
 	$self->version_from($file)      unless $self->version;
 	$self->perl_version_from($file) unless $self->perl_version;
-	$self->author_from($pod)        unless $self->author;
+	$self->author_from($pod)        unless @{$self->author || []};
 	$self->license_from($pod)       unless $self->license;
 	$self->abstract_from($pod)      unless $self->abstract;
 

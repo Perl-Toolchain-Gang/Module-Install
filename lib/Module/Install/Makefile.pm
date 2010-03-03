@@ -179,7 +179,7 @@ EOT
 	}
 	if ( $] >= 5.005 ) {
 		$args->{ABSTRACT} = $self->abstract;
-		$args->{AUTHOR}   = $self->author;
+		$args->{AUTHOR}   = join ', ', @{$self->author || []};
 	}
 	if ( $self->makemaker(6.10) ) {
 		$args->{NO_META}   = 1;
