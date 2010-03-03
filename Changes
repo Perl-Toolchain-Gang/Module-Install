@@ -10,6 +10,8 @@ Changes for Perl programming language extension Module-Install
 	  M::I 0.93 and 0.94 (by AEvar Arnfjord Bjarmason) (ISHIGAKI)
 	- Resolved #16569: author should take array to match META.yml
 	  spec and Module::Build (by MARKSTOS) (ISHIGAKI)
+	- Resolved #53984: Don't use ExtUtils::Install to copy into blib
+	  (by Michael G Schwern) (ISHIGAKI)
 	- Now license is properly passed to the EU::MM in the
 	  background (ISHIGAKI)
 
