@@ -13,7 +13,7 @@ require ExtUtils::MakeMaker;
 
 my $eumm = eval $ExtUtils::MakeMaker::VERSION;
 
-#plan tests => 14;
+plan tests => 18;
 
 SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
@@ -66,4 +66,3 @@ END_DSL
 	}
 	ok( kill_dist('Foo'), 'kill_dist' );
 }
-done_testing;
