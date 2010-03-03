@@ -53,5 +53,9 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	ok($content =~ /#\s*SIGN => q\[1\]/, 'has sign');
+
+	# XXX: might be better test `$Config{make} distsign` here
+	# but it's neither safe nor portable...
+
 	ok( kill_dist('Foo'), 'kill_dist' );
 }
