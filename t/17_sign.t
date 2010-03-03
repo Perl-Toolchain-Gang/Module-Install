@@ -9,6 +9,9 @@ BEGIN {
 use Test::More;
 use File::Spec;
 use t::lib::Test;
+require ExtUtils::MakeMaker;
+
+plan skip_all => 'test requires ExtUtils::MakeMaker >= 6.17' if eval($ExtUtils::MakeMaker::VERSION) < 6.17;
 
 plan tests => 12;
 
