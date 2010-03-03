@@ -2,6 +2,7 @@ package Module::Install::Share;
 
 use strict;
 use Module::Install::Base ();
+use File::Find ();
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
@@ -24,16 +25,13 @@ sub install_share {
 
 	# Split by type
 	my $S = ($^O eq 'MSWin32') ? "\\" : "\/";
+
+	my $root;
 	if ( $type eq 'dist' ) {
 		die "Too many parameters to install_share" if @_;
 
 		# Set up the install
-		$self->postamble(<<"END_MAKEFILE");
-config ::
-\t\$(NOECHO) \$(MOD_INSTALL) \\
-\t\t"$dir" \$(INST_LIB)${S}auto${S}share${S}dist${S}\$(DISTNAME)
-
-END_MAKEFILE
+		$root = "\$(INST_LIB)${S}auto${S}share${S}dist${S}\$(DISTNAME)";
 	} else {
 		my $module = Module::Install::_CLASS($_[0]);
 		unless ( defined $module ) {
@@ -41,14 +39,34 @@ END_MAKEFILE
 		}
 		$module =~ s/::/-/g;
 
-		# Set up the install
-		$self->postamble(<<"END_MAKEFILE");
+		$root = "\$(INST_LIB)${S}auto${S}share${S}module${S}$module";
+	}
+
+	my $postamble = '';
+	File::Find::find({
+		no_chdir => 1,
+		preprocess => sub { grep !/^\./, @_; },
+		wanted => sub {
+			my $path = File::Spec->abs2rel($_, $dir);
+			if (-d $_) {
+				$postamble .=<<"END";
+\t\$(NOECHO) \$(MKPATH) "$root${S}$path"
+END
+			}
+			else {
+				$postamble .=<<"END";
+\t\$(NOECHO) \$(CP) "$dir${S}$path" "$root${S}$path"
+END
+			}
+		},
+	}, $dir);
+
+	# Set up the install
+	$self->postamble(<<"END_MAKEFILE");
 config ::
-\t\$(NOECHO) \$(MOD_INSTALL) \\
-\t\t"$dir" \$(INST_LIB)${S}auto${S}share${S}module${S}$module
+$postamble
 
 END_MAKEFILE
-	}
 
 	# The above appears to behave incorrectly when used with old versions
 	# of ExtUtils::Install (known-bad on RHEL 3, with 5.8.0)
