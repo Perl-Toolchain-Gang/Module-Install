@@ -191,6 +191,9 @@ EOT
 	unless ( $self->is_admin ) {
 		delete $args->{SIGN};
 	}
+	if ( $self->makemaker(6.31) and $self->license ) {
+		$args->{LICENSE} = $self->license;
+	}
 
 	my $prereq = ($args->{PREREQ_PM} ||= {});
 	%$prereq = ( %$prereq,
