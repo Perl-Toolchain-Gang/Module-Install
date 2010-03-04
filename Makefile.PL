@@ -55,9 +55,6 @@ tests_recursive;
 # This isn't needed, but lets us test File::ShareDir support
 install_share;
 
-# This isn't needed, but lets us test Devel::PPPort support
-ppport;
-
 # This is a normal CPAN module
 install_as_cpan;
 
