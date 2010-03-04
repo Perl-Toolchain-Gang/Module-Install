@@ -44,7 +44,9 @@ sub install_share {
 	}
 
 	my $manifest = -r 'MANIFEST' ? ExtUtils::Manifest::maniread() : undef;
-	my $skip_checker = ExtUtils::Manifest::maniskip();
+	my $skip_checker = $ExtUtils::Manifest::VERSION >= 1.54
+		? ExtUtils::Manifest::maniskip()
+		: ExtUtils::Manifest::_maniskip();
 	my $postamble = '';
 	File::Find::find({
 		no_chdir => 1,
