@@ -3,6 +3,7 @@ package Module::Install::Share;
 use strict;
 use Module::Install::Base ();
 use File::Find ();
+use ExtUtils::Manifest ();
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
@@ -42,18 +43,23 @@ sub install_share {
 		$root = "\$(INST_LIB)${S}auto${S}share${S}module${S}$module";
 	}
 
+	my $manifest = -r 'MANIFEST' ? ExtUtils::Manifest::maniread() : undef;
+	my $skip_checker = ExtUtils::Manifest::maniskip();
 	my $postamble = '';
 	File::Find::find({
 		no_chdir => 1,
-		preprocess => sub { grep !/^\./, @_; },
 		wanted => sub {
 			my $path = File::Spec->abs2rel($_, $dir);
 			if (-d $_) {
+				return if $skip_checker->($File::Find::name);
 				$postamble .=<<"END";
 \t\$(NOECHO) \$(MKPATH) "$root${S}$path"
 END
 			}
 			else {
+				return if ref $manifest
+						&& !exists $manifest->{$File::Find::name};
+				return if $skip_checker->($File::Find::name);
 				$postamble .=<<"END";
 \t\$(NOECHO) \$(CP) "$dir${S}$path" "$root${S}$path"
 END
