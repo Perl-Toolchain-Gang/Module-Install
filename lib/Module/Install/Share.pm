@@ -78,10 +78,6 @@ END_MAKEFILE
 	# of ExtUtils::Install (known-bad on RHEL 3, with 5.8.0)
 	# So when we need to install a share directory, make sure we add a
 	# dependency on a moderately new version of ExtUtils::MakeMaker.
-
-	# XXX: RT #50475 says this is problematic. Since we call more
-	# recent EUMM in M::I::Makefile (in most cases), probably we
-	# can safely disable this line later.
 	$self->build_requires( 'ExtUtils::MakeMaker' => '6.11' );
 
 	# 99% of the time we don't want to index a shared dir
