@@ -14,6 +14,8 @@ Changes for Perl programming language extension Module-Install
 	  (by Michael G Schwern) (ISHIGAKI)
 	- Resolved #17893: Module::Install::Share ignores MANIFEST
 	  (ISHIGAKI)
+	- Resolved #24194: Error msg: Your installer Makefile.PL has
+	  a modification time in the future (by RSAVAGE) (ISHIGAKI)
 	- Now license is properly passed to the EU::MM in the
 	  background (ISHIGAKI)
 
