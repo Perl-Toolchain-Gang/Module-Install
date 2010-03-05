@@ -30,7 +30,7 @@ END_DSL
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
-	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m;
+	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
 	ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
 	ok( kill_dist('Foo'), 'kill_dist' );
 }
@@ -56,7 +56,7 @@ END_DSL
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
-	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m;
+	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
 	if ( $ENV{RELEASE_TESTING} ) {
 		ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
 	} else {
