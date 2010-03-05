@@ -120,7 +120,9 @@ sub add_file {
 	my ($vol, $subdir, $file) = File::Spec->splitpath($path);
 	my $dist_subdir = File::Spec->catdir($dist_path, $subdir);
 	my $dist_file   = File::Spec->catfile($dist_subdir, $file);
-	mkdir($dist_subdir, 0777) or return 0;
+	unless (-d $dist_subdir) {
+		mkdir($dist_subdir, 0777) or return 0;
+	}
 
 	open FILE, "> $dist_file" or return 0;
 	print FILE $content;
