@@ -22,8 +22,8 @@ SCOPE: {
         ok( create_dist( 'Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install 0.81;
 name          'Foo';
-all_from      'lib/Foo.pm';
 perl_version  '5.005';
+all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
@@ -38,8 +38,8 @@ SCOPE: {
         ok( create_dist( 'Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install 0.81;
 name          'Foo';
-all_from      'lib/Foo.pm';
 perl_version  '5.005';
+all_from      'lib/Foo.pm';
 ppport;
 WriteAll;
 END_DSL
