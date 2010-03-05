@@ -56,6 +56,7 @@ sub install_share {
 				return if $skip_checker->($File::Find::name);
 				$postamble .=<<"END";
 \t\$(NOECHO) \$(MKPATH) "$root${S}$path"
+\t\$(NOECHO) \$(CHMOD) \$(PERM_DIR) "$root${S}$path"
 END
 			}
 			else {
