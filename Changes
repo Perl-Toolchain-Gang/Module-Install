@@ -16,6 +16,8 @@ Changes for Perl programming language extension Module-Install
 	  (ISHIGAKI)
 	- Resolved #24194: Error msg: Your installer Makefile.PL has
 	  a modification time in the future (by RSAVAGE) (ISHIGAKI)
+	- Resolved #33976: cc_inc_paths replaces INC provided on command
+	  line (by David Golden) (ISHIGAKI)
 	- Now license is properly passed to the EU::MM in the
 	  background (ISHIGAKI)
 

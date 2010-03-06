@@ -44,10 +44,88 @@ sub makemaker {
 	( @_ < 2 or $makemaker >= eval($_[1]) ) ? $makemaker : 0
 }
 
+# Ripped from ExtUtils::MakeMaker 6.56, and slightly modified
+# as we only need to know here whether the attribute is an array
+# or a hash or something else (which may or may not be appendable).
+my %makemaker_argtype = (
+ C                  => 'ARRAY',
+ CONFIG             => 'ARRAY',
+# CONFIGURE          => 'CODE', # ignore
+ DIR                => 'ARRAY',
+ DL_FUNCS           => 'HASH',
+ DL_VARS            => 'ARRAY',
+ EXCLUDE_EXT        => 'ARRAY',
+ EXE_FILES          => 'ARRAY',
+ FUNCLIST           => 'ARRAY',
+ H                  => 'ARRAY',
+ IMPORTS            => 'HASH',
+ INCLUDE_EXT        => 'ARRAY',
+ LIBS               => 'ARRAY', # ignore ''
+ MAN1PODS           => 'HASH',
+ MAN3PODS           => 'HASH',
+ META_ADD           => 'HASH',
+ META_MERGE         => 'HASH',
+ PL_FILES           => 'HASH',
+ PM                 => 'HASH',
+ PMLIBDIRS          => 'ARRAY',
+ PMLIBPARENTDIRS    => 'ARRAY',
+ PREREQ_PM          => 'HASH',
+ CONFIGURE_REQUIRES => 'HASH',
+ SKIP               => 'ARRAY',
+ TYPEMAPS           => 'ARRAY',
+ XS                 => 'HASH',
+# VERSION            => ['version',''],  # ignore
+# _KEEP_AFTER_FLUSH  => '',
+
+ clean      => 'HASH',
+ depend     => 'HASH',
+ dist       => 'HASH',
+ dynamic_lib=> 'HASH',
+ linkext    => 'HASH',
+ macro      => 'HASH',
+ postamble  => 'HASH',
+ realclean  => 'HASH',
+ test       => 'HASH',
+ tool_autosplit => 'HASH',
+
+ # special cases where you can use makemaker_append
+ CCFLAGS   => 'APPENDABLE',
+ DEFINE    => 'APPENDABLE',
+ INC       => 'APPENDABLE',
+ LDDLFLAGS => 'APPENDABLE',
+ LDFROM    => 'APPENDABLE',
+);
+
 sub makemaker_args {
-	my $self = shift;
+	my ($self, %new_args) = @_;
 	my $args = ( $self->{makemaker_args} ||= {} );
-	%$args = ( %$args, @_ );
+	foreach my $key (keys %new_args) {
+		if ($makemaker_argtype{$key} eq 'ARRAY') {
+			$args->{$key} = [] unless defined $args->{$key};
+			unless (ref $args->{$key} eq 'ARRAY') {
+				$args->{$key} = [$args->{$key}]
+			}
+			push @{$args->{$key}},
+				ref $new_args{$key} eq 'ARRAY'
+					? @{$new_args{$key}}
+					: $new_args{$key};
+		}
+		elsif ($makemaker_argtype{$key} eq 'HASH') {
+			$args->{$key} = {} unless defined $args->{$key};
+			foreach my $skey (keys %{ $new_args{$key} }) {
+				$args->{$key}{$skey} = $new_args{$key}{$skey};
+			}
+		}
+		elsif ($makemaker_argtype{$key} eq 'APPENDABLE') {
+			$self->makemaker_append($key => $new_args{$key});
+		}
+		else {
+			if (defined $args->{$key}) {
+				warn qq{MakeMaker attribute "$key" is overriden; use "makemaker_append" to append values\n};
+			}
+			$args->{$key} = $new_args{$key};
+		}
+	}
 	return $args;
 }
 
@@ -57,8 +135,8 @@ sub makemaker_append {
 	my $self = shift;
 	my $name = shift;
 	my $args = $self->makemaker_args;
-	$args->{name} = defined $args->{$name}
-		? join( ' ', $args->{name}, @_ )
+	$args->{$name} = defined $args->{$name}
+		? join( ' ', $args->{$name}, @_ )
 		: join( ' ', @_ );
 }
 
