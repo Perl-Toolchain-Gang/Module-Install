@@ -18,6 +18,8 @@ Changes for Perl programming language extension Module-Install
 	  a modification time in the future (by RSAVAGE) (ISHIGAKI)
 	- Resolved #33976: cc_inc_paths replaces INC provided on command
 	  line (by David Golden) (ISHIGAKI)
+	- Resolved #25972: makemaker_args INSTALLDIRS => 'perl'; doesn't
+	  work (by TELS) (ISHIGAKI)
 	- Now license is properly passed to the EU::MM in the
 	  background (ISHIGAKI)
 

@@ -321,7 +321,10 @@ EOT
 		}
 	}
 
-	$args->{INSTALLDIRS} = $self->installdirs;
+	if ($self->installdirs) {
+		warn qq{old INSTALLDIRS (probably set by makemaker_args) is overriden by installdirs\n} if $args->{INSTALLDIRS};
+		$args->{INSTALLDIRS} = $self->installdirs;
+	}
 
 	my %args = map {
 		( $_ => $args->{$_} ) } grep {defined($args->{$_} )
