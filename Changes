@@ -20,6 +20,8 @@ Changes for Perl programming language extension Module-Install
 	  line (by David Golden) (ISHIGAKI)
 	- Resolved #25972: makemaker_args INSTALLDIRS => 'perl'; doesn't
 	  work (by TELS) (ISHIGAKI)
+	- Resolved #45978: .pm.PL runs in wrong order for WriteMakefile
+	  (by Hilary Holz) (ISHIGAKI)
 	- Now license is properly passed to the EU::MM in the
 	  background (ISHIGAKI)
 

@@ -25,7 +25,10 @@ sub WriteAll {
 
 	$self->check_nmake if $args{check_nmake};
 	unless ( $self->makemaker_args->{PL_FILES} ) {
-		$self->makemaker_args( PL_FILES => {} );
+		# XXX: This still may be a bit over-defensive...
+		unless ($self->makemaker(6.25)) {
+			$self->makemaker_args( PL_FILES => {} ) if -f 'Build.PL';
+		}
 	}
 
 	# Until ExtUtils::MakeMaker support MYMETA.yml, make sure
