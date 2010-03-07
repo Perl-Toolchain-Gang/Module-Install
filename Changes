@@ -22,6 +22,8 @@ Changes for Perl programming language extension Module-Install
 	  work (by TELS) (ISHIGAKI)
 	- Resolved #45978: .pm.PL runs in wrong order for WriteMakefile
 	  (by Hilary Holz) (ISHIGAKI)
+	- Resolved #19783: Query CPAN for new versions of Module::Install
+	  during "make dist" (by Steffen Mueller) (ISHIGAKI)
 	- Now license is properly passed to the EU::MM in the
 	  background (ISHIGAKI)
 

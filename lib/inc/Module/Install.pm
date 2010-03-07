@@ -18,12 +18,17 @@ BEGIN {
 	# version an author currently has installed.
 	# This allows it to implement any back-compatibility features
 	# it may want or need to.
-	$VERSION = '0.94';	
+	$VERSION = '0.94';
 }
 
 if ( -d './inc' ) {
 	my $author = $^O eq 'VMS' ? './inc/_author' : './inc/.author';
 	if ( -d $author ) {
+		my $modified_at = (stat($author))[9];
+		if ((time - $modified_at) > 24 * 60 * 60) {
+			# inc is a bit stale; there may be a newer Module::Install
+			_check_update($modified_at);
+		}
 		$Module::Install::AUTHOR = 1;
 		require File::Path;
 		File::Path::rmtree('inc');
@@ -34,6 +39,108 @@ if ( -d './inc' ) {
 
 unshift @INC, 'inc' unless $INC[0] eq 'inc';
 require Module::Install;
+
+sub _check_update {
+	my $modified_at = shift;
+
+	# XXX: We have several online services to get update information
+	# including search.cpan.org. They are more reliable than the
+	# 02packages.details.txt.gz on the local machine. We might be
+	# better to depend on those services... but on which?
+
+	my $cpan_version = 0;
+	if (0) {  # XXX: should be configurable?
+		my $url = "http://search.cpan.org/dist/Module-Install/META.yml";
+		eval "require YAML::Tiny; 1" or return;
+
+		if (eval "require LWP::UserAgent; 1") {
+			my $ua = LWP::UserAgent->new(
+				timeout   => 10,
+				env_proxy => 1,
+			);
+			my $res = $ua->get($url);
+			return unless $res->is_success;
+			my $yaml = eval { YAML::Tiny::Load($res->content) } or return;
+			$cpan_version = $yaml->{version};
+		}
+	}
+	else {
+		# If you don't want to rely on the net...
+		require File::Spec;
+		$cpan_version = _check_update_local($modified_at) or return;
+	}
+
+	# XXX: should die instead of warn?
+	warn <<"WARN" if $cpan_version > $VERSION;
+Newer version of Module::Install is available on CPAN.
+CPAN:  $cpan_version
+LOCAL: $VERSION
+Please upgrade.
+WARN
+}
+
+sub _check_update_local {
+	my $modified_at = shift;
+
+	return unless eval "require Compress::Zlib; 1";
+	_require_myconfig_or_config() or return;
+	my $file = File::Spec->catfile(
+		$CPAN::Config->{keep_source_where},
+		'modules',
+		'02packages.details.txt.gz'
+	);
+	return unless -f $file;
+#	return if (stat($file))[9] < $modified_at;
+
+	my $gz = Compress::Zlib::gzopen($file, 'r') or return;
+	my $line;
+	while($gz->gzreadline($line)) {
+		my ($cpan_version) = $line =~ /^Module::Install\s+(\S+)/ or next;
+		return $cpan_version;
+	}
+	return;
+}
+
+# adapted from CPAN::HandleConfig
+sub _require_myconfig_or_config {
+	return 1 if $INC{"CPAN/MyConfig.pm"};
+	local @INC = @INC;
+	my $home = _home() or return;
+	my $cpan_dir = File::Spec->catdir($home,'.cpan');
+	return unless -d $cpan_dir;
+	unshift @INC, $cpan_dir;
+	eval { require CPAN::MyConfig };
+	if ($@ and $@ !~ m#locate CPAN/MyConfig\.pm#) {
+		warn "Error while requiring CPAN::MyConfig:\n$@\n";
+		return;
+	}
+	return 1 if $INC{"CPAN/MyConfig.pm"};
+
+	eval { require CPAN::Config; };
+	if ($@ and $@ !~ m#locate CPAN/Config\.pm#) {
+		warn "Error while requiring CPAN::Config:\n$@\n";
+		return;
+	}
+	return 1 if $INC{"CPAN/Config.pm"};
+	return;
+}
+
+# adapted from CPAN::HandleConfig
+sub _home () {
+	my $home;
+	if (eval "require File:HomeDir; 1") {
+		$home = File::HomeDir->can('my_dot_config')
+			? File::HomeDir->my_dot_config
+			: File::HomeDir->my_data;
+		unless (defined $home) {
+			$home = File::HomeDir->my_home
+		}
+	}
+	unless (defined $home) {
+		$home = $ENV{HOME};
+	}
+	$home;
+}
 
 1;
 
