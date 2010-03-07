@@ -27,8 +27,8 @@ extra_tests;
 WriteAll;
 END_DSL
 
-	ok( add_test('xt/test.t'), 'added xt' );
-	ok( add_test('xt/author/test.t'), 'added xt/author' );
+	ok( add_test(qw(xt test.t)), 'added xt' );
+	ok( add_test(qw(xt author test.t)), 'added xt/author' );
 	ok( build_dist(), 'build_dist' );
 	my $file = makefile();
 	ok(-f $file);
@@ -53,8 +53,8 @@ extra_tests;
 WriteAll;
 END_DSL
 
-	ok( add_test('xt/test.t'), 'added xt' );
-	ok( add_test('xt/author/test.t'), 'added xt/author' );
+	ok( add_test(qw(xt test.t)), 'added xt' );
+	ok( add_test(qw(xt author test.t)), 'added xt/author' );
 	ok( build_dist(), 'build_dist' );
 	rmdir dir(qw(inc .author)); # non-author-mode
 	unlink makefile();
@@ -89,9 +89,9 @@ extra_tests;
 WriteAll;
 END_DSL
 
-	ok( add_test('t/test.t'), 'added t' );
-	ok( add_test('xt/test.t'), 'added xt' );
-	ok( add_test('xt/author/test.t'), 'added xt/author' );
+	ok( add_test(qw(t test.t)), 'added t' );
+	ok( add_test(qw(xt test.t)), 'added xt' );
+	ok( add_test(qw(xt author test.t)), 'added xt/author' );
 	ok( build_dist(), 'build_dist' );
 	my $file = makefile();
 	ok(-f $file);
@@ -117,9 +117,9 @@ extra_tests;
 WriteAll;
 END_DSL
 
-	ok( add_test('t/test.t'), 'added t' );
-	ok( add_test('xt/test.t'), 'added xt' );
-	ok( add_test('xt/author/test.t'), 'added xt/author' );
+	ok( add_test(qw(t test.t)), 'added t' );
+	ok( add_test(qw(xt test.t)), 'added xt' );
+	ok( add_test(qw(xt author test.t)), 'added xt/author' );
 	ok( build_dist(), 'build_dist' );
 	rmdir dir(qw(inc .author)); # non-author-mode
 	unlink makefile();

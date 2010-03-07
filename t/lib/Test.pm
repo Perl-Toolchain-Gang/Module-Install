@@ -3,6 +3,7 @@ package t::lib::Test;
 use strict;
 use File::Spec   ();
 use File::Remove ();
+use File::Path ();
 use Cwd;
 use Config;
 
@@ -116,18 +117,19 @@ END_MODULE
 
 sub file { File::Spec->catfile('t', $DIST, @_) }
 sub dir  { File::Spec->catdir('t', $DIST, @_) }
-sub makefile { file( $^O eq 'VMS' ? 'Descrip.MMS' : 'Makefile' ) }
+sub makefile { file(@_, $^O eq 'VMS' ? 'Descrip.MMS' : 'Makefile' ) }
 
 sub add_file {
-	my ($path, $content) = @_;
 	my $dist_path = dir();
 	return 0 unless -d $dist_path;
 
-	my ($vol, $subdir, $file) = File::Spec->splitpath($path);
-	my $dist_subdir = dir($subdir);
-	my $dist_file   = file($subdir, $file);
+	my $content = pop;
+	my $file    = pop;
+	my @subdir  = @_;
+	my $dist_subdir = dir(@subdir);
+	my $dist_file   = file(@subdir, $file);
 	unless (-d $dist_subdir) {
-		mkdir($dist_subdir, 0777) or return 0;
+		File::Path::mkpath($dist_subdir, 0, 0777) or return 0;
 	}
 
 	open FILE, "> $dist_file" or return 0;
@@ -175,6 +177,21 @@ sub kill_dist {
 	return 1 unless -d $dir;
 	File::Remove::remove( \1, $dir );
 	return -d $dir ? 0 : 1;
+}
+
+sub extract_target {
+	my $target  = shift;
+	my $makefile = makefile();
+	return '' unless -f $makefile;
+	my $content = _read($makefile) or return '';
+	my @lines;
+	my $flag;
+	foreach (split /\n/, $content) {
+		if (/^$target\s*:/) { $flag++ }
+		elsif (/^\S+\s*:/) { $flag = 0 }
+		push @lines, $_ if $flag;
+	}
+	return wantarray ? @lines : join "\n", @lines;
 }
 
 1;

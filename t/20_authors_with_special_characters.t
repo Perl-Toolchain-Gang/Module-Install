@@ -25,7 +25,7 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( add_file('lib/Foo.pm', <<'END') );
+	ok( add_file(qw(lib Foo.pm), <<'END') );
 package Foo;
 1;
 \__END__
@@ -65,7 +65,7 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( add_file('lib/Foo.pm', <<'END') );
+	ok( add_file(qw(lib Foo.pm), <<'END') );
 package Foo;
 1;
 \__END__

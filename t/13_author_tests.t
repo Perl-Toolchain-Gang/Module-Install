@@ -24,7 +24,7 @@ requires_from 'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( add_test('xt/test.t'), 'added xt' );
+	ok( add_test(qw(xt test.t)), 'added xt' );
 	ok( build_dist(), 'build_dist' );
 	my $file = makefile();
 	ok(-f $file);
@@ -47,7 +47,7 @@ requires_from 'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( add_test('xt/test.t'), 'added xt' );
+	ok( add_test(qw(xt test.t)), 'added xt' );
 	ok( build_dist(), 'build_dist' );
 	rmdir dir(qw(inc .author)); # non-author-mode
 	unlink makefile();

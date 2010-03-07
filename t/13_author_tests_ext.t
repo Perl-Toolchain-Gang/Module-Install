@@ -27,7 +27,7 @@ author_tests  'xt';
 WriteAll;
 END_DSL
 
-	ok( add_test('xt/test.t'), 'added xt' );
+	ok( add_test(qw(xt test.t)), 'added xt' );
 	ok( build_dist(), 'build_dist' );
 	my $file = makefile();
 	ok(-f $file);
@@ -52,7 +52,7 @@ author_tests  'xt';
 WriteAll;
 END_DSL
 
-	ok( add_test('xt/test.t'), 'added xt' );
+	ok( add_test(qw(xt test.t)), 'added xt' );
 	ok( build_dist(), 'build_dist' );
 	rmdir dir(qw(inc .author)); # non-author-mode
 	unlink makefile();
@@ -87,8 +87,8 @@ author_tests  'xt';
 WriteAll;
 END_DSL
 
-	ok( add_test('t/test.t'), 'added t' );
-	ok( add_test('xt/test.t'), 'added xt' );
+	ok( add_test(qw(t test.t)), 'added t' );
+	ok( add_test(qw(xt test.t)), 'added xt' );
 	ok( build_dist(), 'build_dist' );
 	my $file = makefile();
 	ok(-f $file);
@@ -114,8 +114,8 @@ author_tests  'xt';
 WriteAll;
 END_DSL
 
-	ok( add_test('t/test.t'), 'added t' );
-	ok( add_test('xt/test.t'), 'added xt' );
+	ok( add_test(qw(t test.t)), 'added t' );
+	ok( add_test(qw(xt test.t)), 'added xt' );
 	ok( build_dist(), 'build_dist' );
 	rmdir dir(qw(inc .author)); # non-author-mode
 	unlink makefile();
