@@ -55,7 +55,11 @@ sub bundle {
 
         unlink $file;
         next unless ($extract_result);
-        $bundles{$name} = $extract_result;
+        if ($extract_result =~ /$bundle_dir\/(.*)/) {
+            $bundles{$name} = 'inc/BUNDLES/'.$1;
+        } else {
+            $bundles{$name} = $extract_result;
+        }
         $self->{already_bundled}{ $mod->package }++;
 
     }
