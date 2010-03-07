@@ -25,7 +25,7 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( add_file('Foo', 'lib/Foo.pm', <<'END') );
+	ok( add_file('lib/Foo.pm', <<'END') );
 package Foo;
 1;
 \__END__
@@ -41,17 +41,17 @@ First 'Middle' Last
 \=cut
 END
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	ok($content =~ /#\s*AUTHOR => q\[First 'Middle' Last\]/, 'has one author');
-	my $metafile = File::Spec->catfile(qw(t Foo META.yml));
+	my $metafile = file('META.yml');
 	ok(-f $metafile);
 	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
 	is_deeply($meta->{author}, [qq(First 'Middle' Last)]);
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -65,7 +65,7 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( add_file('Foo', 'lib/Foo.pm', <<'END') );
+	ok( add_file('lib/Foo.pm', <<'END') );
 package Foo;
 1;
 \__END__
@@ -81,17 +81,17 @@ Olivier MenguE<eacute>
 \=cut
 END
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	ok($content =~ /#\s*AUTHOR => q\[Olivier Mengu\xE9\]/, 'has one author');
-	my $metafile = File::Spec->catfile(qw(t Foo META.yml));
+	my $metafile = file('META.yml');
 	ok(-f $metafile);
 	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
 	is_deeply($meta->{author}, [qq(Olivier Mengu\xE9)]);
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -106,15 +106,15 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	ok($content =~ /#\s*AUTHOR => q\[Olivier Mengu\xE9\]/, 'has one author');
-	my $metafile = File::Spec->catfile(qw(t Foo META.yml));
+	my $metafile = file('META.yml');
 	ok(-f $metafile);
 	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
 	is_deeply($meta->{author}, [qq(Olivier Mengu\xE9)]);
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }

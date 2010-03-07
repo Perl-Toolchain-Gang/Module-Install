@@ -24,8 +24,8 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
@@ -36,7 +36,7 @@ END_DSL
 		skip "requires ExtUtils::MakeMaker 6.31", 1 unless $eumm < 6.31;
 		ok($content =~ /#\s*LICENSE => q\[perl\]/, 'has license');
 	}
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -52,8 +52,8 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
@@ -64,5 +64,5 @@ END_DSL
 		skip "requires ExtUtils::MakeMaker 6.31", 1 if $eumm < 6.31;
 		ok($content =~ /#\s*LICENSE => q\[MIT\]/, 'has license');
 	}
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }

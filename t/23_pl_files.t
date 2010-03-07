@@ -19,16 +19,16 @@ use ExtUtils::MakeMaker;
 WriteMakefile( NAME => 'Foo' );
 END_DSL
 
-	ok( add_file('Foo', 'MyFoo.pm.PL', '1;'), 'created .pm.PL');
-	ok( run_makefile_pl('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( add_file('MyFoo.pm.PL', '1;'), 'created .pm.PL');
+	ok( run_makefile_pl(), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file);
 	my $content = _read($file);
 	ok( $content,'file is not empty');
 	my ($target) = $content =~ /^MyFoo.pm :: (.+)$/m;
 	diag $target if $ENV{TEST_VERBOSE};
 	ok( $target =~ /^MyFoo.pm.PL pm_to_blib/, 'has MyFoo target' );
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -41,30 +41,30 @@ WriteMakefile(
 );
 END_DSL
 
-	ok( add_file('Foo', 'MyFoo.pm.PL', '1;'), 'created .pm.PL');
-	ok( run_makefile_pl('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( add_file('MyFoo.pm.PL', '1;'), 'created .pm.PL');
+	ok( run_makefile_pl(), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file);
 	my $content = _read($file);
 	ok( $content,'file is not empty');
 	my ($target) = $content =~ /^MyFoo.pm :: (.+)$/m;
 	diag $target if $ENV{TEST_VERBOSE};
 	ok( $target =~ /^MyFoo.pm.PL pm_to_blib/, 'has MyFoo target' );
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
 	ok( create_dist('Foo'), 'create_dist' );
-	ok( add_file('Foo', 'MyFoo.pm.PL', '1;'), 'created .pm.PL');
-	ok( run_makefile_pl('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( add_file('MyFoo.pm.PL', '1;'), 'created .pm.PL');
+	ok( run_makefile_pl(), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file);
 	my $content = _read($file);
 	ok( $content,'file is not empty');
 	my ($target) = $content =~ /^MyFoo.pm :: (.+)$/m;
 	diag $target if $ENV{TEST_VERBOSE};
 	ok( $target =~ /^MyFoo.pm.PL pm_to_blib/, 'has MyFoo target' );
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -79,16 +79,16 @@ makemaker_args(
 WriteAll;
 END_DSL
 
-	ok( add_file('Foo', 'MyFoo.pm.PL', '1;'), 'created .pm.PL');
-	ok( run_makefile_pl('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( add_file('MyFoo.pm.PL', '1;'), 'created .pm.PL');
+	ok( run_makefile_pl(), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file);
 	my $content = _read($file);
 	ok( $content,'file is not empty');
 	my ($target) = $content =~ /^MyFoo.pm :: (.+)$/m;
 	diag $target if $ENV{TEST_VERBOSE};
 	ok( $target =~ /^MyFoo.pm.PL pm_to_blib/, 'has MyFoo target' );
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -102,14 +102,14 @@ WriteMakefile(
 );
 END_DSL
 
-	ok( add_file('Foo', 'MyFoo.pm.PL', '1;'), 'created .pm.PL');
-	ok( run_makefile_pl('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( add_file('MyFoo.pm.PL', '1;'), 'created .pm.PL');
+	ok( run_makefile_pl(), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file);
 	my $content = _read($file);
 	ok( $content,'file is not empty');
 	my ($target) = $content =~ /^MyFoo.pm :: (.+)$/m;
 	diag $target if $ENV{TEST_VERBOSE};
 	ok( $target =~ /^MyFoo.pm.PL pm_to_blib/, 'has MyFoo target' );
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }

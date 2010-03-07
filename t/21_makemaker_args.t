@@ -24,15 +24,15 @@ WriteMakefile(
 );
 END_DSL
 
-	ok( run_makefile_pl('Foo'), 'build_dist' );
-	my $file=File::Spec->catfile(qw(t Foo Makefile));
+	ok( run_makefile_pl(), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file, 'Makefile exists' );
 	my $content = _read($file);
 	ok( $content,'file is not empty');
 	my ($inc) = $content =~ /^INC\s*=\s*(.+)$/m;
 	diag "INC: $inc" if $ENV{TEST_VERBOSE};
 	ok $inc && $inc =~ m{/usr/include/}, "correct INC";
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 # added as ARGV
@@ -44,15 +44,15 @@ WriteMakefile(
 );
 END_DSL
 
-	ok( run_makefile_pl('Foo', run_params => ['INC=-I/usr/opt/include/']), 'build_dist' );
-	my $file=File::Spec->catfile(qw(t Foo Makefile));
+	ok( run_makefile_pl(run_params => ['INC=-I/usr/opt/include/']), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file, 'Makefile exists' );
 	my $content = _read($file);
 	ok( $content,'file is not empty');
 	my ($inc) = $content =~ /^INC\s*=\s*(.+)$/m;
 	diag "INC: $inc" if $ENV{TEST_VERBOSE};
 	ok $inc && $inc =~ m{/usr/opt/include/}, "correct INC";
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 # combined
@@ -65,8 +65,8 @@ WriteMakefile(
 );
 END_DSL
 
-	ok( run_makefile_pl('Foo', run_params => ['INC=-I/usr/opt/include/']), 'build_dist' );
-	my $file=File::Spec->catfile(qw(t Foo Makefile));
+	ok( run_makefile_pl(run_params => ['INC=-I/usr/opt/include/']), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file, 'Makefile exists' );
 	my $content = _read($file);
 	ok( $content,'file is not empty');
@@ -74,7 +74,7 @@ END_DSL
 	diag "INC: $inc" if $ENV{TEST_VERBOSE};
 	ok $inc && $inc !~ m{/usr/include/},     "INC is overriden";
 	ok $inc && $inc =~ m{/usr/opt/include/}, "correct INC";
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 # Now test Module::Install
@@ -90,15 +90,15 @@ cc_inc_paths  '/usr/include/';
 WriteAll;
 END_DSL
 
-	ok( run_makefile_pl('Foo'), 'build_dist' );
-	my $file=File::Spec->catfile(qw(t Foo Makefile));
+	ok( run_makefile_pl(), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file, 'Makefile exists' );
 	my $content = _read($file);
 	ok( $content,'file is not empty');
 	my ($inc) = $content =~ /^INC\s*=\s*(.+)$/m;
 	diag "INC: $inc" if $ENV{TEST_VERBOSE};
 	ok $inc && $inc =~ m{/usr/include/}, "correct INC";
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 # multiple inc paths
@@ -113,8 +113,8 @@ cc_inc_paths  '/usr/opt/include/';
 WriteAll;
 END_DSL
 
-	ok( run_makefile_pl('Foo'), 'build_dist' );
-	my $file=File::Spec->catfile(qw(t Foo Makefile));
+	ok( run_makefile_pl(), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file, 'Makefile exists' );
 	my $content = _read($file);
 	ok( $content,'file is not empty');
@@ -122,7 +122,7 @@ END_DSL
 	diag "INC: $inc" if $ENV{TEST_VERBOSE};
 	ok $inc && $inc =~ m{/usr/include/},     "correct INC";
 	ok $inc && $inc =~ m{/usr/opt/include/}, "correct INC";
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 # added as ARGV
@@ -135,15 +135,15 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( run_makefile_pl('Foo', run_params => ['INC=-I/usr/opt/include/']), 'build_dist' );
-	my $file=File::Spec->catfile(qw(t Foo Makefile));
+	ok( run_makefile_pl(run_params => ['INC=-I/usr/opt/include/']), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file, 'Makefile exists' );
 	my $content = _read($file);
 	ok( $content,'file is not empty');
 	my ($inc) = $content =~ /^INC\s*=\s*(.+)$/m;
 	diag "INC: $inc" if $ENV{TEST_VERBOSE};
 	ok $inc && $inc =~ m{/usr/opt/include/}, "correct INC";
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 # combined
@@ -157,8 +157,8 @@ cc_inc_paths  '/usr/include/';
 WriteAll;
 END_DSL
 
-	ok( run_makefile_pl('Foo', run_params => ['INC=-I/usr/opt/include/']), 'build_dist' );
-	my $file=File::Spec->catfile(qw(t Foo Makefile));
+	ok( run_makefile_pl(run_params => ['INC=-I/usr/opt/include/']), 'build_dist' );
+	my $file = makefile();
 	ok( -f $file, 'Makefile exists' );
 	my $content = _read($file);
 	ok( $content,'file is not empty');
@@ -166,5 +166,5 @@ END_DSL
 	diag "INC: $inc" if $ENV{TEST_VERBOSE};
 	ok $inc && $inc !~ m{/usr/include/},     "INC is overriden";
 	ok $inc && $inc =~ m{/usr/opt/include/}, "correct INC";
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }

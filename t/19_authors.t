@@ -23,17 +23,17 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	ok($content =~ /#\s*AUTHOR => q\[ishigaki\]/, 'has one author');
-	my $metafile = File::Spec->catfile(qw(t Foo META.yml));
+	my $metafile = file('META.yml');
 	ok(-f $metafile);
 	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
 	is_deeply($meta->{author}, [qw(ishigaki)]);
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -46,17 +46,17 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	ok($content =~ /#\s*AUTHOR => q\[ishigaki, charsbar\]/, 'has two authors');
-	my $metafile = File::Spec->catfile(qw(t Foo META.yml));
+	my $metafile = file('META.yml');
 	ok(-f $metafile);
 	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
 	is_deeply($meta->{author}, [qw(ishigaki charsbar)]);
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -69,17 +69,17 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	ok($content =~ /#\s*AUTHOR => q\[ishigaki, charsbar\]/, 'has two authors');
-	my $metafile = File::Spec->catfile(qw(t Foo META.yml));
+	my $metafile = file('META.yml');
 	ok(-f $metafile);
 	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
 	is_deeply($meta->{author}, [qw(ishigaki charsbar)]);
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -93,15 +93,15 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	ok($content =~ /#\s*AUTHOR => q\[ishigaki, charsbar\]/, 'has two authors');
-	my $metafile = File::Spec->catfile(qw(t Foo META.yml));
+	my $metafile = file('META.yml');
 	ok(-f $metafile);
 	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
 	is_deeply($meta->{author}, [qw(ishigaki charsbar)]);
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }

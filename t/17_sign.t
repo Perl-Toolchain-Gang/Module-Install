@@ -27,13 +27,13 @@ requires_from 'lib/Foo.pm';
 WriteAll(sign => 0);
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	ok($content !~ /#\s*SIGN => q\[[01]\]/, 'has no sign');
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -48,8 +48,8 @@ requires_from 'lib/Foo.pm';
 WriteAll(sign => 1);
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
@@ -58,5 +58,5 @@ END_DSL
 	# XXX: might be better test `$Config{make} distsign` here
 	# but it's neither safe nor portable...
 
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }

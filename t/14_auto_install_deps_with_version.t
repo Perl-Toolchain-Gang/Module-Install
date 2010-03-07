@@ -31,19 +31,19 @@ auto_include_deps;
 WriteAll;
 END_DSL
 
-	ok( run_makefile_pl('Foo',(run_params=>['PREREQ_PRINT >test'])),  'build_dist'  );
-	my $file=File::Spec->catfile(qw(t Foo test));
+	ok( run_makefile_pl(run_params=>['PREREQ_PRINT >test']), 'build_dist' );
+	my $file = file('test');
 	ok( -f $file);
-	my $content=_read($file);
+	my $content = _read($file);
 	ok( $content,'file is not empty');
 	ok( $content =~ s/^.*\$PREREQ_PM = \{/\$PREREQ_PM = {/s,'PREREQ_PM found');
 	eval ($content);
 	ok( !$@,'correct content');
 	ok( exists $PREREQ_PM->{'File::Spec'});
 	ok( $BUILD_REQUIRES->{'File::Spec'} || $PREREQ_PM->{'File::Spec'} == 0.6);
-	my $file_spec = File::Spec->catfile(qw(t Foo inc File Spec.pm));
-	ok( !-f $file_spec, 'File::Spec is not bundled');
-	ok( kill_dist('Foo'), 'kill_dist' );
+	my $file_spec = file(qw(inc File Spec.pm));
+	ok( !-f $file_spec, 'File::Spec is not included');
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -60,17 +60,17 @@ auto_include_deps;
 WriteAll;
 END_DSL
 
-	ok( run_makefile_pl('Foo',(run_params=>['PREREQ_PRINT >test'])),  'build_dist'  );
-	my $file=File::Spec->catfile(qw(t Foo test));
+	ok( run_makefile_pl(run_params=>['PREREQ_PRINT >test']), 'build_dist' );
+	my $file = file('test');
 	ok( -f $file);
-	my $content=_read($file);
+	my $content = _read($file);
 	ok( $content,'file is not empty');
 	ok( $content =~ s/^.*\$PREREQ_PM = \{/\$PREREQ_PM = {/s,'PREREQ_PM found');
 	eval ($content);
 	ok( !$@,'correct content');
 	ok( exists $PREREQ_PM->{'File::Spec'});
 	ok( $BUILD_REQUIRES->{'File::Spec'} || $PREREQ_PM->{'File::Spec'} == 3.30);
-	my $file_spec = File::Spec->catfile(qw(t Foo inc File Spec.pm));
-	ok( -f $file_spec, 'File::Spec is bundled');
-	ok( kill_dist('Foo'), 'kill_dist' );
+	my $file_spec = file(qw(inc File Spec.pm));
+	ok( -f $file_spec, 'File::Spec is included');
+	ok( kill_dist(), 'kill_dist' );
 }

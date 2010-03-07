@@ -23,15 +23,15 @@ makemaker_args 'INSTALLDIRS' => '~/local/';
 WriteAll;
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	my ($installdirs) = $content =~ /^INSTALLDIRS\s*=\s*(.+)$/m;
 	diag "INSTALLDIRS: $installdirs" if $ENV{TEST_VERBOSE};
 	ok( $installdirs eq '~/local/', 'correct INSTALLDIRS');
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -44,15 +44,15 @@ installdirs   '~/local/';
 WriteAll;
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	my ($installdirs) = $content =~ /^INSTALLDIRS\s*=\s*(.+)$/m;
 	diag "INSTALLDIRS: $installdirs" if $ENV{TEST_VERBOSE};
 	ok( $installdirs eq '~/local/', 'correct INSTALLDIRS');
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -66,15 +66,15 @@ makemaker_args 'INSTALLDIRS' => '~/old/';
 WriteAll;
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	my ($installdirs) = $content =~ /^INSTALLDIRS\s*=\s*(.+)$/m;
 	diag "INSTALLDIRS: $installdirs" if $ENV{TEST_VERBOSE};
 	ok( $installdirs eq '~/local/', 'correct INSTALLDIRS');
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -87,13 +87,13 @@ install_as_core;
 WriteAll;
 END_DSL
 
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	my ($installdirs) = $content =~ /^INSTALLDIRS\s*=\s*(.+)$/m;
 	diag "INSTALLDIRS: $installdirs" if $ENV{TEST_VERBOSE};
 	ok( $installdirs eq 'perl', 'correct INSTALLDIRS');
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }

@@ -27,16 +27,16 @@ author_tests  'xt';
 WriteAll;
 END_DSL
 
-	ok( add_test('Foo', 'xt/test.t'), 'added xt' );
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( add_test('xt/test.t'), 'added xt' );
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
 	ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
 	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -52,12 +52,12 @@ author_tests  'xt';
 WriteAll;
 END_DSL
 
-	ok( add_test('Foo', 'xt/test.t'), 'added xt' );
-	ok( build_dist('Foo'), 'build_dist' );
-	rmdir File::Spec->catdir(qw(t Foo inc .author)); # non-author-mode
-	unlink File::Spec->catdir(qw(t Foo Makefile));
-	ok( run_makefile_pl('Foo'), 'build_dist again' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( add_test('xt/test.t'), 'added xt' );
+	ok( build_dist(), 'build_dist' );
+	rmdir dir(qw(inc .author)); # non-author-mode
+	unlink makefile();
+	ok( run_makefile_pl(), 'build_dist again' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
@@ -68,7 +68,7 @@ END_DSL
 		ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
 	}
 	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 # cases with (undocumented) tests_recursive()
@@ -87,17 +87,17 @@ author_tests  'xt';
 WriteAll;
 END_DSL
 
-	ok( add_test('Foo', 't/test.t'), 'added t' );
-	ok( add_test('Foo', 'xt/test.t'), 'added xt' );
-	ok( build_dist('Foo'), 'build_dist' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( add_test('t/test.t'), 'added t' );
+	ok( add_test('xt/test.t'), 'added xt' );
+	ok( build_dist(), 'build_dist' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
 	ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
 	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 
 SCOPE: {
@@ -114,13 +114,13 @@ author_tests  'xt';
 WriteAll;
 END_DSL
 
-	ok( add_test('Foo', 't/test.t'), 'added t' );
-	ok( add_test('Foo', 'xt/test.t'), 'added xt' );
-	ok( build_dist('Foo'), 'build_dist' );
-	rmdir File::Spec->catdir(qw(t Foo inc .author)); # non-author-mode
-	unlink File::Spec->catdir(qw(t Foo Makefile));
-	ok( run_makefile_pl('Foo'), 'build_dist again' );
-	my $file = File::Spec->catfile(qw(t Foo Makefile));
+	ok( add_test('t/test.t'), 'added t' );
+	ok( add_test('xt/test.t'), 'added xt' );
+	ok( build_dist(), 'build_dist' );
+	rmdir dir(qw(inc .author)); # non-author-mode
+	unlink makefile();
+	ok( run_makefile_pl(), 'build_dist again' );
+	my $file = makefile();
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
@@ -131,5 +131,5 @@ END_DSL
 		ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
 	}
 	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }

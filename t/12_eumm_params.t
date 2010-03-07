@@ -14,8 +14,7 @@ use vars qw{ $PREREQ_PM $MIN_PERL_VERSION $BUILD_REQUIRES };
 
 # Regular build
 SCOPE: {
-	#ok( create_dist('Foo'), 'create_dist' );
-        ok( create_dist( 'Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
+	ok( create_dist( 'Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install 0.81;
 name          'Foo';
 version       '0.01';
@@ -26,11 +25,11 @@ requires      'File::Spec' => '0.79';
 WriteAll;
 END_DSL
 
-	ok( run_makefile_pl('Foo',(run_params=>['PREREQ_PRINT >test'])),  'build_dist'  );
-	my $file=File::Spec->catfile(qw(t Foo test));
+	ok( run_makefile_pl(run_params=>['PREREQ_PRINT >test']), 'build_dist' );
+	my $file = file('test');
 	ok( -f $file);
-	my $content=_read($file);
-	ok( $content,'file is not empty');
+	my $content = _read($file);
+	ok( $content, 'file is not empty');
 	ok( $content =~ s/^.*\$PREREQ_PM = \{/\$PREREQ_PM = {/s,'PREREQ_PM found');
 	eval ($content);
 	ok( !$@,'correct content');
@@ -44,6 +43,6 @@ END_DSL
 		ok( !exists $PREREQ_PM->{'ExtUtils::MakeMaker'});
 		is( $MIN_PERL_VERSION, '5.005' , 'correct Perl version');
 	}
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }
 

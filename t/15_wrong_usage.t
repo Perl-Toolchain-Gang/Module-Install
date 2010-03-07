@@ -30,12 +30,12 @@ END_DSL
 	my $home = File::Spec->rel2abs(File::Spec->curdir);
 	if ($has_capture_tiny) {
 		my $ret;
-		my $out = Capture::Tiny::capture_merged(sub { $ret = build_dist('Foo') });
+		my $out = Capture::Tiny::capture_merged(sub { $ret = build_dist() });
 		ok !$ret, "build_dist failed";
 		ok $out =~ /Please invoke Module::Install with/, "output: $out";
 	}
 	else {
-		my $ret = build_dist('Foo');
+		my $ret = build_dist();
 		ok !$ret, "build_dist failed";
 		SKIP: {
 			skip "require Capture::Tiny to capture output", 1;
@@ -44,5 +44,5 @@ END_DSL
 	}
 	chdir $home;
 
-	ok( kill_dist('Foo'), 'kill_dist' );
+	ok( kill_dist(), 'kill_dist' );
 }

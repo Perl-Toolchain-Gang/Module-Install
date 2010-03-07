@@ -48,7 +48,7 @@ license       perl
 requires_from lib/Foo.pm
 requires      File::Spec   0.79
 END_DSL
-ok( build_dist('Foo'),  'build_dist'  );
-ok( -f File::Spec->catfile(qw(t Foo Makefile)) );
-ok( -f File::Spec->catfile(qw(t Foo META.yml)) );
-ok( kill_dist('Foo'),   'kill_dist'   );
+ok( build_dist(), 'build_dist' );
+ok( -f makefile() );
+ok( -f file('META.yml') );
+ok( kill_dist(), 'kill_dist' );
