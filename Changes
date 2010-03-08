@@ -26,6 +26,8 @@ Changes for Perl programming language extension Module-Install
 	  during "make dist" (by Steffen Mueller) (ISHIGAKI)
 	- Now license is properly passed to the EU::MM in the
 	  background (ISHIGAKI)
+	- Added non-interactive session support, part of which was
+	  there some time before (ISHIGAKI)
 
 0.94 Tue 23 Feb 2010
 	- Fixed critical author/xt bug (ADAMK)
