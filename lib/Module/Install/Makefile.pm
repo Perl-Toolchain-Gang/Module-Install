@@ -24,8 +24,8 @@ sub prompt {
 		die "Caught an potential prompt infinite loop ($c[1]|$c[2]|$_[0])";
 	}
 
-	# In automated testing, always use defaults
-	if ( $ENV{AUTOMATED_TESTING} and ! $ENV{PERL_MM_USE_DEFAULT} ) {
+	# In automated testing or non-interactive session, always use defaults
+	if ( ($ENV{AUTOMATED_TESTING} or -! -t STDIN) and ! $ENV{PERL_MM_USE_DEFAULT} ) {
 		local $ENV{PERL_MM_USE_DEFAULT} = 1;
 		goto &ExtUtils::MakeMaker::prompt;
 	} else {
