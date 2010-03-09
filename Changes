@@ -24,6 +24,8 @@ Changes for Perl programming language extension Module-Install
 	  (by Hilary Holz) (ISHIGAKI)
 	- Resolved #19783: Query CPAN for new versions of Module::Install
 	  during "make dist" (by Steffen Mueller) (ISHIGAKI)
+	- Resolved #27242: Bug(s) in license_from() (by Steve Hay)
+	  (ISHIGAKI)
 	- Now license is properly passed to the EU::MM in the
 	  background (ISHIGAKI)
 	- Added non-interactive session support, part of which was

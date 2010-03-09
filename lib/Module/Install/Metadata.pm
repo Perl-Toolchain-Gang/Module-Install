@@ -479,44 +479,47 @@ sub author_from {
 }
 
 sub _extract_license {
-	if (
-		$_[0] =~ m/
-		(
-			=head \d \s+
-			(?:licen[cs]e|licensing|copyrights?|legal)\b
-			.*?
-		)
-		(=head\\d.*|=cut.*|)
-		\z
-	/ixms ) {
-		my $license_text = $1;
-		my @phrases      = (
-			'under the same (?:terms|license) as (?:perl|the perl programming language)' => 'perl', 1,
-			'under the terms of (?:perl|the perl programming language) itself' => 'perl', 1,
-			'Artistic and GPL'                   => 'perl',        1,
-			'GNU general public license'         => 'gpl',         1,
-			'GNU public license'                 => 'gpl',         1,
-			'GNU lesser general public license'  => 'lgpl',        1,
-			'GNU lesser public license'          => 'lgpl',        1,
-			'GNU library general public license' => 'lgpl',        1,
-			'GNU library public license'         => 'lgpl',        1,
-			'BSD license'                        => 'bsd',         1,
-			'Artistic license'                   => 'artistic',    1,
-			'GPL'                                => 'gpl',         1,
-			'LGPL'                               => 'lgpl',        1,
-			'BSD'                                => 'bsd',         1,
-			'Artistic'                           => 'artistic',    1,
-			'MIT'                                => 'mit',         1,
-			'proprietary'                        => 'proprietary', 0,
-		);
-		while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
-			$pattern =~ s#\s+#\\s+#gs;
-			if ( $license_text =~ /\b$pattern\b/i ) {
-			        return $license;
-			}
+	my $pod = shift;
+	my $matched;
+	return __extract_license(
+		($matched) = $pod =~ m/
+			(=head \d \s+ (?:licen[cs]e|licensing)\b.*?)
+			(=head \d.*|=cut.*|)\z
+		/ixms
+	) || __extract_license(
+		($matched) = $pod =~ m/
+			(=head \d \s+ (?:copyrights?|legal)\b.*?)
+			(=head \d.*|=cut.*|)\z
+		/ixms
+	);
+}
+
+sub __extract_license {
+	my $license_text = shift;
+	my @phrases      = (
+		'under the same (?:terms|license) as (?:perl|the perl programming language)' => 'perl', 1,
+		'under the terms of (?:perl|the perl programming language) itself' => 'perl', 1,
+		'Artistic and GPL'                   => 'perl',        1,
+		'GNU general public license'         => 'gpl',         1,
+		'GNU public license'                 => 'gpl',         1,
+		'GNU lesser general public license'  => 'lgpl',        1,
+		'GNU lesser public license'          => 'lgpl',        1,
+		'GNU library general public license' => 'lgpl',        1,
+		'GNU library public license'         => 'lgpl',        1,
+		'BSD license'                        => 'bsd',         1,
+		'Artistic license'                   => 'artistic',    1,
+		'GPL'                                => 'gpl',         1,
+		'LGPL'                               => 'lgpl',        1,
+		'BSD'                                => 'bsd',         1,
+		'Artistic'                           => 'artistic',    1,
+		'MIT'                                => 'mit',         1,
+		'proprietary'                        => 'proprietary', 0,
+	);
+	while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
+		$pattern =~ s#\s+#\\s+#gs;
+		if ( $license_text =~ /\b$pattern\b/i ) {
+			return $license;
 		}
-	} else {
-	        return;
 	}
 }
 
