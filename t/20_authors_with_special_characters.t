@@ -10,7 +10,6 @@ use Test::More;
 use File::Spec;
 use Parse::CPAN::Meta;
 use t::lib::Test;
-use utf8;
 
 plan tests => 26;
 
@@ -54,8 +53,10 @@ END
 	ok( kill_dist(), 'kill_dist' );
 }
 
-SCOPE: {
-	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
+if ($] >= 5.008) {
+	eval "use utf8";
+	SCOPE: {
+		ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install 0.81;
 name          'Foo';
 perl_version  '5.005';
@@ -65,7 +66,7 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( add_file(qw(lib Foo.pm), <<'END') );
+		ok( add_file(qw(lib Foo.pm), <<'END') );
 package Foo;
 1;
 \__END__
@@ -81,21 +82,21 @@ Olivier MenguE<eacute>
 \=cut
 END
 
-	ok( build_dist(), 'build_dist' );
-	my $file = makefile();
-	ok(-f $file);
-	my $content = _read($file);
-	ok($content, 'file is not empty');
-	ok($content =~ /#\s*AUTHOR => q\[Olivier Mengu\xE9\]/, 'has one author');
-	my $metafile = file('META.yml');
-	ok(-f $metafile);
-	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
-	is_deeply($meta->{author}, [qq(Olivier Mengu\xE9)]);
-	ok( kill_dist(), 'kill_dist' );
-}
+		ok( build_dist(), 'build_dist' );
+		my $file = makefile();
+		ok(-f $file);
+		my $content = _read($file);
+		ok($content, 'file is not empty');
+		ok($content =~ /#\s*AUTHOR => q\[Olivier Mengu\xE9\]/, 'has one author');
+		my $metafile = file('META.yml');
+		ok(-f $metafile);
+		my $meta = Parse::CPAN::Meta::LoadFile($metafile);
+		is_deeply($meta->{author}, [qq(Olivier Mengu\xE9)]);
+		ok( kill_dist(), 'kill_dist' );
+	}
 
-SCOPE: {
-	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
+	SCOPE: {
+		ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install 0.81;
 name          'Foo';
 perl_version  '5.005';
@@ -106,15 +107,21 @@ all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	ok( build_dist(), 'build_dist' );
-	my $file = makefile();
-	ok(-f $file);
-	my $content = _read($file);
-	ok($content, 'file is not empty');
-	ok($content =~ /#\s*AUTHOR => q\[Olivier Mengu\xE9\]/, 'has one author');
-	my $metafile = file('META.yml');
-	ok(-f $metafile);
-	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
-	is_deeply($meta->{author}, [qq(Olivier Mengu\xE9)]);
-	ok( kill_dist(), 'kill_dist' );
+		ok( build_dist(), 'build_dist' );
+		my $file = makefile();
+		ok(-f $file);
+		my $content = _read($file);
+		ok($content, 'file is not empty');
+		ok($content =~ /#\s*AUTHOR => q\[Olivier Mengu\xE9\]/, 'has one author');
+		my $metafile = file('META.yml');
+		ok(-f $metafile);
+		my $meta = Parse::CPAN::Meta::LoadFile($metafile);
+		is_deeply($meta->{author}, [qq(Olivier Mengu\xE9)]);
+		ok( kill_dist(), 'kill_dist' );
+	}
+}
+else {
+	SKIP: {
+		skip "this test requires perl 5.8", 17;
+	}
 }
