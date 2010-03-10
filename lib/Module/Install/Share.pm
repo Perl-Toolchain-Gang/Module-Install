@@ -48,6 +48,7 @@ sub install_share {
 		? ExtUtils::Manifest::maniskip()
 		: ExtUtils::Manifest::_maniskip();
 	my $postamble = '';
+	my $perm_dir = eval($ExtUtils::MakeMaker::VERSION) >= 6.52 ? '$(PERM_DIR)' : 755;
 	File::Find::find({
 		no_chdir => 1,
 		wanted => sub {
@@ -56,7 +57,7 @@ sub install_share {
 				return if $skip_checker->($File::Find::name);
 				$postamble .=<<"END";
 \t\$(NOECHO) \$(MKPATH) "$root${S}$path"
-\t\$(NOECHO) \$(CHMOD) \$(PERM_DIR) "$root${S}$path"
+\t\$(NOECHO) \$(CHMOD) $perm_dir "$root${S}$path"
 END
 			}
 			else {
