@@ -495,7 +495,7 @@ sub _extract_license {
 }
 
 sub __extract_license {
-	my $license_text = shift;
+	my $license_text = shift or return;
 	my @phrases      = (
 		'under the same (?:terms|license) as (?:perl|the perl programming language)' => 'perl', 1,
 		'under the terms of (?:perl|the perl programming language) itself' => 'perl', 1,
