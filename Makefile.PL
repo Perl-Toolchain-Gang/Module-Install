@@ -38,6 +38,7 @@ test_requires 'Test::More'        => '0.86';
 
 # Remove some extra test files
 clean_files( qw{
+	t/Foo
 	test/A/inc
 	test/A/META.yml
 	test/A/MYMETA.yml
