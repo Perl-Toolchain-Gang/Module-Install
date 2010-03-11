@@ -80,7 +80,7 @@ SCOPE: {
 
 
 SCOPE: {
-	my $l=Module::Install::Metadata::_extract_license("=head1 COPYRIGHT\nunder the same terms as the perl programming language\n=cut\n");
+	my $l=Module::Install::Metadata::_extract_license("=head1 Copyright\nunder the same terms as the perl programming language\n=cut\n");
 		is($l, 'perl', 'Perl license detected',
 	);
 }

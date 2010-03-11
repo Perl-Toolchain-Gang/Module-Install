@@ -483,12 +483,12 @@ sub _extract_license {
 	my $matched;
 	return __extract_license(
 		($matched) = $pod =~ m/
-			(=head \d \s+ (?:LICEN[CS]E|LICENSING)\b.*?)
+			(=head \d \s+ L(?i:ICEN[CS]E|ICENSING)\b.*?)
 			(=head \d.*|=cut.*|)\z
 		/xms
 	) || __extract_license(
 		($matched) = $pod =~ m/
-			(=head \d \s+ (?:COPYRIGHTS?|LEGAL)\b.*?)
+			(=head \d \s+ (?:C(?i:OPYRIGHTS?)|L(?i:EGAL))\b.*?)
 			(=head \d.*|=cut.*|)\z
 		/xms
 	);
