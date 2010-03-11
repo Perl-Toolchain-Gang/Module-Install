@@ -1,5 +1,9 @@
 Changes for Perl programming language extension Module-Install
 
+0.96 to be released
+	- Resolved #55464: Wrong license detection (by Jens Rehsack)
+	  (ISHIGAKI)
+
 0.95 Wed 10 Mar 2010
 	- Resolved #51614: POD nits (by Frank Wiegand) (ISHIGAKI)
 	- Resolved #51077: auto_include_deps would mention the
