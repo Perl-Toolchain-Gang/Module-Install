@@ -80,7 +80,7 @@ SCOPE: {
 
 
 SCOPE: {
-	my $l=Module::Install::Metadata::_extract_license("=head1 copyright\nunder the same terms as the perl programming language\n=cut\n");
+	my $l=Module::Install::Metadata::_extract_license("=head1 COPYRIGHT\nunder the same terms as the perl programming language\n=cut\n");
 		is($l, 'perl', 'Perl license detected',
 	);
 }
@@ -115,7 +115,7 @@ This module is distributed under the same terms as Perl itself.
 }
 
 SCOPE: {
-	my $l=Module::Install::Metadata::_extract_license("=head1 copyright\nAs LGPL license\n=cut\n");
+	my $l=Module::Install::Metadata::_extract_license("=head1 COPYRIGHT\nAs LGPL license\n=cut\n");
 		is($l, 'lgpl', 'LGPL detected',
 	);
 }
