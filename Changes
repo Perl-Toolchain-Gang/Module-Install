@@ -1,5 +1,8 @@
 Changes for Perl programming language extension Module-Install
 
+	- Stop Bundle.pm pointlessly calling import() of bundled modules
+	  (MSTROUT)
+
 0.96 to be released
 	- Resolved #55464: Wrong license detection (by Jens Rehsack)
 	  (ISHIGAKI)

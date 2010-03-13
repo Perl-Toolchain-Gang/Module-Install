@@ -39,7 +39,7 @@ sub bundle {
         my $target = File::Basename::basename($source);
         $self->bundles($name, $target);
 
-        next if eval "use $name $version; 1";
+        next if eval "use $name $version (); 1";
         mkdir( $target, 0777 ) or die $! unless -d $target;
 
         # XXX - clean those directories upon "make clean"?
