@@ -38,7 +38,7 @@ SKIP: {
 		$meta =~ s/_\d+$//;
 
 		my $got = Module::Install::Metadata::__extract_license($name);
-		like $got => qr/^$meta/, $name;
+		ok $got =~ /^$meta/, $name;
 
 		# should also test license urls?
 		my $url = $license->url;
