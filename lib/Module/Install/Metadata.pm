@@ -316,6 +316,9 @@ sub version_from {
 	require ExtUtils::MM_Unix;
 	my ( $self, $file ) = @_;
 	$self->version( ExtUtils::MM_Unix->parse_version($file) );
+
+	# for version integrity check
+	$self->makemaker_args( VERSION_FROM => $file );
 }
 
 sub abstract_from {
@@ -326,7 +329,7 @@ sub abstract_from {
 			{ DISTNAME => $self->name },
 			'ExtUtils::MM_Unix'
 		)->parse_abstract($file)
-	 );
+	);
 }
 
 # Add both distribution and module name
