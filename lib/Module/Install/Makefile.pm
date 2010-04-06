@@ -100,24 +100,26 @@ sub makemaker_args {
 	my ($self, %new_args) = @_;
 	my $args = ( $self->{makemaker_args} ||= {} );
 	foreach my $key (keys %new_args) {
-		if ($makemaker_argtype{$key} eq 'ARRAY') {
-			$args->{$key} = [] unless defined $args->{$key};
-			unless (ref $args->{$key} eq 'ARRAY') {
-				$args->{$key} = [$args->{$key}]
+		if ($makemaker_argtype{$key}) {
+			if ($makemaker_argtype{$key} eq 'ARRAY') {
+				$args->{$key} = [] unless defined $args->{$key};
+				unless (ref $args->{$key} eq 'ARRAY') {
+					$args->{$key} = [$args->{$key}]
+				}
+				push @{$args->{$key}},
+					ref $new_args{$key} eq 'ARRAY'
+						? @{$new_args{$key}}
+						: $new_args{$key};
 			}
-			push @{$args->{$key}},
-				ref $new_args{$key} eq 'ARRAY'
-					? @{$new_args{$key}}
-					: $new_args{$key};
-		}
-		elsif ($makemaker_argtype{$key} eq 'HASH') {
-			$args->{$key} = {} unless defined $args->{$key};
-			foreach my $skey (keys %{ $new_args{$key} }) {
-				$args->{$key}{$skey} = $new_args{$key}{$skey};
+			elsif ($makemaker_argtype{$key} eq 'HASH') {
+				$args->{$key} = {} unless defined $args->{$key};
+				foreach my $skey (keys %{ $new_args{$key} }) {
+					$args->{$key}{$skey} = $new_args{$key}{$skey};
+				}
 			}
-		}
-		elsif ($makemaker_argtype{$key} eq 'APPENDABLE') {
-			$self->makemaker_append($key => $new_args{$key});
+			elsif ($makemaker_argtype{$key} eq 'APPENDABLE') {
+				$self->makemaker_append($key => $new_args{$key});
+			}
 		}
 		else {
 			if (defined $args->{$key}) {
