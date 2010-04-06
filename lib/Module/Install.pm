@@ -267,8 +267,10 @@ END_DIE
 sub load_extensions {
 	my ($self, $path, $top) = @_;
 
+	my $should_reload = 0;
 	unless ( grep { ! ref $_ and lc $_ eq lc $self->{prefix} } @INC ) {
 		unshift @INC, $self->{prefix};
+		$should_reload = 1;
 	}
 
 	foreach my $rv ( $self->find_extensions($path) ) {
@@ -281,7 +283,8 @@ sub load_extensions {
 			warn $@ if $@;
 			next;
 		}
-		$self->{pathnames}{$pkg} = delete $INC{$file};
+		$self->{pathnames}{$pkg} =
+			$should_reload ? delete $INC{$file} : $INC{$file};
 		push @{$self->{extensions}}, &{$new}($pkg, _top => $top );
 	}
 

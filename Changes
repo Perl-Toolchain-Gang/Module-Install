@@ -6,6 +6,8 @@ Changes for Perl programming language extension Module-Install
 	- Resolved #55464: Wrong license detection (by Jens Rehsack)
 	  (ISHIGAKI)
 	- Resolved #55594: Missing license (by Salve J. Nilsen) (ISHIGAKI)
+	- Resolved #5849 (load_extensions() causes "Subroutine %s
+	  redefined" warnings) (by Steve Hay) (ISHIGAKI)
 	- Pass VERSION_FROM to EU::MM in the background to let it check
 	  version integrity (ISHIGAKI)
 
