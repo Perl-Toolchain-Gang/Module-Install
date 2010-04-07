@@ -21,6 +21,8 @@ BEGIN {
 		_read
 		file dir
 		makefile
+		supports_capture
+		capture_build_dist
 	};
 	$DIST = '';
 }
@@ -151,9 +153,9 @@ sub build_dist {
 	local $ENV{X_MYMETA} = $X_MYMETA;
 
 	my @run_params=@{ $params{run_params} || [] };
-	system($^X, "-I../../lib", "-I../../blib/lib", "Makefile.PL",@run_params) == 0 or return 0;
+	my $ret = system($^X, "-I../../lib", "-I../../blib/lib", "Makefile.PL",@run_params);
 	chdir $home or return 0;
-	return 1;
+	return $ret ? 0 : 1;
 }
 
 sub run_makefile_pl {
@@ -166,10 +168,10 @@ sub run_makefile_pl {
 	local $ENV{X_MYMETA} = $X_MYMETA;
 
 	my $run_params=join(' ',@{ $params{run_params} || [] });
-	system("$^X -I../../lib -I../../blib/lib Makefile.PL $run_params") == 0 or return 0;
+	my $ret = system("$^X -I../../lib -I../../blib/lib Makefile.PL $run_params");
 	#my $result=qx();
 	chdir $home or return 0;
-	return 1;
+	return $ret ? 0 : 1;
 }
 
 sub kill_dist {
@@ -177,6 +179,34 @@ sub kill_dist {
 	return 1 unless -d $dir;
 	File::Remove::remove( \1, $dir );
 	return -d $dir ? 0 : 1;
+}
+
+sub supports_capture {
+	# stolen from ExtUtils::MakeMaker's test
+	use ExtUtils::MM;
+
+	# Unix, modern Windows and OS/2 from 5.005_54 up can handle 2>&1 
+	# This makes our failure diagnostics nicer to read.
+	return 1
+		if (MM->os_flavor_is('Unix') or
+			(MM->os_flavor_is('Win32') and !MM->os_flavor_is('Win9x')) or
+			($] > 5.00554 and MM->os_flavor_is('OS/2')));
+}
+
+sub capture_build_dist {
+	my %params = @_;
+	my $dist_path = dir();
+	return '' unless -d $dist_path;
+	my $home = cwd;
+	chdir $dist_path or return '';
+	my $X_MYMETA = $params{MYMETA} || '';
+	local $ENV{X_MYMETA} = $X_MYMETA;
+
+	my @run_params=@{ $params{run_params} || [] };
+	my $command = join ' ', $^X, "-I../../lib", "-I../../blib/lib", "Makefile.PL", @run_params;
+	my $ret = `$command 2>&1`;
+	chdir $home;
+	return $ret;
 }
 
 sub extract_target {

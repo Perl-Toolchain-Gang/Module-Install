@@ -99,7 +99,7 @@ sub import {
 		my $obj = $self->load($1) or return;
 		unshift @_, $obj;
 		goto &{$obj->can($1)};
-	}
+	};
 }
 
 sub new {

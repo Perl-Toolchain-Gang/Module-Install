@@ -12,9 +12,6 @@ use t::lib::Test;
 
 plan tests => 4;
 
-eval "require Capture::Tiny";
-my $has_capture_tiny = $@ ? 0 : 1;
-
 SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use Module::Install 0.81;  # should use "use inc::Module::Install"!
@@ -27,22 +24,18 @@ requires_from 'lib/Foo.pm';
 WriteAll;
 END_DSL
 
-	my $home = File::Spec->rel2abs(File::Spec->curdir);
-	if ($has_capture_tiny) {
-		my $ret;
-		my $out = Capture::Tiny::capture_merged(sub { $ret = build_dist() });
-		ok !$ret, "build_dist failed";
-		ok $out =~ /Please invoke Module::Install with/, "output: $out";
+	if ( supports_capture() ) {
+		my $error = capture_build_dist();
+		ok $?, 'build failed';
+		ok $error =~ /Please invoke Module::Install with/, 'correct error';
+		diag $error if $ENV{TEST_VERBOSE};
 	}
 	else {
-		my $ret = build_dist();
-		ok !$ret, "build_dist failed";
+		ok !build_dist(), "build_dist failed";
 		SKIP: {
-			skip "require Capture::Tiny to capture output", 1;
-			pass "test skipped";
+			skip 'this platform does not support 2>&1', 1;
 		}
 	}
-	chdir $home;
 
 	ok( kill_dist(), 'kill_dist' );
 }

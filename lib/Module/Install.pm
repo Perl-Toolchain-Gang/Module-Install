@@ -158,7 +158,21 @@ sub autoload {
 			# Delegate back to parent dirs
 			goto &$code unless $cwd eq $pwd;
 		}
-		$$sym =~ /([^:]+)$/ or die "Cannot autoload $who - $sym";
+		unless ($$sym =~ s/([^:]+)$//) {
+			# XXX: it looks like we can't retrieve the missing function
+			# via $$sym (usually $main::AUTOLOAD) in this case.
+			# I'm still wondering if we should slurp Makefile.PL to
+			# get some context or not ...
+			my ($package, $file, $line) = caller;
+			die <<"EOT";
+Unknown function is found at $file line $line.
+Execution of $file aborted due to runtime errors.
+
+If you're a contributor to a project, you may need to install
+some Module::Install extensions from CPAN (or other repository).
+If you're a user of a module, please contact the author.
+EOT
+		}
 		my $method = $1;
 		if ( uc($method) eq $method ) {
 			# Do nothing
