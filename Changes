@@ -11,6 +11,8 @@ Changes for Perl programming language extension Module-Install
 	- Resolved #19445: unknown functions in Makefile.PL should fail.
 	  and #19449: license is not found if unknown function is present
 	  (both are the same issue) (ISHIGAKI)
+	- Resolved #54890: MYMETA.yml creation doesn't work (by miyagawa)
+	  (ISHIGAKI)
 	- Pass VERSION_FROM to EU::MM in the background to let it check
 	  version integrity (ISHIGAKI)
 	- Improved tests and removed unnecessary directories/files
