@@ -87,22 +87,32 @@ END_MAKEFILE_PL
 	print MODULE $opt->{"lib/$DIST.pm"} || <<"END_MODULE";
 package $DIST;
 
-\$VERSION = '3.21';
-
-use strict;
-use File::Spec 0.80;
-
-1;
-
-__END__
+=pod
 
 =head1 NAME
 
 $DIST - A test module
 
+=cut
+
+use 5.005;
+use strict;
+
+\$VERSION = '3.21';
+
+use File::Spec 0.80;
+
+=pod
+
 =head1 AUTHORS
 
 Foo Bar
+
+=cut
+
+1;
+
+__END__
 
 =head1 COPYRIGHT
 
