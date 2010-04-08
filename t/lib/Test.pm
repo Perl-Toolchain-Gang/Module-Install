@@ -21,6 +21,7 @@ BEGIN {
 		_read
 		file dir
 		makefile
+		make
 		supports_capture
 		capture_build_dist
 	};
@@ -232,6 +233,22 @@ sub extract_target {
 		push @lines, $_ if $flag;
 	}
 	return wantarray ? @lines : join "\n", @lines;
+}
+
+sub make {
+	my $target = shift || '';
+
+	my $dist_path = dir();
+	return '' unless -d $dist_path;
+	my $home = cwd;
+	chdir $dist_path or return '';
+
+	my $make = $Config{make};
+	my $ret = supports_capture()
+		? `$make $target 2>&1`
+		: `$make $target`;
+	chdir $home;
+	return $ret;
 }
 
 1;

@@ -46,9 +46,6 @@ configure_requires 'YAML::Tiny' => '1.33';
 # (to test recursive test support)
 tests_recursive;
 
-# This isn't needed, but lets us test File::ShareDir support
-install_share;
-
 # This is a normal CPAN module
 install_as_cpan;
 
