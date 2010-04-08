@@ -37,14 +37,7 @@ test_requires 'Test::Harness'     => '3.13';
 test_requires 'Test::More'        => '0.86';
 
 # Remove some extra test files
-clean_files( qw{
-	t/Foo
-	test/A/inc
-	test/A/META.yml
-	test/A/MYMETA.yml
-	test/A/MYMETA.json
-	test/A/Makefile
-} );
+clean_files( qw{ t/Foo } );
 
 # Test configure_requires support (also needed by WriteMyMeta)
 configure_requires 'YAML::Tiny' => '1.33';
