@@ -10,7 +10,7 @@ use Test::More;
 use File::Spec;
 use t::lib::Test;
 
-#plan tests => 18;
+plan tests => 18;
 
 SCOPE: {  # runtime error
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
@@ -110,5 +110,3 @@ END_DSL
 	ok(!-f $file, 'Makefile is not created');
 	ok( kill_dist(), 'kill_dist' );
 }
-
-done_testing;
