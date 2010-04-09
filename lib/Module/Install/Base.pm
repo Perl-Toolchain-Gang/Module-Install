@@ -113,6 +113,11 @@ sub DESTROY {}
 
 package Module::Install::Base::FakeAdmin;
 
+use vars qw{$VERSION};
+BEGIN {
+	$VERSION = $Module::Install::Base::VERSION;
+}
+
 my $fake;
 
 sub new {

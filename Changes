@@ -13,6 +13,8 @@ Changes for Perl programming language extension Module-Install
 	  (both are the same issue) (ISHIGAKI)
 	- Resolved #54890: MYMETA.yml creation doesn't work (by miyagawa)
 	  (ISHIGAKI)
+	- Resolved #55974: FakeAdmin does not define (by Francesc Guasch)
+	  (ISHIGAKI)
 	- Pass VERSION_FROM to EU::MM in the background to let it check
 	  version integrity (ISHIGAKI)
 	- Improved tests and removed unnecessary directories/files
