@@ -13,6 +13,12 @@ sub include {
 	my $self = shift;
 	foreach my $rv ( $self->admin->glob_in_inc($_[0]) ) {
 		$self->admin->copy_package(@$rv);
+		my @build_requires;
+		foreach (@{ $self->build_requires || [] }) {
+			next if $_->[0] eq $rv->[0];
+			push @build_requires, $_;
+		}
+		$self->Meta->{values}{build_requires} = \@build_requires;
 	}
 }
 
@@ -113,6 +119,12 @@ sub include_one_dist {
 	foreach my $pattern ( grep { $_ } @mods ) {
 		foreach my $rv ( $self->admin->glob_in_inc($pattern) ) {
 			$self->admin->copy_package(@$rv);
+			my @build_requires;
+			foreach (@{ $self->build_requires || [] }) {
+				next if $_->[0] eq $rv->[0];
+				push @build_requires, $_;
+			}
+			$self->Meta->{values}{build_requires} = \@build_requires;
 		}
 	}
 }
