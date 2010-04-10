@@ -471,7 +471,7 @@ sub license {
 	my $license = shift or die(
 		'Did not provide a value to license()'
 	);
-	$self->{values}->{license} = $license;
+	$self->{values}->{license} = lc $license;
 
 	# Automatically fill in license URLs
 	if ( $license_urls{$license} ) {
