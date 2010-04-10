@@ -448,6 +448,7 @@ sub author_from {
 my %license_urls = (
     perl         => 'http://dev.perl.org/licenses/',
     apache       => 'http://apache.org/licenses/LICENSE-2.0',
+    apache_1_1   => 'http://apache.org/licenses/LICENSE-1.1',
     artistic     => 'http://opensource.org/licenses/artistic-license.php',
     artistic_2   => 'http://opensource.org/licenses/artistic-license-2.0.php',
     lgpl         => 'http://opensource.org/licenses/lgpl-license.php',
