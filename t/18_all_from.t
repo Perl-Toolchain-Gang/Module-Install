@@ -62,7 +62,7 @@ END_DSL
 	ok($content =~ /#\s*VERSION => q\[0\.01\]/, 'has version');
 	SKIP: {
 		skip "requires ExtUtils::MakeMaker 6.31", 1 if $eumm < 6.31;
-		ok($content =~ /#\s*LICENSE => q\[MIT\]/, 'has license');
+		ok($content =~ /#\s*LICENSE => q\[mit\]/, 'has license');
 	}
 	ok( kill_dist(), 'kill_dist' );
 }
