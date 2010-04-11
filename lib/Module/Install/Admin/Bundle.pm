@@ -56,6 +56,7 @@ sub bundle {
         unlink $file;
         next unless ($extract_result);
 
+        $extract_result =~ s|\\|/|g if $^O eq 'MSWin32';
         my $location = '';
         if ($extract_result =~ /$bundle_dir\/(.*)/) {
             $location = 'inc/BUNDLES/'.$1;
