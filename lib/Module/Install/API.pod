@@ -1,0 +1,160 @@
+=pod
+
+=head1 NAME
+
+Module::Install::API
+
+=head1 DESCRIPTION
+
+L<Module::Install> has lots of commands scattered in the extensions. Several common commands are described in the main L<Module::Install>'s pod, but you usually need to know more to do what you want. This API document lists and describes all the public I<supported> commands, grouped by the nature or importance of them. If you are a module author and want to use L<Module::Install> in your distributions, this is the document you should consult. If you are a user (or a contributor) of distributions that use L<Module::Install>, you may also want to check L<Module::Install::FAQ> where you'll find some common glitches you may encounter.
+
+Note that commands not listed here should be deemed private utility commands for the L<Module::Install> developers, or I<unsupported> commands with various reasons (some are experimental and half-baked, some are broken (by design or by implementation), some are simply deprecated, and so on). You may find some of them are used rather widely, but their use is discouraged. You have been warned.
+
+=head1 COMMANDS TO PROVIDE BASIC META DATA
+
+Most of these are also described in the main L<Module::Install>'s pod. Basically, (almost) all you have to know is the B<all_from> command that tries to extract all the necessary basic meta data from a module file, but you can also specify one by one what is not written in the module and can't be extracted (you usually want to write these specific commands before C<all_from()> not to be warned by the lack of information).
+
+=head2 all_from (L<Module::Install::Metadata>)
+
+  all_from 'lib/Foo/Bar.pm';
+
+B<all_from> command takes a module file path, and will try to extract meta data from the module including a distribution name, a module version, the minimum required perl version for the module, authors information, a license, a short description of the module. See the following commands for the extraction detail.
+
+=head2 name, name_from, module_name (L<Module::Install::Metadata>)
+
+  name 'Foo-Bar';
+  name_from 'lib/Foo/Bar.pm';
+
+B<name> commmand takes a distribution name. It usually differs slightly from a module name (a module name is separated by double colons; a distribution name is separated by hyphens). Just replacing all the double colons of your main module with hyphens would be enough for you.
+
+B<name_from> takes a module file path, and looks for the topmost C<package> declaration to extract a module name, and then converts it to a distribution name.
+
+You may optionally set B<module_name> to specify a main module name (if you choose other naming scheme for your distribution). This value is directly passed to L<ExtUtils::MakeMaker> in the backend as a C<NAME> attribute (Module::Install usually creates this from the distribution name set by B<name> or B<name_from>).
+
+=head2 abstract, abstract_from (L<Module::Install::Metadata>)
+
+  abstract 'a short description of the distribution';
+  abstract_from 'lib/Foo/Bar.pm';
+
+B<abstract> command takes a string to describe what that module/distribution is for. B<abstract_from> takes a module file path and looks for a string that follows the module's name and a hyphen to separate in the C<NAME> section of the pod. The value set by B<abstract> or B<abstract_from> is passed to L<ExtUtils::MakeMaker> as an C<ABSTRACT> attribute.
+
+=head2 version, version_from (L<Module::Install::Metadata>)
+
+  version '0.01';
+  version_from 'lib/Foo/Bar.pm';
+
+B<version> command takes a version string for the distribution. B<version_from> takes a module file path, and looks for the C<$VERSION> of the module. The value set by B<version> or B<version_from> is passed to L<ExtUtils::MakeMaker> as a C<VERSION> attribute. B<version_from> (and B<all_from> also sets a C<VERSION_FROM> attribute to check version integrity of the distribution.
+
+=head2 perl_version, perl_version_from (L<Module::Install::Metadata>)
+
+  perl_version '5.008';
+  perl_version_from 'lib/Foo/Bar.pm';
+
+B<perl_version> command takes a minimum required perl version for the distribution. B<perl_version_from> takes a module file path, and looks for a C<< use <perl_version> >> (or C<< require <perl_version> >>) statement (note that now L<Module::Install> only supports perl 5.005 and newer). The value set by B<perl_version> or B<perl_version_from> is passed to L<ExtUtils::MakeMaker> as a C<MIN_PERL_VERSION> attribute.
+
+=head2 author, author_from (L<Module::Install::Metadata>)
+
+  author 'John Doe <john.doe at cpan.org>';
+  author_from 'lib/Foo/Bar.pm';
+
+B<author> command takes a string to describe author(s). You can set multiple authors with one B<author> command, or with multiple B<author>s (you can also use B<authors> alias if you prefer). B<author_from> takes a module file path, and looks for an C<AUTHOR> (or C<AUTHORS>) section in the pod (and also license/copyright sections if it can't find any author(s) section) to extract an author. The value set by B<author> or B<author_from> is concatenated and passed to L<ExtUtils::MakeMaker> as an C<AUTHOR> attribute.
+
+=head2 license, license_from (L<Module::Install::Metadata>)
+
+  license 'perl';
+  license_from 'lib/Foo/Bar.pm';
+
+B<license> command takes an abbreviated license name including C<perl>, C<artistic>, C<apache>, C<(l)gpl>, C<bsd>, C<mit>, C<mozilla>, C<open_source>, and so on. If you don't (want to) specify license, it will be C<unknown>. B<license_from> takes a module file path, and looks for a C<LICENSE> (or C<LICENCE>) section in the pod (and also C<COPYRIGHT> section if it can't find any) to extract a license. The value set by B<license> or B<license_from> is passed to L<ExtUtils::MakeMaker> as an C<LICENSE> attribute.
+
+You are also reminded that if the distribution is intended to be uploaded to the CPAN, it B<must> be an OSI-approved open source license. Commercial software is not permitted on the CPAN.
+
+=head1 COMMANDS TO PROVIDE DEPENDENCIES
+
+=head2 requires (L<Module::Install::Metadata>)
+=head2 build_requires, test_requires, install_requires (L<Module::Install::Metadata>)
+=head2 configure_requires (L<Module::Install::Metadata>)
+=head2 recommends (L<Module::Install::Metadata>)
+
+=head2 requires_from (L<Module::Install::Metadata>)
+=head2 test_requires_from (L<Module::Install::Metadata>)
+
+=head1 COMMANDS TO WRITE METADATA
+
+=head2 WriteAll (L<Module::Install::WriteAll>)
+=head2 WriteMakefile (L<Module::Install::MakeMaker>)
+=head2 write_mymeta_yaml, write_mymeta_json (L<Module::Install::Metadata>)
+
+=head1 COMMANDS FOR TESTS
+
+=head2 tests (L<Module::Install::Metadata>)
+=head2 tests_recurisve (L<Module::Install::Makefile>)
+
+=head1 COMMANDS TO TWEAK MAKEFILE
+
+=head2 installdirs (L<Module::Install::Metadata>)
+=head2 install_as_core, install_as_cpan, install_as_site, install_as_vendor (L<Module::Install::Metadata>)
+=head2 clean_files, realclean_files (L<Module::Install::Makefile>)
+=head2 no_index (L<Module::Install::Metadata>)
+=head2 makemakr_args, makemaker_append (L<Module::Install::Makefile>)
+=head2 libs, inc (L<Module::Install::Makefile>)
+=head2 preamble, postamble (L<Module::Install::Makefile>)
+=head2 install_script (L<Module::Install::Scripts>)
+=head2 install_share (L<Module::Install::Share>)
+
+=begin broken
+
+=head2 build_subdirs (L<Module::Install::Makefile>)
+
+=end
+
+=head1 COMMANDS FOR AUTO INSTALLATION
+
+=head2 auto_install, auto_install_now (L<Module::Install::AutoInstall>)
+=head2 features, feature (L<Module::Install::Metadata>)
+
+=head1 COMMANDS TO PROVIDE MINOR META DATA
+
+=head2 provides, auto_provides (L<Module::Install::Metadata>)
+=head2 resources (L<Module::Install::Metadata>)
+=head2 homepage, bugtracker, repository (L<Module::Install::Metadata>)
+=head2 bugtracker_from (L<Module::Install::Metadata>)
+
+
+=head1 COMMANDS TO BUNDLE DISTRIBUTIONS
+
+=head2 bundle, auto_bundle (L<Module::Install::Bundle>)
+=head2 bundle_deps, auto_bundle_deps (L<Module::Install::Bundle>)
+
+=begin kind of broken and highly discouraged
+
+=head2 include, auto_include (L<Module::Install::Include>)
+=head2 include_deps, auto_include_deps (L<Module::Install::Include>)
+=head2 auto_include_dependent_dists (L<Module::Install::Include>)
+
+=end
+
+=head1 COMMANDS FOR PAR SUPPORT (should be removed from core?)
+
+=head2 par_base, fetch_par, extract_par, make_par (L<Module::Install::PAR>)
+
+=head1 UTILITY COMMANDS
+
+=head2 can_use (L<Module::Install::Can>)
+=head2 can_run (L<Module::Install::Can>)
+=head2 can_cc (L<Module::Install::Can>)
+=head2 requires_external_cc (L<Module::Install::External>)
+=head2 requires_external_bin (L<Module::Install::External>)
+
+=head2 Meta (L<Module::Install::Metadata>)
+=head2 Inline (L<Module::Install::Inline>)
+=head2 Makefile (L<Module::Install::Makefile>)
+
+=head1 MAY BE REMOVED FROM THIS LIST
+
+=head2 dynamic_config (L<Module::Install::Metadata>)
+=head2 keywords (L<Module::Install::Metadata>)
+=head2 sign (L<Module::Install::Metadata>)
+=head2 distribution_type (L<Module::Install::Metadata>)
+=head2 check_nmake (L<Module::Install::Win32>)
+
+=cut
