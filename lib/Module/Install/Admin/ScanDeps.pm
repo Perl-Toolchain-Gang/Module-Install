@@ -15,7 +15,7 @@ sub scan_dependencies {
 
     $perl_version ||= $self->perl_version or die <<'END_MESSAGE';
 Please first specify a required perl version, like this:
-    requires( perl => '5.005' );
+    perl_version('5.005');
 END_MESSAGE
     $perl_version =~ s{^(\d+)\.(\d+)\.(\d+)}{$1 + $2/1_000 + $3/1_000_000}e;
 
