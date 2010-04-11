@@ -164,7 +164,7 @@ Same as C<bundle>, except that all dependencies of the bundled modules are
 also detected and bundled.  To use this function, you need to declare the
 minimum supported perl version first, like this:
 
-    requires( perl => 5.005 );
+    perl_version( '5.005' );
 
 =item * auto_bundle_deps
 
