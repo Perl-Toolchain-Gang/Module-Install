@@ -30,11 +30,11 @@ END_MESSAGE
     }
 
     # We only need the first one in the @INC here
-    # though we use @files for later convenience.
-    my @files = scalar $self->admin->find_in_inc($pkg)
+    my $file = $self->admin->find_in_inc($pkg)
         or die "Cannot find $pkg in \@INC";
-    my %result = ($pkg => $files[0]);
+    my %result = ($pkg => $file);
 
+    my @files = ($file);
     while (@files) {
         my $deps = Module::ScanDeps::scan_deps(
             files   => \@files,

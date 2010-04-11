@@ -19,6 +19,10 @@ Changes for Perl programming language extension Module-Install
 	  (ISHIGAKI)
 	- Resolved #56460: Bundle documentation error? (by Florent Angly)
 	  (ISHIGAKI)
+	- Resolved #56459: Cannot find bundle source for modules that
+	  contain sub-modules (patch by Florent Angly) (ISHIGAKI)
+	- Resolved #56474: Dependency check error fails to be triggered
+	  (by Florent Angly) (ISHIGAKI)
 	- Pass VERSION_FROM to EU::MM in the background to let it check
 	  version integrity (ISHIGAKI)
 	- Improved tests and removed unnecessary directories/files
