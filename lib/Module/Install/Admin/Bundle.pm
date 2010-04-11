@@ -55,11 +55,17 @@ sub bundle {
 
         unlink $file;
         next unless ($extract_result);
+
+        my $location = '';
         if ($extract_result =~ /$bundle_dir\/(.*)/) {
-            $bundles{$name} = 'inc/BUNDLES/'.$1;
+            $location = 'inc/BUNDLES/'.$1;
         } else {
-            $bundles{$name} = $extract_result;
+            $location = $extract_result;
         }
+        for my $submod ($mod->contains) {
+            $bundles{$submod->name} = $location;
+        }
+
         $self->{already_bundled}{ $mod->package }++;
 
     }

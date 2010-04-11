@@ -29,6 +29,8 @@ END_MESSAGE
         return if $min_version <= $perl_version;
     }
 
+    # We only need the first one in the @INC here
+    # though we use @files for later convenience.
     my @files = scalar $self->admin->find_in_inc($pkg)
         or die "Cannot find $pkg in \@INC";
     my %result = ($pkg => $files[0]);

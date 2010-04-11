@@ -35,7 +35,11 @@ sub bundle {
     while (my ($name, $version) = splice(@_, 0, 2)) {
         $version ||= 0;
 
-        my $source = $bundles->{$name} or die "Cannot find bundle source for $name";
+        my $source = $bundles->{$name};
+        if (not $source) {
+            warn "Warning: Could not find package for module $name. Bundle it manually\n";
+            next;
+        }
         my $target = File::Basename::basename($source);
         $self->bundles($name, $target);
 
