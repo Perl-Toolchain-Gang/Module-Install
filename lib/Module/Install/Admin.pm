@@ -92,6 +92,7 @@ files under F<inc/>.
 sub import {
 	my $class = shift;
 	my $self  = $class->new( _top => Module::Install->new, @_ );
+	local $^W;
 	*{caller(0) . "::AUTOLOAD"} = sub {
 		no strict 'vars';
 		$AUTOLOAD =~ /([^:]+)$/ or die "Cannot load";

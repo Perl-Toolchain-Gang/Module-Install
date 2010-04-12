@@ -126,6 +126,11 @@ END_DIE
 	#-------------------------------------------------------------
 
 	unless ( -f $self->{file} ) {
+		foreach my $key (keys %INC) {
+			delete $INC{$key} if $key =~ /Module\/Install/;
+		}
+
+		local $^W;
 		require "$self->{path}/$self->{dispatch}.pm";
 		File::Path::mkpath("$self->{prefix}/$self->{author}");
 		$self->{admin} = "$self->{name}::$self->{dispatch}"->new( _top => $self );
@@ -134,12 +139,13 @@ END_DIE
 		goto &{"$self->{name}::import"};
 	}
 
+	local $^W;
 	*{"${who}::AUTOLOAD"} = $self->autoload;
 	$self->preload;
 
 	# Unregister loader and worker packages so subdirs can use them again
-	delete $INC{"$self->{file}"};
-	delete $INC{"$self->{path}.pm"};
+	delete $INC{'inc/Module/Install.pm'};
+	delete $INC{'Module/Install.pm'};
 
 	# Save to the singleton
 	$MAIN = $self;
@@ -213,6 +219,7 @@ sub preload {
 
 	my $who = $self->_caller;
 	foreach my $name ( sort keys %seen ) {
+		local $^W;
 		*{"${who}::$name"} = sub {
 			${"${who}::AUTOLOAD"} = "${who}::$name";
 			goto &{"${who}::AUTOLOAD"};
@@ -222,6 +229,8 @@ sub preload {
 
 sub new {
 	my ($class, %args) = @_;
+
+	FindBin->again;
 
 	# ignore the prefix on extension modules built from top level.
 	my $base_path = Cwd::abs_path($FindBin::Bin);
@@ -291,7 +300,7 @@ sub load_extensions {
 		next if $self->{pathnames}{$pkg};
 
 		local $@;
-		my $new = eval { require $file; $pkg->can('new') };
+		my $new = eval { local $^W; require $file; $pkg->can('new') };
 		unless ( $new ) {
 			warn $@ if $@;
 			next;

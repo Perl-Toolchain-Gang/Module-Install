@@ -38,6 +38,7 @@ if ( -d './inc' ) {
 }
 
 unshift @INC, 'inc' unless $INC[0] eq 'inc';
+local $^W;
 require Module::Install;
 
 sub _check_update {
