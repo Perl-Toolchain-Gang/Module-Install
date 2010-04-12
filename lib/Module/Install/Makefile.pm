@@ -298,13 +298,22 @@ EOT
 	# Remove any reference to perl, BUILD_REQUIRES doesn't support it
 	delete $args->{BUILD_REQUIRES}->{perl};
 
-	# Delete bundled dists from prereq_pm
+	# Delete bundled dists from prereq_pm, add it to Makefile DIR
 	my $subdirs = ($args->{DIR} ||= []);
 	if ($self->bundles) {
+		my %processed;
 		foreach my $bundle (@{ $self->bundles }) {
-			my ($file, $dir) = @$bundle;
-			push @$subdirs, $dir if -d $dir;
-			delete $build_prereq->{$file}; #Delete from build prereqs only
+			my ($mod_name, $dist_dir) = @$bundle;
+			delete $prereq->{$mod_name};
+			$dist_dir = File::Basename::basename($dist_dir); # dir for building this module
+			if (not exists $processed{$dist_dir}) {
+				if (-d $dist_dir) {
+					# List as sub-directory to be processed by make
+					push @$subdirs, $dist_dir;
+				}
+				# Else do nothing: the module is already present on the system
+				$processed{$dist_dir} = undef;
+			}
 		}
 	}
 

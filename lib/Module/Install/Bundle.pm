@@ -25,28 +25,33 @@ sub auto_bundle {
 
 sub bundle {
     my $self = shift;
+
+    # As admin, fetch these distributions in CPAN and put them in inc/BUNDLES
     $self->admin->bundle(@_) if $self->is_admin;
 
+    # Distribution names and directory
     my $cwd = Cwd::cwd();
     my $bundles = $self->read_bundles;
     my $bundle_dir = $self->_top->{bundle};
     $bundle_dir =~ s/\W+/\\W+/g;
 
-    while (my ($name, $version) = splice(@_, 0, 2)) {
+    while (my ($mod_name, $version) = splice(@_, 0, 2)) {
         $version ||= 0;
 
-        my $source = $bundles->{$name};
-        if (not $source) {
-            warn "Warning: Could not find package for module $name. Bundle it manually\n";
+        my $dist_source_dir = $bundles->{$mod_name};
+        if (not $dist_source_dir) {
+            warn "Warning: It appears that the module $mod_name is missing. Report the issue to the author of this package.\n";
             next;
         }
-        my $target = File::Basename::basename($source);
-        $self->bundles($name, $target);
+        # State in META.yml that this module is bundled in the package
+        $self->bundles($mod_name, $dist_source_dir);
 
-        next if eval "use $name $version (); 1";
-        mkdir( $target, 0777 ) or die $! unless -d $target;
+        # Skip to next module if module is already installed
+        next if eval "use $mod_name $version (); 1";
 
-        # XXX - clean those directories upon "make clean"?
+        # Move distribution to package root for deployment by make
+        my $dist_target_dir = File::Basename::basename($dist_source_dir);
+        mkdir( $dist_target_dir, 0777 ) or die $! unless -d $dist_target_dir;
         File::Find::find({
             wanted => sub {
                 my $out = $_;
@@ -55,7 +60,20 @@ sub bundle {
                 File::Copy::copy($_ => $out) unless -d;
             },
             no_chdir => 1,
-        }, $source);
+        }, $dist_source_dir);
+
+        # Delete this build directory upon "make clean"
+        $self->clean_files( $dist_target_dir );
+
+        # Append the build dir in MANIFEST.SKIP to avoid having it in MANIFEST
+        # XXX - need to actually read the content of the file to prevent adding an entry that already exists
+        # XXX - ideally, we should read this file once and write in it only once too...
+        # XXX - having a dedicated method for this somewhere would be convenient
+        my $file = 'MANIFEST.SKIP';
+        open my $fh, '>>', $file or die "Error: could not write file $file\n$!\n";
+        print $fh "$dist_target_dir\n";
+        print $fh "$file\n";
+        close $fh;
     }
 
     chdir $cwd;
@@ -85,14 +103,16 @@ sub auto_bundle_deps {
     while (my ($name, $version) = splice(@core, 0, 2)) {
         next unless $name;
          $self->bundle_deps($name, $version);
-         $self->bundle($name, $version);
     }
 }
 
 sub bundle_deps {
     my ($self, $pkg, $version) = @_;
-    my $deps = $self->admin->scan_dependencies($pkg) or return;
-
+    my $deps = $self->admin->scan_dependencies($pkg);
+    if (scalar keys %$deps == 0) {
+        # Probably a user trying to install the package, read the dependencies from META.yml
+        %$deps = ( map { $$_[0] => undef } (@{$self->requires()}) );
+    }
     foreach my $key (sort keys %$deps) {
         $self->bundle($key, ($key eq $pkg) ? $version : 0);
     }

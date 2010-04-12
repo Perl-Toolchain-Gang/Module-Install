@@ -39,7 +39,11 @@ sub bundle {
 
     while ( my ( $name, $version ) = splice( @_, 0, 2 ) ) {
         my $mod = $cp->module_tree($name);
-        next unless $mod;
+        if (not $mod) {
+            warn "Warning: Could not find distribution for module $name on CPAN. Bundle it manually.\n";
+            next;
+        }
+
         if ( $mod->package_is_perl_core or $self->{already_bundled}{$mod->package} ) {
         	next;
         }
@@ -63,6 +67,7 @@ sub bundle {
         } else {
             $location = $extract_result;
         }
+
         for my $submod ($mod->contains) {
             $bundles{$submod->name} = $location;
         }
