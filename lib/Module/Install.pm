@@ -228,7 +228,6 @@ sub new {
 	unless ( Cwd::abs_path(Cwd::cwd()) eq $base_path ) {
 		delete $args{prefix};
 	}
-
 	return $args{_self} if $args{_self};
 
 	$args{dispatch} ||= 'Admin';

@@ -113,14 +113,13 @@ sub new {
 
 sub init {
 	my $self = shift;
-
 	$self->copy($INC{"$self->{path}.pm"} => $self->{file});
 
 	unless ( grep { $_ eq $self->{prefix} } @INC ) {
 		unshift @INC, $self->{prefix};
 	}
+ 	delete $INC{"$self->{path}.pm"};
 
-	delete $INC{"$self->{path}.pm"};
 	local $^W;
 	do "$self->{path}.pm";
 }

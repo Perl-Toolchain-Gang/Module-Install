@@ -43,7 +43,7 @@ sub auto_install {
     );
 
     my %seen;
-    my @requires = map {@$_} @{ $self->requires };
+    my @requires = map @$_, map @$_, grep ref, $self->requires;
     while (my ($mod, $ver) = splice(@requires, 0, 2)) {
         $seen{$mod}{$ver}++;
     }
