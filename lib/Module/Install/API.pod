@@ -70,91 +70,247 @@ You are also reminded that if the distribution is intended to be uploaded to the
 
 =head1 COMMANDS TO PROVIDE DEPENDENCIES
 
+Most of these are described in the main pod, too.
+
 =head2 requires (L<Module::Install::Metadata>)
-=head2 build_requires, test_requires, install_requires (L<Module::Install::Metadata>)
+
+  requires 'Foo::Bar';
+  requires 'Foo::Baz' => '1.00';
+
+B<requires> command takes a module name on which your distribution depends, and its minimum required version if any. You may add arbitrary numbers of C<requires>. You even can add multiple numbers of dependencies on the same module with different required versions (which will be sorted out later). Note that this dependency is on the basis of a module, not of a distribution. This usually doesn't matter, and you just need to call for a module you really need (then you'll get the whole distribution it belongs to), but sometimes you may need to call for all the modules that the required module implicitly requires.
+
+The values set by B<requires> are passed to L<ExtUtils::MakeMaker> as a C<PREREQ_PM> attribute.
+
+=head2 build_requires, test_requires (L<Module::Install::Metadata>)
+
+  build_requires 'ExtUtils::Foo::Bar';
+  build_requires 'ExtUtils::Foo::Baz' => '1.00';
+  test_requires  'Test::Foo::Bar';
+  test_requires  'Test::Foo::Baz' => '1.00';
+
+B<build_requires> command also takes a module name and a minimum required version if any. The difference from the C<requires> command is that B<build_requires> is to call for modules you'll require while building the distribution, or in the tests, and that in theory are not required at run-time. This distinction is more for other system package managers than for the CPAN, from where you usually want to install everything for future reuse (unless you are too lazy to test distributions).
+
+As of this writing, C<test_requires> is just an alias for C<build_requires>, but this may change in the future.
+
+The values set by B<build_requires> and B<test_requires> are passed to L<ExtUtils::MakeMaker> as a C<BUILD_REQUIRES> attribute, which may fall back to C<PREREQ_PM> if your L<ExtUtils::MakeMaker> is not new enough.
+
+=begin experimental
+
+=head2 install_requires (L<Module::Install::Metadata>)
+
+  install_requires  'Test::Foo::Bar';
+  install_requires  'Test::Foo::Baz' => '1.00';
+
+B<install_requires> is yet another alias for C<build_requires>. This is not used yet.
+
+=end experimental
+
 =head2 configure_requires (L<Module::Install::Metadata>)
+
+  configure_requires 'ExtUtils::Foo::Bar';
+  configure_requires 'ExtUtils::Foo::Baz' => '1.00';
+
+B<configure_requires> command also takes a module name and a minimum required version if any. The difference from the C<requires> command is that B<configure_requires> is to call for modules you'll require to run C<< perl Makefile.PL >>. This attribute only makes sense for the latest CPAN toolchains that parse C<META.yml> before running C<< perl Makefile.PL >>.
+
+The values set by B<configure_requires> are passed to L<ExtUtils::MakeMaker> as a C<CONFIGURE_REQUIRES> attribute, which may fall back to C<PREREQ_PM> if your L<ExtUtils::MakeMaker> is not new enough.
+
 =head2 recommends (L<Module::Install::Metadata>)
 
-=head2 requires_from (L<Module::Install::Metadata>)
-=head2 test_requires_from (L<Module::Install::Metadata>)
+  recommends 'ExtUtils::Foo::Bar';
+  recommends 'ExtUtils::Foo::Baz' => '1.00';
+
+B<recommends> command also takes a module name and a minimum required version if any. As of this writing, C<recommends> is purely advisory, only written in the C<META.yml>. Recommended modules will B<not> usually be installed by the current CPAN toolchains (other system package managers may possibly prompt you to install them).
+
+=begin experimental
+
+=head2 requires_from, test_requires_from (L<Module::Install::Metadata>)
+
+  requires_from 'lib/Foo/Bar.pm';
+  test_requires_from 't/00-compile.t';
+
+B<requires_from> command takes a module file path, and looks for C<use> statements with explicit module version (like C<< use Foo::Bar 0.01 >>), and from which it sets C<requires> attributes. B<test_requires_from> commands also takes a file path but of a test file, and looks for the same C<use> statements to set B<build_requires> attributes. Both are experimental and only work if the statements have an explicit version number (which you rarely append...).
+
+This behavior may change in the future.
+
+=end experimental
 
 =head1 COMMANDS TO WRITE METADATA
 
+These are the commands to write actual meta files.
+
 =head2 WriteAll (L<Module::Install::WriteAll>)
+
+  use inc::Module::Install;
+  
+  all_from 'lib/Foo/Bar.pm';
+  
+  WriteAll;
+
+B<WriteAll> command is usually the last command in the C<Makefile.PL>. It can take several attributes, but you usually don't need to care unless you want to write a Makefile for an L<Inline>-based module. This writes C<Makefile>, C<META.yml>, and C<MYMETA.yml> (or C<MYMETA.json>) if you set an experimental environmental variable C<X_MYMETA>.
+
 =head2 WriteMakefile (L<Module::Install::MakeMaker>)
+
+  use inc::Module::Install;
+  
+  requires 'Foo::Baz';  # a la Module::Install
+  
+  WriteMakefile(        # a la ExtUtils::MakeMaker
+    NAME => 'Foo::Bar',
+    VERSION_FROM => 'lib/Foo/Bar.pm',
+  );
+
+If you're familiar with L<ExtUtils::MakeMaker> and generally want to stick to its way, you can. Use as much L<Module::Install>'s magic as you want, and then fall back to the good and old way. It just works.
+
 =head2 write_mymeta_yaml, write_mymeta_json (L<Module::Install::Metadata>)
+
+  write_mymeta_yaml;
+  write_mymeta_json;
+
+B<write_mymeta_yaml> command and B<write_mymeta_json> command are to write C<MYMETA.yml> and C<MYMETA.json> respectively, which are new enhancement for the CPAN toolchains that eventually will allow toolchain modules to know what modules are required without parsing Makefile etc. These are mainly for internal use (in the C<WriteAll> command) but you can explicitly write these commands in your Makefile.PL.
 
 =head1 COMMANDS FOR TESTS
 
+These are to set test files.
+
 =head2 tests (L<Module::Install::Metadata>)
+
+  tests 't/*.t t/*/*.t';
+
+B<tests> command takes a string to specify test files. You can use wildcard characters, and if you want to run tests under several directories, concatenate the specs with white spaces.
+
+If you haven't set C<tests> by any means (with explicit C<tests> command, or extensions like L<Module::Install::AuthorTests> or L<Module::Install::ExtraTests>), and if you have an C<xt> directory, L<Module::Install> silently adds those tests under the C<xt> directory when you are in the author mode, or you are doing release testing (with C<RELEASE_TESTING> environmental variable).
+
+The value set by B<tests> is passed to L<ExtUtils::MakeMaker> as a C<test> attribute.
+
 =head2 tests_recurisve (L<Module::Install::Makefile>)
+
+  tests_recursive;
+  tests_recursive('t');
+
+B<tests_recursive> command may take a directory, and looks for test files under it recursively. As of this writing, you can't use this command with other test related commands.
+
+=head1 COMMANDS TO INSTALL SUBORDINATE FILES
+
+These are to install files other than the ones under the C<lib> directory.
+
+=head2 install_script (L<Module::Install::Scripts>)
+
+  install_script('foo');
+  install_script('script/foo');
+
+B<install_script> command takes a script file name, and installs it into a C<script> directory for your Perl installation. If your script is in a C<script> directory, you can omit the C<script/> part.
+
+The value set by B<install_script> is passed to L<ExtUtils::MakeMaker> as an C<EXE_FILES> attribute.
+
+=head2 install_share (L<Module::Install::Share>)
+
+  install_share;
+  install_share('templates');
+  install_share('templates', 'module');
+
+B<install_share> command may take a directory (C<share> by default) and a directory type (either C<dist> or C<module>), and installs files under the directory into a C<share> directory for the type, which is usually in a directory your perl is installed in (but this may not be true if you're using L<local::lib> and the likes). You can access these shared files via L<File::ShareDir>'s C<dist_file> or C<module_file> according to the type. Note also that a shared directory is usually read-only. You can't use this as a private temporary directory.
 
 =head1 COMMANDS TO TWEAK MAKEFILE
 
 =head2 installdirs (L<Module::Install::Metadata>)
+
 =head2 install_as_core, install_as_cpan, install_as_site, install_as_vendor (L<Module::Install::Metadata>)
+
 =head2 clean_files, realclean_files (L<Module::Install::Makefile>)
-=head2 no_index (L<Module::Install::Metadata>)
-=head2 makemakr_args, makemaker_append (L<Module::Install::Makefile>)
+
+=head2 makemaker_args, makemaker_append (L<Module::Install::Makefile>)
+
 =head2 libs, inc (L<Module::Install::Makefile>)
+
 =head2 preamble, postamble (L<Module::Install::Makefile>)
-=head2 install_script (L<Module::Install::Scripts>)
-=head2 install_share (L<Module::Install::Share>)
 
 =begin broken
 
 =head2 build_subdirs (L<Module::Install::Makefile>)
 
-=end
+=end broken
 
 =head1 COMMANDS FOR AUTO INSTALLATION
 
 =head2 auto_install, auto_install_now (L<Module::Install::AutoInstall>)
+
 =head2 features, feature (L<Module::Install::Metadata>)
 
-=head1 COMMANDS TO PROVIDE MINOR META DATA
+=head1 COMMANDS TO PROVIDE OTHER OPTIONAL META DATA
+
+These are to provide optional meta data mainly used by the PAUSE indexer and the CPAN search site. See also the META-spec page (L<http://module-build.sourceforge.net/META-spec.html>) for details.
+
+=head2 no_index (L<Module::Install::Metadata>)
+
+  no_index file      => 'lib/My/Test/Module.pm';
+  no_index directory => 'templates';
+  no_index package   => 'Test::Foo::Bar';
+  no_index namespace => 'Test::Foo::Bar';
+
+B<no_index> command takes a hash to describe what should be excluded from the PAUSE index etc. L<Module::Install> provides several C<no_index> directories by default, including C<inc>
+
+sets several C<no_index> entries by default (C<share>, C<inc>, C<(x)t>, C<test>, C<example(s)>, C<demo>) by default.
 
 =head2 provides, auto_provides (L<Module::Install::Metadata>)
+
+
+
 =head2 resources (L<Module::Install::Metadata>)
+
 =head2 homepage, bugtracker, repository (L<Module::Install::Metadata>)
+
 =head2 bugtracker_from (L<Module::Install::Metadata>)
 
+=begin not_used
+
+=head2 dynamic_config (L<Module::Install::Metadata>)
+
+=head2 keywords (L<Module::Install::Metadata>)
+
+=head2 distribution_type (L<Module::Install::Metadata>)
+
+=end not_used
 
 =head1 COMMANDS TO BUNDLE DISTRIBUTIONS
 
+There are several commands to bundle modules/distributions in your distribution, but they are broken in general. Don't use them for now.
+
+=begin kind_of_broken_and_highly_discouraged
+
 =head2 bundle, auto_bundle (L<Module::Install::Bundle>)
+
 =head2 bundle_deps, auto_bundle_deps (L<Module::Install::Bundle>)
 
-=begin kind of broken and highly discouraged
-
 =head2 include, auto_include (L<Module::Install::Include>)
+
 =head2 include_deps, auto_include_deps (L<Module::Install::Include>)
+
 =head2 auto_include_dependent_dists (L<Module::Install::Include>)
 
-=end
+=end kind_of_broken_and_highly_discouraged
 
-=head1 COMMANDS FOR PAR SUPPORT (should be removed from core?)
+=begin par
 
 =head2 par_base, fetch_par, extract_par, make_par (L<Module::Install::PAR>)
+
+=end par
+
+=begin to_be_written
 
 =head1 UTILITY COMMANDS
 
 =head2 can_use (L<Module::Install::Can>)
-=head2 can_run (L<Module::Install::Can>)
-=head2 can_cc (L<Module::Install::Can>)
-=head2 requires_external_cc (L<Module::Install::External>)
-=head2 requires_external_bin (L<Module::Install::External>)
+
+=head2 can_run (L<Module::Install::Can>), requires_external_bin (L<Module::Install::External>)
+
+=head2 can_cc (L<Module::Install::Can>), requires_external_cc (L<Module::Install::External>)
 
 =head2 Meta (L<Module::Install::Metadata>)
+
 =head2 Inline (L<Module::Install::Inline>)
+
 =head2 Makefile (L<Module::Install::Makefile>)
 
-=head1 MAY BE REMOVED FROM THIS LIST
-
-=head2 dynamic_config (L<Module::Install::Metadata>)
-=head2 keywords (L<Module::Install::Metadata>)
-=head2 sign (L<Module::Install::Metadata>)
-=head2 distribution_type (L<Module::Install::Metadata>)
-=head2 check_nmake (L<Module::Install::Win32>)
+=end to_be_written
 
 =cut
