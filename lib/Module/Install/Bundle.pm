@@ -17,6 +17,8 @@ BEGIN {
 sub auto_bundle {
     my $self = shift;
 
+    return $self->_install_bundled_dists unless $self->is_admin;
+
     # Flatten array of arrays into a single array
     my @core = map @$_, map @$_, grep ref, $self->requires;
 
@@ -26,77 +28,15 @@ sub auto_bundle {
 sub bundle {
     my $self = shift;
 
-    # As admin, fetch these distributions in CPAN and put them in inc/BUNDLES
-    $self->admin->bundle(@_) if $self->is_admin;
+    return $self->_install_bundled_dists unless $self->is_admin;
 
-    # Distribution names and directory
-    my $cwd = Cwd::cwd();
-    my $bundles = $self->read_bundles;
-    my $bundle_dir = $self->_top->{bundle};
-    $bundle_dir =~ s/\W+/\\W+/g;
-
-    while (my ($mod_name, $version) = splice(@_, 0, 2)) {
-        $version ||= 0;
-
-        my $dist_source_dir = $bundles->{$mod_name};
-        if (not $dist_source_dir) {
-            warn "Warning: It appears that the module $mod_name is missing. Report the issue to the author of this package.\n";
-            next;
-        }
-        # State in META.yml that this module is bundled in the package
-        $self->bundles($mod_name, $dist_source_dir);
-
-        # Skip to next module if module is already installed
-        next if eval "use $mod_name $version (); 1";
-
-        # Move distribution to package root for deployment by make
-        my $dist_target_dir = File::Basename::basename($dist_source_dir);
-        mkdir( $dist_target_dir, 0777 ) or die $! unless -d $dist_target_dir;
-        File::Find::find({
-            wanted => sub {
-                my $out = $_;
-                $out =~ s/$bundle_dir/./i;
-                mkdir( $out, 0777 ) if -d;
-                File::Copy::copy($_ => $out) unless -d;
-            },
-            no_chdir => 1,
-        }, $dist_source_dir);
-
-        # Delete this build directory upon "make clean"
-        $self->clean_files( $dist_target_dir );
-
-        # Append the build dir in MANIFEST.SKIP to avoid having it in MANIFEST
-        # XXX - need to actually read the content of the file to prevent adding an entry that already exists
-        # XXX - ideally, we should read this file once and write in it only once too...
-        # XXX - having a dedicated method for this somewhere would be convenient
-        my $file = 'MANIFEST.SKIP';
-        open my $fh, '>>', $file or die "Error: could not write file $file\n$!\n";
-        print $fh "$dist_target_dir\n";
-        print $fh "$file\n";
-        close $fh;
-    }
-
-    chdir $cwd;
+    $self->admin->bundle(@_);
 }
-
-sub read_bundles {
-    my $self = shift;
-    my %map;
-
-    local *FH;
-    open FH, $self->_top->{bundle} . ".yml" or return {};
-    while (<FH>) {
-        /^(.*?): (['"])?(.*?)\2$/ or next;
-        $map{$1} = $3;
-    }
-    close FH;
-
-    return \%map;
-}
-
 
 sub auto_bundle_deps {
     my $self = shift;
+
+    return $self->_install_bundled_dists unless $self->is_admin;
 
     # Flatten array of arrays into a single array
     my @core = map @$_, map @$_, grep ref, $self->requires;
@@ -108,6 +48,9 @@ sub auto_bundle_deps {
 
 sub bundle_deps {
     my ($self, $pkg, $version) = @_;
+
+    return $self->_install_bundled_dists unless $self->is_admin;
+
     my $deps = $self->admin->scan_dependencies($pkg);
     if (scalar keys %$deps == 0) {
         # Probably a user trying to install the package, read the dependencies from META.yml
@@ -116,6 +59,34 @@ sub bundle_deps {
     foreach my $key (sort keys %$deps) {
         $self->bundle($key, ($key eq $pkg) ? $version : 0);
     }
+}
+
+sub _install_bundled_dists {
+    my $self = shift;
+
+    my @dirs;
+    foreach my $entry (glob "inc/BUNDLES/*") {
+        # ignore BUNDLES.yml
+        next if -f $entry;
+
+        # ignore dot dirs/files if any
+        next if $entry =~ m{^inc/BUNDLES/\.};
+
+        # EU::MM can't handle Build.PL based distributions
+        if (-f File::Spec->catfile($entry, 'Build.PL')) {
+            warn "Skipped: $entry has Build.PL.";
+            next;
+        }
+
+        # EU::MM can't handle distributions without Makefile.PL
+        # (actually this is to cut blib in a wrong directory)
+        if (!-f File::Spec->catfile($entry, 'Makefile.PL')) {
+            warn "Skipped: $entry has no Makefile.PL.";
+            next;
+        }
+        push @dirs, $entry;
+    }
+    push @{ $self->makemaker_args->{DIR} ||= [] }, @dirs;
 }
 
 1;
