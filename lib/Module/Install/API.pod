@@ -168,6 +168,22 @@ If you're familiar with L<ExtUtils::MakeMaker> and generally want to stick to it
 
 B<write_mymeta_yaml> command and B<write_mymeta_json> command are to write C<MYMETA.yml> and C<MYMETA.json> respectively, which are new enhancement for the CPAN toolchains that eventually will allow toolchain modules to know what modules are required without parsing Makefile etc. These are mainly for internal use (in the C<WriteAll> command) but you can explicitly write these commands in your Makefile.PL.
 
+=begin internal
+
+=head2 Meta (L<Module::Install::Metadata>)
+
+=head2 Makefile (L<Module::Install::Makefile>)
+
+=head2 Inline (L<Module::Install::Inline>)
+
+=end internal
+
+=head1 COMMANDS TO TWEAK MAKEFILE
+
+=head2 makemaker_args, makemaker_append (L<Module::Install::Makefile>)
+
+=head2 preamble, postamble (L<Module::Install::Makefile>)
+
 =head1 COMMANDS FOR TESTS
 
 These are to set test files.
@@ -188,6 +204,12 @@ The value set by B<tests> is passed to L<ExtUtils::MakeMaker> as a C<test> attri
   tests_recursive('t');
 
 B<tests_recursive> command may take a directory, and looks for test files under it recursively. As of this writing, you can't use this command with other test related commands.
+
+=head1 COMMANDS TO TWEAK DIRECTORIES TO INSTALL
+
+=head2 installdirs (L<Module::Install::Metadata>)
+
+=head2 install_as_core, install_as_cpan, install_as_site, install_as_vendor (L<Module::Install::Metadata>)
 
 =head1 COMMANDS TO INSTALL SUBORDINATE FILES
 
@@ -210,31 +232,21 @@ The value set by B<install_script> is passed to L<ExtUtils::MakeMaker> as an C<E
 
 B<install_share> command may take a directory (C<share> by default) and a directory type (either C<dist> or C<module>), and installs files under the directory into a C<share> directory for the type, which is usually in a directory your perl is installed in (but this may not be true if you're using L<local::lib> and the likes). You can access these shared files via L<File::ShareDir>'s C<dist_file> or C<module_file> according to the type. Note also that a shared directory is usually read-only. You can't use this as a private temporary directory.
 
-=head1 COMMANDS TO TWEAK MAKEFILE
-
-=head2 installdirs (L<Module::Install::Metadata>)
-
-=head2 install_as_core, install_as_cpan, install_as_site, install_as_vendor (L<Module::Install::Metadata>)
-
-=head2 clean_files, realclean_files (L<Module::Install::Makefile>)
-
-=head2 makemaker_args, makemaker_append (L<Module::Install::Makefile>)
-
-=head2 libs, inc (L<Module::Install::Makefile>)
-
-=head2 preamble, postamble (L<Module::Install::Makefile>)
-
-=begin broken
-
-=head2 build_subdirs (L<Module::Install::Makefile>)
-
-=end broken
-
 =head1 COMMANDS FOR AUTO INSTALLATION
 
 =head2 auto_install, auto_install_now (L<Module::Install::AutoInstall>)
 
 =head2 features, feature (L<Module::Install::Metadata>)
+
+=begin to_be_deprecated
+
+=head1 COMMANDS TO SUBDIRECTORY INSTALLATION
+
+This would be deprecated soon. L<Module::Install> is going to support subdirectory installation by default as L<ExtUtils::MakeMaker> does.
+
+=head2 build_subdirs (L<Module::Install::Makefile>)
+
+=end to_be_deprecated
 
 =head1 COMMANDS TO PROVIDE OTHER OPTIONAL META DATA
 
@@ -275,11 +287,15 @@ sets several C<no_index> entries by default (C<share>, C<inc>, C<(x)t>, C<test>,
 
 There are several commands to bundle modules/distributions in your distribution, but they are broken in general. Don't use them for now.
 
-=begin kind_of_broken_and_highly_discouraged
+=begin getting_supportable
 
 =head2 bundle, auto_bundle (L<Module::Install::Bundle>)
 
 =head2 bundle_deps, auto_bundle_deps (L<Module::Install::Bundle>)
+
+=end getting_supportable
+
+=begin kind_of_broken_and_highly_discouraged
 
 =head2 include, auto_include (L<Module::Install::Include>)
 
@@ -291,9 +307,21 @@ There are several commands to bundle modules/distributions in your distribution,
 
 =begin par
 
+=head1 COMMANDS FOR PAR SUPPORT
+
 =head2 par_base, fetch_par, extract_par, make_par (L<Module::Install::PAR>)
 
 =end par
+
+=head1 COMMANDS FOR XS SUPPORT
+
+=head2 libs, inc (L<Module::Install::Makefile>)
+
+=head2 ppport (L<Module::Install::Compiler>)
+
+=head1 COMMANDS FOR CLEANUP
+
+=head2 clean_files, realclean_files (L<Module::Install::Makefile>)
 
 =begin to_be_written
 
@@ -304,12 +332,6 @@ There are several commands to bundle modules/distributions in your distribution,
 =head2 can_run (L<Module::Install::Can>), requires_external_bin (L<Module::Install::External>)
 
 =head2 can_cc (L<Module::Install::Can>), requires_external_cc (L<Module::Install::External>)
-
-=head2 Meta (L<Module::Install::Metadata>)
-
-=head2 Inline (L<Module::Install::Inline>)
-
-=head2 Makefile (L<Module::Install::Makefile>)
 
 =end to_be_written
 

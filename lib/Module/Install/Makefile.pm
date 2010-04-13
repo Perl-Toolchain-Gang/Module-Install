@@ -299,7 +299,7 @@ EOT
 	delete $args->{BUILD_REQUIRES}->{perl};
 
 	# Delete bundled dists from prereq_pm, add it to Makefile DIR
-	my $subdirs = ($args->{DIR} ||= []);
+	my $subdirs = ($args->{DIR} || []);
 	if ($self->bundles) {
 		my %processed;
 		foreach my $bundle (@{ $self->bundles }) {
