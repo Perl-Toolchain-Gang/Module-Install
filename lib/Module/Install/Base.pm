@@ -106,7 +106,7 @@ program start. True if that's the case. False, otherwise.
 =cut 
 
 sub is_admin {
-	$_[0]->admin->VERSION;
+	$_[0]->admin->isa('Module::Install::Base::FakeAdmin');
 }
 
 sub DESTROY {}
