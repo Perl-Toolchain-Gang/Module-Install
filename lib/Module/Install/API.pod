@@ -6,67 +6,134 @@ Module::Install::API
 
 =head1 DESCRIPTION
 
-L<Module::Install> has lots of commands scattered in the extensions. Several common commands are described in the main L<Module::Install>'s pod, but you usually need to know more to do what you want. This API document lists and describes all the public I<supported> commands, grouped by the nature or importance of them. If you are a module author and want to use L<Module::Install> in your distributions, this is the document you should consult. If you are a user (or a contributor) of distributions that use L<Module::Install>, you may also want to check L<Module::Install::FAQ> where you'll find some common glitches you may encounter.
+L<Module::Install> has lots of commands scattered in the extensions.
+Several common commands are described in the main
+L<Module::Install>'s pod, but you usually need to know more to do
+what you want. This API document lists and describes all the public
+I<supported> commands, grouped by the nature or importance of them.
+If you are a module author and want to use L<Module::Install> in your
+distributions, this is the document you should consult. If you are a
+user (or a contributor) of distributions that use L<Module::Install>,
+you may also want to check L<Module::Install::FAQ> where you'll find
+some common glitches you may encounter.
 
-Note that commands not listed here should be deemed private utility commands for the L<Module::Install> developers, or I<unsupported> commands with various reasons (some are experimental and half-baked, some are broken (by design or by implementation), some are simply deprecated, and so on). You may find some of them are used rather widely, but their use is discouraged. You have been warned.
+Note that commands not listed here should be deemed private utility
+commands for the L<Module::Install> developers, or I<unsupported>
+commands with various reasons (some are experimental and half-baked,
+some are broken (by design or by implementation), some are simply
+deprecated, and so on). You may find some of them are used rather
+widely, but their use is discouraged. You have been warned.
 
 =head1 COMMANDS TO PROVIDE BASIC META DATA
 
-Most of these are also described in the main L<Module::Install>'s pod. Basically, (almost) all you have to know is the B<all_from> command that tries to extract all the necessary basic meta data from a module file, but you can also specify one by one what is not written in the module and can't be extracted (you usually want to write these specific commands before C<all_from()> not to be warned by the lack of information).
+Most of these are also described in the main L<Module::Install>'s
+pod. Basically, (almost) all you have to know is the B<all_from>
+command that tries to extract all the necessary basic meta data from
+a module file, but you can also specify one by one what is not
+written in the module and can't be extracted (you usually want to
+write these specific commands before C<all_from()> not to be warned
+by the lack of information).
 
 =head2 all_from (L<Module::Install::Metadata>)
 
   all_from 'lib/Foo/Bar.pm';
 
-B<all_from> command takes a module file path, and will try to extract meta data from the module including a distribution name, a module version, the minimum required perl version for the module, authors information, a license, a short description of the module. See the following commands for the extraction detail.
+B<all_from> command takes a module file path, and will try to extract
+meta data from the module including a distribution name, a module
+version, the minimum required perl version for the module, authors
+information, a license, a short description of the module. See the
+following commands for the extraction detail.
 
 =head2 name, name_from, module_name (L<Module::Install::Metadata>)
 
   name 'Foo-Bar';
   name_from 'lib/Foo/Bar.pm';
 
-B<name> commmand takes a distribution name. It usually differs slightly from a module name (a module name is separated by double colons; a distribution name is separated by hyphens). Just replacing all the double colons of your main module with hyphens would be enough for you.
+B<name> commmand takes a distribution name. It usually differs
+slightly from a module name (a module name is separated by double
+colons; a distribution name is separated by hyphens). Just replacing
+all the double colons of your main module with hyphens would be
+enough for you.
 
-B<name_from> takes a module file path, and looks for the topmost C<package> declaration to extract a module name, and then converts it to a distribution name.
+B<name_from> takes a module file path, and looks for the topmost
+C<package> declaration to extract a module name, and then converts it
+to a distribution name.
 
-You may optionally set B<module_name> to specify a main module name (if you choose other naming scheme for your distribution). This value is directly passed to L<ExtUtils::MakeMaker> in the backend as a C<NAME> attribute (Module::Install usually creates this from the distribution name set by B<name> or B<name_from>).
+You may optionally set B<module_name> to specify a main module name
+(if you choose other naming scheme for your distribution). This value
+is directly passed to L<ExtUtils::MakeMaker> in the backend as a
+C<NAME> attribute (Module::Install usually creates this from the
+distribution name set by B<name> or B<name_from>).
 
 =head2 abstract, abstract_from (L<Module::Install::Metadata>)
 
   abstract 'a short description of the distribution';
   abstract_from 'lib/Foo/Bar.pm';
 
-B<abstract> command takes a string to describe what that module/distribution is for. B<abstract_from> takes a module file path and looks for a string that follows the module's name and a hyphen to separate in the C<NAME> section of the pod. The value set by B<abstract> or B<abstract_from> is passed to L<ExtUtils::MakeMaker> as an C<ABSTRACT> attribute.
+B<abstract> command takes a string to describe what that
+module/distribution is for. B<abstract_from> takes a module file path
+and looks for a string that follows the module's name and a hyphen to
+separate in the C<NAME> section of the pod. The value set by
+B<abstract> or B<abstract_from> is passed to L<ExtUtils::MakeMaker>
+as an C<ABSTRACT> attribute.
 
 =head2 version, version_from (L<Module::Install::Metadata>)
 
   version '0.01';
   version_from 'lib/Foo/Bar.pm';
 
-B<version> command takes a version string for the distribution. B<version_from> takes a module file path, and looks for the C<$VERSION> of the module. The value set by B<version> or B<version_from> is passed to L<ExtUtils::MakeMaker> as a C<VERSION> attribute. B<version_from> (and B<all_from> also sets a C<VERSION_FROM> attribute to check version integrity of the distribution.
+B<version> command takes a version string for the distribution.
+B<version_from> takes a module file path, and looks for the
+C<$VERSION> of the module. The value set by B<version> or
+B<version_from> is passed to L<ExtUtils::MakeMaker> as a C<VERSION>
+attribute. B<version_from> (and B<all_from> also sets a
+C<VERSION_FROM> attribute to check version integrity of the
+distribution.
 
 =head2 perl_version, perl_version_from (L<Module::Install::Metadata>)
 
   perl_version '5.008';
   perl_version_from 'lib/Foo/Bar.pm';
 
-B<perl_version> command takes a minimum required perl version for the distribution. B<perl_version_from> takes a module file path, and looks for a C<< use <perl_version> >> (or C<< require <perl_version> >>) statement (note that now L<Module::Install> only supports perl 5.005 and newer). The value set by B<perl_version> or B<perl_version_from> is passed to L<ExtUtils::MakeMaker> as a C<MIN_PERL_VERSION> attribute.
+B<perl_version> command takes a minimum required perl version for the
+distribution. B<perl_version_from> takes a module file path, and
+looks for a C<< use <perl_version> >> (or C<< require <perl_version>
+>>) statement (note that now L<Module::Install> only supports perl
+5.005 and newer). The value set by B<perl_version> or
+B<perl_version_from> is passed to L<ExtUtils::MakeMaker> as a
+C<MIN_PERL_VERSION> attribute.
 
 =head2 author, author_from (L<Module::Install::Metadata>)
 
   author 'John Doe <john.doe at cpan.org>';
   author_from 'lib/Foo/Bar.pm';
 
-B<author> command takes a string to describe author(s). You can set multiple authors with one B<author> command, or with multiple B<author>s (you can also use B<authors> alias if you prefer). B<author_from> takes a module file path, and looks for an C<AUTHOR> (or C<AUTHORS>) section in the pod (and also license/copyright sections if it can't find any author(s) section) to extract an author. The value set by B<author> or B<author_from> is concatenated and passed to L<ExtUtils::MakeMaker> as an C<AUTHOR> attribute.
+B<author> command takes a string to describe author(s). You can set
+multiple authors with one B<author> command, or with multiple
+B<author>s (you can also use B<authors> alias if you prefer).
+B<author_from> takes a module file path, and looks for an C<AUTHOR>
+(or C<AUTHORS>) section in the pod (and also license/copyright
+sections if it can't find any author(s) section) to extract an
+author. The value set by B<author> or B<author_from> is concatenated
+and passed to L<ExtUtils::MakeMaker> as an C<AUTHOR> attribute.
 
 =head2 license, license_from (L<Module::Install::Metadata>)
 
   license 'perl';
   license_from 'lib/Foo/Bar.pm';
 
-B<license> command takes an abbreviated license name including C<perl>, C<artistic>, C<apache>, C<(l)gpl>, C<bsd>, C<mit>, C<mozilla>, C<open_source>, and so on. If you don't (want to) specify license, it will be C<unknown>. B<license_from> takes a module file path, and looks for a C<LICENSE> (or C<LICENCE>) section in the pod (and also C<COPYRIGHT> section if it can't find any) to extract a license. The value set by B<license> or B<license_from> is passed to L<ExtUtils::MakeMaker> as an C<LICENSE> attribute.
+B<license> command takes an abbreviated license name including
+C<perl>, C<artistic>, C<apache>, C<(l)gpl>, C<bsd>, C<mit>,
+C<mozilla>, C<open_source>, and so on. If you don't (want to) specify
+license, it will be C<unknown>. B<license_from> takes a module file
+path, and looks for a C<LICENSE> (or C<LICENCE>) section in the pod
+(and also C<COPYRIGHT> section if it can't find any) to extract a
+license. The value set by B<license> or B<license_from> is passed to
+L<ExtUtils::MakeMaker> as an C<LICENSE> attribute.
 
-You are also reminded that if the distribution is intended to be uploaded to the CPAN, it B<must> be an OSI-approved open source license. Commercial software is not permitted on the CPAN.
+You are also reminded that if the distribution is intended to be
+uploaded to the CPAN, it B<must> be an OSI-approved open source
+license. Commercial software is not permitted on the CPAN.
 
 =head1 COMMANDS TO PROVIDE DEPENDENCIES
 
@@ -77,9 +144,19 @@ Most of these are described in the main pod, too.
   requires 'Foo::Bar';
   requires 'Foo::Baz' => '1.00';
 
-B<requires> command takes a module name on which your distribution depends, and its minimum required version if any. You may add arbitrary numbers of C<requires>. You even can add multiple numbers of dependencies on the same module with different required versions (which will be sorted out later). Note that this dependency is on the basis of a module, not of a distribution. This usually doesn't matter, and you just need to call for a module you really need (then you'll get the whole distribution it belongs to), but sometimes you may need to call for all the modules that the required module implicitly requires.
+B<requires> command takes a module name on which your distribution
+depends, and its minimum required version if any. You may add
+arbitrary numbers of C<requires>. You even can add multiple numbers
+of dependencies on the same module with different required versions
+(which will be sorted out later). Note that this dependency is on the
+basis of a module, not of a distribution. This usually doesn't
+matter, and you just need to call for a module you really need (then
+you'll get the whole distribution it belongs to), but sometimes you
+may need to call for all the modules that the required module
+implicitly requires.
 
-The values set by B<requires> are passed to L<ExtUtils::MakeMaker> as a C<PREREQ_PM> attribute.
+The values set by B<requires> are passed to L<ExtUtils::MakeMaker> as
+a C<PREREQ_PM> attribute.
 
 =head2 build_requires, test_requires (L<Module::Install::Metadata>)
 
@@ -88,11 +165,22 @@ The values set by B<requires> are passed to L<ExtUtils::MakeMaker> as a C<PREREQ
   test_requires  'Test::Foo::Bar';
   test_requires  'Test::Foo::Baz' => '1.00';
 
-B<build_requires> command also takes a module name and a minimum required version if any. The difference from the C<requires> command is that B<build_requires> is to call for modules you'll require while building the distribution, or in the tests, and that in theory are not required at run-time. This distinction is more for other system package managers than for the CPAN, from where you usually want to install everything for future reuse (unless you are too lazy to test distributions).
+B<build_requires> command also takes a module name and a minimum
+required version if any. The difference from the C<requires> command
+is that B<build_requires> is to call for modules you'll require while
+building the distribution, or in the tests, and that in theory are
+not required at run-time. This distinction is more for other system
+package managers than for the CPAN, from where you usually want to
+install everything for future reuse (unless you are too lazy to test
+distributions).
 
-As of this writing, C<test_requires> is just an alias for C<build_requires>, but this may change in the future.
+As of this writing, C<test_requires> is just an alias for
+C<build_requires>, but this may change in the future.
 
-The values set by B<build_requires> and B<test_requires> are passed to L<ExtUtils::MakeMaker> as a C<BUILD_REQUIRES> attribute, which may fall back to C<PREREQ_PM> if your L<ExtUtils::MakeMaker> is not new enough.
+The values set by B<build_requires> and B<test_requires> are passed
+to L<ExtUtils::MakeMaker> as a C<BUILD_REQUIRES> attribute, which may
+fall back to C<PREREQ_PM> if your L<ExtUtils::MakeMaker> is not new
+enough.
 
 =begin experimental
 
@@ -101,7 +189,8 @@ The values set by B<build_requires> and B<test_requires> are passed to L<ExtUtil
   install_requires  'Test::Foo::Bar';
   install_requires  'Test::Foo::Baz' => '1.00';
 
-B<install_requires> is yet another alias for C<build_requires>. This is not used yet.
+B<install_requires> is yet another alias for C<build_requires>. This
+is not used yet.
 
 =end experimental
 
@@ -110,16 +199,28 @@ B<install_requires> is yet another alias for C<build_requires>. This is not used
   configure_requires 'ExtUtils::Foo::Bar';
   configure_requires 'ExtUtils::Foo::Baz' => '1.00';
 
-B<configure_requires> command also takes a module name and a minimum required version if any. The difference from the C<requires> command is that B<configure_requires> is to call for modules you'll require to run C<< perl Makefile.PL >>. This attribute only makes sense for the latest CPAN toolchains that parse C<META.yml> before running C<< perl Makefile.PL >>.
+B<configure_requires> command also takes a module name and a minimum
+required version if any. The difference from the C<requires> command
+is that B<configure_requires> is to call for modules you'll require
+to run C<< perl Makefile.PL >>. This attribute only makes sense for
+the latest CPAN toolchains that parse C<META.yml> before running C<<
+perl Makefile.PL >>.
 
-The values set by B<configure_requires> are passed to L<ExtUtils::MakeMaker> as a C<CONFIGURE_REQUIRES> attribute, which may fall back to C<PREREQ_PM> if your L<ExtUtils::MakeMaker> is not new enough.
+The values set by B<configure_requires> are passed to
+L<ExtUtils::MakeMaker> as a C<CONFIGURE_REQUIRES> attribute, which
+may fall back to C<PREREQ_PM> if your L<ExtUtils::MakeMaker> is not
+new enough.
 
 =head2 recommends (L<Module::Install::Metadata>)
 
   recommends 'ExtUtils::Foo::Bar';
   recommends 'ExtUtils::Foo::Baz' => '1.00';
 
-B<recommends> command also takes a module name and a minimum required version if any. As of this writing, C<recommends> is purely advisory, only written in the C<META.yml>. Recommended modules will B<not> usually be installed by the current CPAN toolchains (other system package managers may possibly prompt you to install them).
+B<recommends> command also takes a module name and a minimum required
+version if any. As of this writing, C<recommends> is purely advisory,
+only written in the C<META.yml>. Recommended modules will B<not>
+usually be installed by the current CPAN toolchains (other system
+package managers may possibly prompt you to install them).
 
 =begin experimental
 
@@ -128,7 +229,14 @@ B<recommends> command also takes a module name and a minimum required version if
   requires_from 'lib/Foo/Bar.pm';
   test_requires_from 't/00-compile.t';
 
-B<requires_from> command takes a module file path, and looks for C<use> statements with explicit module version (like C<< use Foo::Bar 0.01 >>), and from which it sets C<requires> attributes. B<test_requires_from> commands also takes a file path but of a test file, and looks for the same C<use> statements to set B<build_requires> attributes. Both are experimental and only work if the statements have an explicit version number (which you rarely append...).
+B<requires_from> command takes a module file path, and looks for
+C<use> statements with explicit module version (like C<< use Foo::Bar
+0.01 >>), and from which it sets C<requires> attributes.
+B<test_requires_from> commands also takes a file path but of a test
+file, and looks for the same C<use> statements to set
+B<build_requires> attributes. Both are experimental and only work if
+the statements have an explicit version number (which you rarely
+append...).
 
 This behavior may change in the future.
 
@@ -146,7 +254,12 @@ These are the commands to write actual meta files.
   
   WriteAll;
 
-B<WriteAll> command is usually the last command in the C<Makefile.PL>. It can take several attributes, but you usually don't need to care unless you want to write a Makefile for an L<Inline>-based module. This writes C<Makefile>, C<META.yml>, and C<MYMETA.yml> (or C<MYMETA.json>) if you set an experimental environmental variable C<X_MYMETA>.
+B<WriteAll> command is usually the last command in the
+C<Makefile.PL>. It can take several attributes, but you usually don't
+need to care unless you want to write a Makefile for an
+L<Inline>-based module. This writes C<Makefile>, C<META.yml>, and
+C<MYMETA.yml> (or C<MYMETA.json>) if you set an experimental
+environmental variable C<X_MYMETA>.
 
 =head2 WriteMakefile (L<Module::Install::MakeMaker>)
 
@@ -159,14 +272,22 @@ B<WriteAll> command is usually the last command in the C<Makefile.PL>. It can ta
     VERSION_FROM => 'lib/Foo/Bar.pm',
   );
 
-If you're familiar with L<ExtUtils::MakeMaker> and generally want to stick to its way, you can. Use as much L<Module::Install>'s magic as you want, and then fall back to the good and old way. It just works.
+If you're familiar with L<ExtUtils::MakeMaker> and generally want to
+stick to its way, you can. Use as much L<Module::Install>'s magic as
+you want, and then fall back to the good and old way. It just works.
 
 =head2 write_mymeta_yaml, write_mymeta_json (L<Module::Install::Metadata>)
 
   write_mymeta_yaml;
   write_mymeta_json;
 
-B<write_mymeta_yaml> command and B<write_mymeta_json> command are to write C<MYMETA.yml> and C<MYMETA.json> respectively, which are new enhancement for the CPAN toolchains that eventually will allow toolchain modules to know what modules are required without parsing Makefile etc. These are mainly for internal use (in the C<WriteAll> command) but you can explicitly write these commands in your Makefile.PL.
+B<write_mymeta_yaml> command and B<write_mymeta_json> command are to
+write C<MYMETA.yml> and C<MYMETA.json> respectively, which are new
+enhancement for the CPAN toolchains that eventually will allow
+toolchain modules to know what modules are required without parsing
+Makefile etc. These are mainly for internal use (in the C<WriteAll>
+command) but you can explicitly write these commands in your
+Makefile.PL.
 
 =begin internal
 
@@ -192,18 +313,28 @@ These are to set test files.
 
   tests 't/*.t t/*/*.t';
 
-B<tests> command takes a string to specify test files. You can use wildcard characters, and if you want to run tests under several directories, concatenate the specs with white spaces.
+B<tests> command takes a string to specify test files. You can use
+wildcard characters, and if you want to run tests under several
+directories, concatenate the specs with white spaces.
 
-If you haven't set C<tests> by any means (with explicit C<tests> command, or extensions like L<Module::Install::AuthorTests> or L<Module::Install::ExtraTests>), and if you have an C<xt> directory, L<Module::Install> silently adds those tests under the C<xt> directory when you are in the author mode, or you are doing release testing (with C<RELEASE_TESTING> environmental variable).
+If you haven't set C<tests> by any means (with explicit C<tests>
+command, or extensions like L<Module::Install::AuthorTests> or
+L<Module::Install::ExtraTests>), and if you have an C<xt> directory,
+L<Module::Install> silently adds those tests under the C<xt>
+directory when you are in the author mode, or you are doing release
+testing (with C<RELEASE_TESTING> environmental variable).
 
-The value set by B<tests> is passed to L<ExtUtils::MakeMaker> as a C<test> attribute.
+The value set by B<tests> is passed to L<ExtUtils::MakeMaker> as a
+C<test> attribute.
 
 =head2 tests_recurisve (L<Module::Install::Makefile>)
 
   tests_recursive;
   tests_recursive('t');
 
-B<tests_recursive> command may take a directory, and looks for test files under it recursively. As of this writing, you can't use this command with other test related commands.
+B<tests_recursive> command may take a directory, and looks for test
+files under it recursively. As of this writing, you can't use this
+command with other test related commands.
 
 =head1 COMMANDS TO TWEAK DIRECTORIES TO INSTALL
 
@@ -213,16 +344,20 @@ B<tests_recursive> command may take a directory, and looks for test files under 
 
 =head1 COMMANDS TO INSTALL SUBORDINATE FILES
 
-These are to install files other than the ones under the C<lib> directory.
+These are to install files other than the ones under the C<lib>
+directory.
 
 =head2 install_script (L<Module::Install::Scripts>)
 
   install_script('foo');
   install_script('script/foo');
 
-B<install_script> command takes a script file name, and installs it into a C<script> directory for your Perl installation. If your script is in a C<script> directory, you can omit the C<script/> part.
+B<install_script> command takes a script file name, and installs it
+into a C<script> directory for your Perl installation. If your script
+is in a C<script> directory, you can omit the C<script/> part.
 
-The value set by B<install_script> is passed to L<ExtUtils::MakeMaker> as an C<EXE_FILES> attribute.
+The value set by B<install_script> is passed to
+L<ExtUtils::MakeMaker> as an C<EXE_FILES> attribute.
 
 =head2 install_share (L<Module::Install::Share>)
 
@@ -230,7 +365,15 @@ The value set by B<install_script> is passed to L<ExtUtils::MakeMaker> as an C<E
   install_share('templates');
   install_share('templates', 'module');
 
-B<install_share> command may take a directory (C<share> by default) and a directory type (either C<dist> or C<module>), and installs files under the directory into a C<share> directory for the type, which is usually in a directory your perl is installed in (but this may not be true if you're using L<local::lib> and the likes). You can access these shared files via L<File::ShareDir>'s C<dist_file> or C<module_file> according to the type. Note also that a shared directory is usually read-only. You can't use this as a private temporary directory.
+B<install_share> command may take a directory (C<share> by default)
+and a directory type (either C<dist> or C<module>), and installs
+files under the directory into a C<share> directory for the type,
+which is usually in a directory your perl is installed in (but this
+may not be true if you're using L<local::lib> and the likes). You can
+access these shared files via L<File::ShareDir>'s C<dist_file> or
+C<module_file> according to the type. Note also that a shared
+directory is usually read-only. You can't use this as a private
+temporary directory.
 
 =head1 COMMANDS FOR AUTO INSTALLATION
 
@@ -242,7 +385,8 @@ B<install_share> command may take a directory (C<share> by default) and a direct
 
 =head1 COMMANDS TO SUBDIRECTORY INSTALLATION
 
-This would be deprecated soon. L<Module::Install> is going to support subdirectory installation by default as L<ExtUtils::MakeMaker> does.
+This would be deprecated soon. L<Module::Install> is going to support
+subdirectory installation by default as L<ExtUtils::MakeMaker> does.
 
 =head2 build_subdirs (L<Module::Install::Makefile>)
 
@@ -250,7 +394,9 @@ This would be deprecated soon. L<Module::Install> is going to support subdirecto
 
 =head1 COMMANDS TO PROVIDE OTHER OPTIONAL META DATA
 
-These are to provide optional meta data mainly used by the PAUSE indexer and the CPAN search site. See also the META-spec page (L<http://module-build.sourceforge.net/META-spec.html>) for details.
+These are to provide optional meta data mainly used by the PAUSE
+indexer and the CPAN search site. See also the META-spec page
+(L<http://module-build.sourceforge.net/META-spec.html>) for details.
 
 =head2 no_index (L<Module::Install::Metadata>)
 
@@ -259,9 +405,12 @@ These are to provide optional meta data mainly used by the PAUSE indexer and the
   no_index package   => 'Test::Foo::Bar';
   no_index namespace => 'Test::Foo::Bar';
 
-B<no_index> command takes a hash to describe what should be excluded from the PAUSE index etc. L<Module::Install> provides several C<no_index> directories by default, including C<inc>
+B<no_index> command takes a hash to describe what should be excluded
+from the PAUSE index etc. L<Module::Install> provides several
+C<no_index> directories by default, including C<inc>
 
-sets several C<no_index> entries by default (C<share>, C<inc>, C<(x)t>, C<test>, C<example(s)>, C<demo>) by default.
+sets several C<no_index> entries by default (C<share>, C<inc>,
+C<(x)t>, C<test>, C<example(s)>, C<demo>) by default.
 
 =head2 provides, auto_provides (L<Module::Install::Metadata>)
 
@@ -285,7 +434,8 @@ sets several C<no_index> entries by default (C<share>, C<inc>, C<(x)t>, C<test>,
 
 =head1 COMMANDS TO BUNDLE DISTRIBUTIONS
 
-There are several commands to bundle modules/distributions in your distribution, but they are broken in general. Don't use them for now.
+There are several commands to bundle modules/distributions in your
+distribution, but they are broken in general. Don't use them for now.
 
 =begin getting_supportable
 
