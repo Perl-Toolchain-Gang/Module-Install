@@ -56,7 +56,7 @@ use Test::More tests => 1;
 use_ok('Bar');
 END_T
 
-		ok( build_dist(), 'build_dist' );
+		ok( supports_capture() ? capture_build_dist() : build_dist(), 'build_dist' );
 
 		my $makefile_foo = makefile();
 		ok( -f $makefile_foo, 'has Makefile for Foo' );
