@@ -41,7 +41,7 @@ don't need to stick to the C<auto_install()> at all.
 That being said, C<auto_install()> still has its own merit. For one
 thing, C<features()>, which is convenient if you want users to choose
 what they install, is only supported under the C<auto_install()>
-mode.
+mode now.
 
 So, if you know what you're doing, and want (or want to give) more
 freedom, C<auto_install()> may still help you, especially when you're
@@ -142,6 +142,22 @@ distributions if they are working well. But if you do find issues,
 please update your distributions, even when you have nothing to
 change in your own modules. L<Module::Install> is not only a tool to
 write better, but also a tool to encourage you to help others.
+
+=begin todo
+
+=head2 What're there in the "inc" directory?
+
+=head2 What is an author mode?
+
+=head2 I added MyMakefile.PL to my distribution, but it doesn't work as I expected. Why?
+
+=head2 Some of the tests in bundled distributions fail which doesn't when you install them one by one. Why?
+
+=head2 It looks like some of the bundled distribution are not installed. Why?
+
+=head2 Included ExtUtils::MakeMaker doesn't work correctly. Why?
+
+=end todo
 
 =head1 AUTHOR
 
