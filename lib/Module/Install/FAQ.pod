@@ -8,7 +8,7 @@ Module::Install::FAQ
 
 Though L<Module::Install> itself has a general FAQ section in the
 pod, it's more for advocacy. Here's an incomplete and growing list of
-the actual questions I have been frequently asked (or found on the
+ the actual questions I have been frequently asked (or found on the
 net) about L<Module::Install>.
 
 =head2 Do I really have to avoid auto_install()?
@@ -25,10 +25,10 @@ thus does not always do the same things as other toolchains do
 (including extra attribute handling, etc; which can be fixed somehow
 but that's not too DRY). It only supports L<CPAN> and L<CPANPLUS> as
 its backends. If you use other tools to install, it may still cause a
-trouble.
+ trouble.
 
 Besides, now you can do what C<auto_install()> does with other means.
-If your L<CPAN> module is new enough, you can pass a dot to the
+ If your L<CPAN> module is new enough, you can pass a dot to the
 B<cpan> command it provides, and it will install all the required
 distributions from the CPAN:
 
@@ -40,12 +40,12 @@ don't need to stick to the C<auto_install()> at all.
 
 That being said, C<auto_install()> still has its own merit. For one
 thing, C<features()>, which is convenient if you want users to choose
-what they install, is only supported under the C<auto_install()>
+ what they install, is only supported under the C<auto_install()>
 mode now.
 
 So, if you know what you're doing, and want (or want to give) more
 freedom, C<auto_install()> may still help you, especially when you're
-distributing an application independently. Otherwise,
+ distributing an application independently. Otherwise,
 C<auto_install()> should be avoided. There're alternatives, and
 giving sane default is much better than suspending (automatic)
 installation process by prompting people to choose something.
@@ -55,7 +55,7 @@ installation process by prompting people to choose something.
 Depends. If the repository is private and only for you, you usually
 don't want to put it in your repository to let you always use the
 latest L<Module::Install> you have (the C<inc> directory is recreated
-each time when you run C<perl Makefile.PL>).
+ each time when you run C<perl Makefile.PL>).
 
 If not, but you alone are the release manager and know what you have
 to do when you release, putting the C<inc> directory into your
@@ -64,7 +64,7 @@ minor (or private) not-in-core extensions in your Makefile.PL.
 
 However, if you generously allow other people to release, or you're
 not so familiar with how L<Module::Install> works and don't know what
-you have to do in the above situation, B<don't> put it in the
+ you have to do in the above situation, B<don't> put it in the
 repository. It may be the cause of troubles including wrong version
 in the C<META.yml>.
 
@@ -72,7 +72,7 @@ If you feel sorry about the inconvenience for your fellow
 contributors, you may want to add explicitly C<< use
 Module::Install::<ExtensionYouWantToUse>; >> after C<< use
 inc::Module::Install; >> in your Makefile.PL. It doesn't do any harm,
-and it makes clear which extensions they need to install.
+ and it makes clear which extensions they need to install.
 
 =head2 "perl Makefile.PL" doesn't work or does a strange behavior for me. Why?
 
@@ -90,14 +90,14 @@ that you can easily tell from which extension they come, though some
 may be a bit hard to find.
 
 If you are trying to contribute to some project, and having a trouble
-to run C<Makefile.PL>, please contact the author of the project to
+ to run C<Makefile.PL>, please contact the author of the project to
 learn what you have to install. If the distribution is already on the
-CPAN, you may also want to look into the MANIFEST file to see which
+ CPAN, you may also want to look into the MANIFEST file to see which
 extensions are included in the C<inc> directory before you ask.
 
 This usually does not happen in the user land as distributions that
 use L<Module::Install> should have all the necessary extensions under
-the C<inc> directory. If this should happen, that's most probably
+ the C<inc> directory. If this should happen, that's most probably
 because the release manager shipped the distribution under a
 non-author mode. Please contact the author to fix the issue.
 
@@ -106,7 +106,7 @@ non-author mode. Please contact the author to fix the issue.
 L<Module::Install> is just a wrapper of L<ExtUtils::MakeMaker>. You
 can do almost everything you can do with L<ExtUtils::MakeMaker> by
 passing arbitrary attributes to L<ExtUtils::MakeMaker> in the backend
-via C<makemaker_args> like this:
+ via C<makemaker_args> like this:
 
   use inc::Module::Install;
   
@@ -120,7 +120,7 @@ via C<makemaker_args> like this:
 
 However, by the singleton nature of L<Module::Install>, it can't
 process Makefile.PL in subdirectories correctly now, and you may need
-to override attributes explicitly in some cases where
+ to override attributes explicitly in some cases where
 L<Module::Install> provides other default values than
 L<ExtUtils::MakeMaker> does. Please see also the
 L<ExtUtils::MakeMaker>'s pod for further instructions.
@@ -133,7 +133,7 @@ users. So, if you choose to use L<Module::Install>, it's you who
 should update toolchains, i.e. L<Module::Install> and other bundled
 modules. You should check if there's any significant change/fix in
 your toolchains. You should check your toolchains go along with other
-tools users use to install your distributions, or with the systems
+ tools users use to install your distributions, or with the systems
 users are in, or whatever that matters. In the end, you are expected
 to have much more knowledge and willingness than average users.
 
