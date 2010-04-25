@@ -529,10 +529,6 @@ providing the equivalent functionality.
 
 The base class for all extensions
 
-=head2 Module::Install::Build
-
-Provides integration with L<Module::Build> via C<&Build-E<gt>write>.
-
 =head2 Module::Install::Bundle
 
 Provides the C<bundle> family of commands, allowing you to bundle
@@ -588,7 +584,7 @@ F<nmake.exe> for users that need it.
 =head2 Module::Install::WriteAll
 
 Provides the C<WriteAll>, which writes all the requires files,
-such as F<META.yml> and either F<Makefile> or F<Build>.
+such as F<META.yml> and F<Makefile>.
 
 C<WriteAll> takes four optional named parameters:
 
@@ -761,8 +757,6 @@ L<Module::Install::AutoInstall>
 L<Module::Install::Base>
 
 L<Module::Install::Bundle>
-
-L<Module::Install::Build>
 
 L<Module::Install::MakeMaker>
 
