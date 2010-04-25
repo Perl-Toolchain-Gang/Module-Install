@@ -27,8 +27,8 @@ Changes for Perl programming language extension Module-Install
 	  (ISHIGAKI)
 	- Resolved #56531: New patches for M::I::Bundle (patch by Florent
 	  Angly) (ISHIGAKI)
-	- Resolved #5528: Sub-directory builds don't work (by Steve Hay)
-	  (ISHIGAKI)
+	- Resolved #56589 for Module-Install: Bundle's refactor
+	  (patch by Florent Angly) (ISHIGAKI)
 	- Pass VERSION_FROM to EU::MM in the background to let it check
 	  version integrity (ISHIGAKI)
 	- Improved tests and removed unnecessary directories/files

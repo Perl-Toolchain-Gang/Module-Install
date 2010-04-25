@@ -1,10 +1,7 @@
 package Module::Install::Bundle;
 
 use strict;
-use Cwd                   ();
-use File::Find            ();
-use File::Copy            ();
-use File::Basename        ();
+use File::Spec;
 use Module::Install::Base ();
 
 use vars qw{$VERSION @ISA $ISCORE};
@@ -64,29 +61,37 @@ sub bundle_deps {
 sub _install_bundled_dists {
     my $self = shift;
 
-    my @dirs;
-    foreach my $entry (glob "inc/BUNDLES/*") {
-        # ignore BUNDLES.yml
-        next if -f $entry;
+    # process bundle only the first time this function is called
+    return if $self->{bundle_processed};
+
+    $self->makemaker_args->{DIR} ||= [];
+
+    # process all dists bundled in inc/BUNDLES/
+    my $bundle_dir = $self->_top->{bundle};
+    foreach my $sub_dir (glob File::Spec->catfile($bundle_dir,"*")) {
+
+        next if -f $sub_dir;
 
         # ignore dot dirs/files if any
-        next if $entry =~ m{^inc/BUNDLES/\.};
+        my $dot_file = File::Spec->catfile($bundle_dir,'\.');
+        next if index($sub_dir, $dot_file) >= $[;
 
         # EU::MM can't handle Build.PL based distributions
-        if (-f File::Spec->catfile($entry, 'Build.PL')) {
-            warn "Skipped: $entry has Build.PL.";
+        if (-f File::Spec->catfile($sub_dir, 'Build.PL')) {
+            warn "Skipped: $sub_dir has Build.PL.";
             next;
         }
 
         # EU::MM can't handle distributions without Makefile.PL
         # (actually this is to cut blib in a wrong directory)
-        if (!-f File::Spec->catfile($entry, 'Makefile.PL')) {
-            warn "Skipped: $entry has no Makefile.PL.";
+        if (!-f File::Spec->catfile($sub_dir, 'Makefile.PL')) {
+            warn "Skipped: $sub_dir has no Makefile.PL.";
             next;
         }
-        push @dirs, $entry;
+        push @{ $self->makemaker_args->{DIR} }, $sub_dir;
     }
-    push @{ $self->makemaker_args->{DIR} ||= [] }, @dirs;
+
+    $self->{bundle_processed} = 1;
 }
 
 1;

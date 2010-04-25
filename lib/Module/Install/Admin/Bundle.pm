@@ -2,6 +2,8 @@ package Module::Install::Admin::Bundle;
 
 use strict;
 use Module::Install::Base;
+use Module::CoreList;
+use LWP::UserAgent;
 
 use vars qw{$VERSION @ISA};
 BEGIN {
@@ -35,8 +37,6 @@ sub bundle {
 
     mkdir( $bundle_dir, 0777 );
 
-    my %bundles;
-
     while ( my ( $name, $version ) = splice( @_, 0, 2 ) ) {
         my $mod = $cp->module_tree($name);
         if (not $mod) {
@@ -45,11 +45,14 @@ sub bundle {
         }
 
         if ( $mod->package_is_perl_core or $self->{already_bundled}{$mod->package} ) {
-        	next;
+            next;
         }
 
         my $where = $mod->fetch( fetchdir => $bundle_dir, );
-        next unless ($where);
+        unless ($where) {
+            warn "Warning: Could not download distribution $bundle_dir. Download it manually.\n";
+            next;
+        }
         my $file = Cwd::abs_path($where);
 
         my $extract_result = $mod->extract(
@@ -58,32 +61,15 @@ sub bundle {
         );
 
         unlink $file;
-        next unless ($extract_result);
-
-        $extract_result =~ s|\\|/|g if $^O eq 'MSWin32';
-        my $location = '';
-        if ($extract_result =~ /$bundle_dir\/(.*)/) {
-            $location = 'inc/BUNDLES/'.$1;
-        } else {
-            $location = $extract_result;
-        }
-
-        for my $submod ($mod->contains) {
-            $bundles{$submod->name} = $location;
+        unless ($extract_result) {
+            warn "Warning: Could not extract distribution $bundle_dir. Extract it manually.\n";
+            next;
         }
 
         $self->{already_bundled}{ $mod->package }++;
-
     }
 
     chdir $cwd;
-
-    local *FH;
-    open FH, ">> $bundle_dir.yml" or die "Cannot write to $bundle_dir.yml: $!";
-    foreach my $name ( sort keys %bundles ) {
-        print FH "$name: '$bundles{$name}'\n";
-    }
-    close FH;
 }
 
 1;
