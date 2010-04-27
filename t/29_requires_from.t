@@ -11,7 +11,7 @@ use t::lib::Test;
 require ExtUtils::MakeMaker;
 use vars qw{ $PREREQ_PM $MIN_PERL_VERSION $BUILD_REQUIRES };
 
-plan tests => 18;
+plan tests => 19;
 
 SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
@@ -62,6 +62,12 @@ END_TEST
 	ok( $content =~ s/^.*\$PREREQ_PM = \{/\$PREREQ_PM = {/s,'PREREQ_PM found');
 	eval ($content);
 	ok( !$@,'correct content');
-	ok( $BUILD_REQUIRES->{'File::Spec'} eq '0.80', 'correct requirement' );
+    if ( eval($ExtUtils::MakeMaker::VERSION) < 6.55_03 ) {
+        ok( exists $PREREQ_PM->{'File::Spec'});
+        ok( !exists $BUILD_REQUIRES->{'File::Spec'});
+    } else { #best to check both because user can have any version
+        ok( exists $BUILD_REQUIRES->{'File::Spec'});
+        ok( !exists $PREREQ_PM->{'File::Spec'});
+    }
 	ok( kill_dist(), 'kill_dist' );
 }
