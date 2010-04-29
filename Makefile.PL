@@ -21,7 +21,7 @@ author        'Adam Kennedy <adamk@cpan.org>';
 perl_version  '5.005';
 all_from      'lib/Module/Install.pm';
 requires      'Parse::CPAN::Meta' => '1.39';
-requires      'File::Spec'        => '3.2701';
+requires      'File::Spec'        => '3.28';
 requires      'Devel::PPPort'     => '3.16';
 requires      'File::Remove'      => '1.42';
 requires      'YAML::Tiny'        => '1.38';
@@ -32,7 +32,7 @@ requires      'PAR::Dist'         => '0.29';
 requires      'Archive::Tar'      => '1.44';
 requires      'ExtUtils::Install' => '1.52';
 requires      'ExtUtils::ParseXS' => '2.19';
-requires      'Module::Build'     => '0.2804';
+requires      'Module::Build'     => '0.29';
 test_requires 'Test::Harness'     => '3.13';
 test_requires 'Test::More'        => '0.86';
 
