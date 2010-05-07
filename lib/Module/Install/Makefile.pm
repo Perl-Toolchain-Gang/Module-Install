@@ -179,28 +179,22 @@ sub inc {
 	$self->makemaker_args( INC => shift );
 }
 
-my %test_dir = ();
-
 sub _wanted_t {
-	/\.t$/ and -f $_ and $test_dir{$File::Find::dir} = 1;
 }
 
 sub tests_recursive {
 	my $self = shift;
-	if ( $self->tests ) {
-		die "tests_recursive will not work if tests are already defined";
-	}
 	my $dir = shift || 't';
 	unless ( -d $dir ) {
 		die "tests_recursive dir '$dir' does not exist";
 	}
-	%test_dir = ();
+	my %tests = map { $_ => 1 } split / /, ($self->tests || '');
 	require File::Find;
-	File::Find::find( \&_wanted_t, $dir );
-	if ( -d 'xt' and ($Module::Install::AUTHOR or $ENV{RELEASE_TESTING}) ) {
-		File::Find::find( \&_wanted_t, 'xt' );
-	}
-	$self->tests( join ' ', map { "$_/*.t" } sort keys %test_dir );
+	File::Find::find(
+        sub { /\.t$/ and -f $_ and $tests{"$File::Find::dir/*.t"} = 1 },
+        $dir
+    );
+	$self->tests( join ' ', sort keys %tests );
 }
 
 sub write {
@@ -252,6 +246,9 @@ EOT
 		$args->{test} = {
 			TESTS => (join ' ', grep {!$seen{$_}++} @tests),
 		};
+    } elsif ( $Module::Install::ExtraTests::use_extratests ) {
+        # Module::Install::ExtraTests doesn't set $self->tests and does its own tests via harness.
+        # So, just ignore our xt tests here.
 	} elsif ( -d 'xt' and ($Module::Install::AUTHOR or $ENV{RELEASE_TESTING}) ) {
 		$args->{test} = {
 			TESTS => join( ' ', map { "$_/*.t" } grep { -d $_ } qw{ t xt } ),

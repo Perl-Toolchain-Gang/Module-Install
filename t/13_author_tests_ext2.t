@@ -10,9 +10,9 @@ use Test::More;
 use File::Spec;
 use t::lib::Test;
 
-eval "require Module::Install::ExtraTests";
-plan skip_all => "requires Module::Install::ExtraTests" if $@;
-plan tests => 40;
+eval "use Module::Install::ExtraTests 0.007";
+plan skip_all => "requires Module::Install::ExtraTests 0.007" if $@;
+plan tests => 38;
 
 SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
@@ -27,7 +27,7 @@ extra_tests;
 WriteAll;
 END_DSL
 
-	ok( add_test(qw(xt test.t)), 'added xt' );
+	ok( add_test(qw(t test.t)), 'added t' );
 	ok( add_test(qw(xt author test.t)), 'added xt/author' );
 	ok( build_dist(), 'build_dist' );
 	my $file = makefile();
@@ -35,8 +35,9 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
-	ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
+	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+    my $res = make('test');
+    ok( $res =~ /Result:\s*PASS/ );
 	ok( kill_dist(), 'kill_dist' );
 }
 
@@ -53,7 +54,7 @@ extra_tests;
 WriteAll;
 END_DSL
 
-	ok( add_test(qw(xt test.t)), 'added xt' );
+	ok( add_test(qw(t test.t)), 'added t' );
 	ok( add_test(qw(xt author test.t)), 'added xt/author' );
 	ok( build_dist(), 'build_dist' );
 	rmdir dir(qw(inc .author)); # non-author-mode
@@ -64,12 +65,9 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
-	if ( $ENV{RELEASE_TESTING} ) {
-		ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
-	} else {
-		ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
-	}
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
+	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+    my $res = make('test');
+    ok( $res =~ /Result:\s*PASS/ );
 	ok( kill_dist(), 'kill_dist' );
 }
 
@@ -90,7 +88,6 @@ WriteAll;
 END_DSL
 
 	ok( add_test(qw(t test.t)), 'added t' );
-	ok( add_test(qw(xt test.t)), 'added xt' );
 	ok( add_test(qw(xt author test.t)), 'added xt/author' );
 	ok( build_dist(), 'build_dist' );
 	my $file = makefile();
@@ -98,8 +95,9 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
-	ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
+	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+    my $res = make('test');
+    ok( $res =~ /Result:\s*PASS/ );
 	ok( kill_dist(), 'kill_dist' );
 }
 
@@ -118,7 +116,6 @@ WriteAll;
 END_DSL
 
 	ok( add_test(qw(t test.t)), 'added t' );
-	ok( add_test(qw(xt test.t)), 'added xt' );
 	ok( add_test(qw(xt author test.t)), 'added xt/author' );
 	ok( build_dist(), 'build_dist' );
 	rmdir dir(qw(inc .author)); # non-author-mode
@@ -129,11 +126,8 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
-	if ( $ENV{RELEASE_TESTING} ) {
-		ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
-	} else {
-		ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
-	}
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
+	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+    my $res = make('test');
+    ok( $res =~ /Result:\s*PASS/ );
 	ok( kill_dist(), 'kill_dist' );
 }
