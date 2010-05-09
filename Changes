@@ -1,6 +1,9 @@
 Changes for Perl programming language extension Module-Install
 
-0.96 Tue 27 Apr 2010
+0.97 Mon 10 May 2010
+	- Added missing LWP dependency, starting with 2 year old version (ADAMK)
+
+0.96 Tue 10 May 2010
 	- Stop Bundle.pm pointlessly calling import() of bundled modules
 	  (MSTROUT)
 	- Resolved #55464: Wrong license detection (by Jens Rehsack)
