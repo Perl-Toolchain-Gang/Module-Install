@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-Module::Install::FAQ
+Module::Install::FAQ - Frequently Asked Questions for Module::Install
 
 =head1 DESCRIPTION
 
