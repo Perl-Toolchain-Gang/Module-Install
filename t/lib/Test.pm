@@ -128,8 +128,8 @@ END_MODULE
 	return 1;
 }
 
-sub file { File::Spec->catfile('t', $DIST, @_) }
-sub dir  { File::Spec->catdir('t', $DIST, @_) }
+sub file { File::Spec->catfile('t', $DIST . $$, @_) }
+sub dir  { File::Spec->catdir('t', $DIST . $$, @_) }
 sub makefile { file(@_, $^O eq 'VMS' ? 'Descrip.MMS' : 'Makefile' ) }
 
 sub add_file {
