@@ -3,6 +3,8 @@ Changes for Perl programming language extension Module-Install
 0.98 to be released
     - Resolved #57326: Tests fail when being run in parallel (by Florian Ragwitz)
       (ISHIGAKI)
+    - Resolved #57335: Re: Problem with Module::Install + Fix (by Paul Makepeace)
+      (ISHIGAKI)
 
 0.97 Mon 10 May 2010
 	- Added missing LWP dependency, starting with 2 year old version (ADAMK)
