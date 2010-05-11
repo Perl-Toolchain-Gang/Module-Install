@@ -496,7 +496,7 @@ dependencies of a local project when you run C<make> after C<<perl
 Makefile.PL>>. This was quite useful, but it has a long history of
 breaking CPAN toolchains. Now you can do the (almost) same thing in
 other ways like C<< cpan . >> (with newer L<CPAN>) or C<< cpanm
---install_deps . >> (with L<App::cpanminus>).
+--installdeps . >> (with L<App::cpanminus>).
 
 C<auto_install> also enables C<feature(s)> commands to choose what
 you install. This also is not considered a good practice. So, avoid
