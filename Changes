@@ -1,14 +1,16 @@
 Changes for Perl programming language extension Module-Install
 
 0.98 to be released
-    - Resolved #57326: Tests fail when being run in parallel (by Florian Ragwitz)
-      (ISHIGAKI)
-    - Resolved #57335: Re: Problem with Module::Install + Fix (by Paul Makepeace)
-      (ISHIGAKI)
-    - Added "add_metadata" to add extra (experimental) metadata to META.yml
-      (requested by Florian Ragwitz) (ISHIGAKI)
-    - Fixed a test to check EU::MM version as only newer EUMM has MIN_PERL_VERSION
-      (ISHIGAKI) 
+	- Resolved #57326: Tests fail when being run in parallel
+	  (by Florian Ragwitz) (ISHIGAKI)
+	- Resolved #57335: Re: Problem with Module::Install + Fix
+	  (by Paul Makepeace) (ISHIGAKI)
+	- Added "add_metadata" to add extra (experimental) metadata to
+	  META.yml (requested by Florian Ragwitz) (ISHIGAKI)
+	- Fixed a test to check EU::MM version as only newer EUMM has
+	  MIN_PERL_VERSION (ISHIGAKI) 
+	- Made fixup_makefile a bit robust, not to be interfered by
+	  antivirus etc (ISHIGAKI)
 
 0.97 Mon 10 May 2010
 	- Added missing LWP dependency, starting with 2 year old version (ADAMK)
