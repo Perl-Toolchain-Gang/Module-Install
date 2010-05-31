@@ -1,5 +1,8 @@
 Changes for Perl programming language extension Module-Install
 
+0.99 Tue  1 Jun 2010
+	- FindBin->again only works on 5.8.3
+
 0.98 Mon 21 May 2010
 	- Resolved #57326: Tests fail when being run in parallel
 	  (by Florian Ragwitz) (ISHIGAKI)
