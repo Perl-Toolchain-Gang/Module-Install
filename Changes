@@ -1,6 +1,6 @@
 Changes for Perl programming language extension Module-Install
 
-0.98 to be released
+0.98 Mon 21 May 2010
 	- Resolved #57326: Tests fail when being run in parallel
 	  (by Florian Ragwitz) (ISHIGAKI)
 	- Resolved #57335: Re: Problem with Module::Install + Fix
