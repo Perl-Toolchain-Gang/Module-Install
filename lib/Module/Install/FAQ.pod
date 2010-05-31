@@ -170,7 +170,7 @@ C<.PL> extension like C<MyMakefile.PL> in the top level
 directory, it also runs automatically when you run Makefile.PL.
 
 If you don't like this behavior, use C<makemaker_args> to pass
-an anonymous hash to C<PL_FILES>, which disables this behavior.
+an anonymous hash to C<PL_FILES>.
 
   makemaker_args(PL_FILES => {});
 

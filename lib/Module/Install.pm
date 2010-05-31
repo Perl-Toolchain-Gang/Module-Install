@@ -21,7 +21,6 @@ use strict 'vars';
 use Cwd        ();
 use File::Find ();
 use File::Path ();
-use FindBin;
 
 use vars qw{$VERSION $MAIN};
 BEGIN {
@@ -230,7 +229,8 @@ sub preload {
 sub new {
 	my ($class, %args) = @_;
 
-	FindBin->again;
+    delete $INC{'FindBin.pm'};
+    require FindBin;
 
 	# ignore the prefix on extension modules built from top level.
 	my $base_path = Cwd::abs_path($FindBin::Bin);
