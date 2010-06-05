@@ -229,8 +229,12 @@ sub preload {
 sub new {
 	my ($class, %args) = @_;
 
-    delete $INC{'FindBin.pm'};
-    require FindBin;
+	delete $INC{'FindBin.pm'};
+	{
+		# to suppress the redefine warning
+		local $SIG{__WARN__} = sub {};
+		require FindBin;
+	}
 
 	# ignore the prefix on extension modules built from top level.
 	my $base_path = Cwd::abs_path($FindBin::Bin);
