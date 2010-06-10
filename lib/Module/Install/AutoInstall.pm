@@ -47,6 +47,14 @@ sub auto_install {
     while (my ($mod, $ver) = splice(@requires, 0, 2)) {
         $seen{$mod}{$ver}++;
     }
+    my @build_requires = map @$_, map @$_, grep ref, $self->build_requires;
+    while (my ($mod, $ver) = splice(@build_requires, 0, 2)) {
+        $seen{$mod}{$ver}++;
+    }
+    my @configure_requires = map @$_, map @$_, grep ref, $self->configure_requires;
+    while (my ($mod, $ver) = splice(@configure_requires, 0, 2)) {
+        $seen{$mod}{$ver}++;
+    }
 
     my @deduped;
     while (my ($mod, $ver) = splice(@features_require, 0, 2)) {

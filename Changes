@@ -1,5 +1,11 @@
 Changes for Perl programming language extension Module-Install
 
+0.9901 (or 1.0?) to be released
+    - auto_install() wrongly merged build_requires entries into
+      requires; note that it's correct build_requires entries
+      are merged into requires if you use older versions of
+      EUMM, which didn't support build_requires. (ISHIGAKI)
+
 0.99 Tue  1 Jun 2010
 	- FindBin->again only works on 5.8.3
 
