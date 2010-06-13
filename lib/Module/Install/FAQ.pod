@@ -32,21 +32,17 @@ write better, but also a tool to encourage you to help others.
 
 =head2 Do I really have to avoid auto_install()?
 
-B<auto_install()> has a long history of breaking CPAN toolchains.
-Lots of people had a bad feeling on it, and have said it should be
-strongly avoided. In fact it was deprecated and removed once.
+Not at all, B<using C<auto_install()> is just fine>. While it indeed
+behaved erratically in older L<Module::Install> versions, there have
+been no reported issues since mid-2009. As far as compatbility with
+various CPAN clients: several rather large projects on CPAN (including
+L<Catalyst> and L<DBIx::Class>), are using C<auto_install> without any
+issues reported by their substantial userbases.
 
-Although most of the known problems have been fixed and you can use
-it more safely than ever, the use of C<auto_install()> is still
-discouraged, especially if what you are writing is a module to be
-uploaded on the CPAN. C<auto_install()> does lots of things itself,
-thus does not always do the same things as other toolchains do
-(including extra attribute handling, etc; which can be fixed somehow
-but that's not too DRY). It only supports L<CPAN> and L<CPANPLUS> as
-its backends. If you use other tools to install, it may still cause a
-trouble.
+That said, if all you want to do is make it easy for a contributor to
+checkout your code and quickly install necessary dependencies, there
+are alternatives to C<auto_install>.
 
-Besides, now you can do what C<auto_install()> does with other means.
 If your L<CPAN> module is new enough, you can pass a dot to the
 B<cpan> command it provides, and it will install all the required
 distributions from the CPAN:
@@ -54,20 +50,7 @@ distributions from the CPAN:
   $ cpan .
 
 The same is true for the B<cpanm> command from L<App::cpanminus>,
-with which you even can write like C<< cpanm --installdeps . >>. You
-don't need to stick to the C<auto_install()> at all.
-
-That being said, C<auto_install()> still has its own merit. For one
-thing, C<features()>, which is convenient if you want users to choose
-what they install, is only supported under the C<auto_install()>
-mode now.
-
-So, if you know what you're doing, and want (or want to give) more
-freedom, C<auto_install()> may still help you, especially when you're
-distributing an application independently. Otherwise,
-C<auto_install()> should be avoided. There're alternatives, and
-giving sane default is much better than suspending (automatic)
-installation process by prompting people to choose something.
+with which you even can write like C<< cpanm --installdeps . >>
 
 =head2 Should I put an "inc" directory Module::Install automatically creates into a repository for my projects?
 

@@ -491,16 +491,17 @@ private temporary directory.
 
   auto_install;
 
-B<auto_install> command is used to allow users to install
+The B<auto_install> command is used to allow users to install
 dependencies of a local project when you run C<make> after C<<perl
-Makefile.PL>>. This was quite useful, but it has a long history of
-breaking CPAN toolchains. Now you can do the (almost) same thing in
-other ways like C<< cpan . >> (with newer L<CPAN>) or C<< cpanm
---installdeps . >> (with L<App::cpanminus>).
+Makefile.PL>>. In the past this was the only sane way to pull extra
+dependencies without installing the actual module, although now there
+are some alternatives (which however do B<not> completely replace
+C<auto_install>). For example you can use C<< cpan . >> (with newer
+L<CPAN>) or C<< cpanm --installdeps . >> (with L<App::cpanminus>).
 
 C<auto_install> also enables C<feature(s)> commands to choose what
-you install. This also is not considered a good practice. So, avoid
-using this unless you really have to.
+you install (keep in mind that using C<feature()> in CPAN distributions
+is generally considered a bad practice).
 
 =begin dangerous
 

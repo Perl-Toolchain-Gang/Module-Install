@@ -518,13 +518,6 @@ modules via their own POD documentation.
 Provides C<auto_install()> to automatically fetch and install
 prerequisites.
 
-The use of C<auto_install> is B<strongly> discouraged in any distribution
-to be uploaded to the CPAN, as the use of it violates the normal CPAN
-client to toolchain communication protocol.
-
-Support may be dropped at a future time, with some alternative process
-providing the equivalent functionality.
-
 =head2 Module::Install::Base
 
 The base class for all extensions
@@ -680,8 +673,6 @@ away this complexity.
 
 As long as you are going to periodically do incremental releases
 to get any bug fixes and new functionality, yes.
-
-You should also B<strongly> avoid the use of C<auto_install>.
 
 If you don't plan to do incremental releases, it might be a good
 idea to continue to wait for a while.
