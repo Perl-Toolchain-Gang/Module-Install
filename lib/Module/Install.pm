@@ -30,7 +30,7 @@ BEGIN {
 	# This is not enforced yet, but will be some time in the next few
 	# releases once we can make sure it won't clash with custom
 	# Module::Install extensions.
-	$VERSION = '0.99';
+	$VERSION = '1.00';
 
 	# Storage for the pseudo-singleton
 	$MAIN    = undef;
