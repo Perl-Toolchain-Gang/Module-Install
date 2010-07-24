@@ -21,7 +21,7 @@ sub install_share {
 	}
 	unless ( defined $dir and -d $dir ) {
     		require Carp;
-		Carp::croak("Illegal or missing directory install_share param");
+		Carp::croak("Illegal or missing directory install_share param: '$dir'");
 	}
 
 	# Split by type
