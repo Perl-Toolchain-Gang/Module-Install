@@ -28,7 +28,7 @@ END_DSL
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
-	ok($content =~ /#\s*AUTHOR => q\[ishigaki\]/, 'has one author');
+	ok($content =~ author_makefile_re("ishigaki"), 'has one author');
 	my $metafile = file('META.yml');
 	ok(-f $metafile);
 	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
@@ -51,7 +51,7 @@ END_DSL
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
-	ok($content =~ /#\s*AUTHOR => q\[ishigaki, charsbar\]/, 'has two authors');
+	ok($content =~ author_makefile_re("ishigaki, charsbar"), 'has two authors');
 	my $metafile = file('META.yml');
 	ok(-f $metafile);
 	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
@@ -74,7 +74,7 @@ END_DSL
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
-	ok($content =~ /#\s*AUTHOR => q\[ishigaki, charsbar\]/, 'has two authors');
+	ok($content =~ author_makefile_re("ishigaki, charsbar"), 'has two authors');
 	my $metafile = file('META.yml');
 	ok(-f $metafile);
 	my $meta = Parse::CPAN::Meta::LoadFile($metafile);
@@ -98,7 +98,7 @@ END_DSL
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
-	ok($content =~ /#\s*AUTHOR => q\[ishigaki, charsbar\]/, 'has two authors');
+	ok($content =~ author_makefile_re("ishigaki, charsbar"), 'has two authors');
 	my $metafile = file('META.yml');
 	ok(-f $metafile);
 	my $meta = Parse::CPAN::Meta::LoadFile($metafile);

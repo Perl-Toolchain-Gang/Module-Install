@@ -30,7 +30,7 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	ok($content =~ /#\s*ABSTRACT => q\[A test module\]/, 'has abstract');
-	ok($content =~ /#\s*AUTHOR => q\[Foo Bar\]/, 'has author');
+	ok($content =~ author_makefile_re("Foo Bar"), 'has author');
 	ok($content =~ /#\s*VERSION => q\[3\.21\]/, 'has version');
 	SKIP: {
 		skip "requires ExtUtils::MakeMaker 6.31", 1 unless $eumm < 6.31;
@@ -58,7 +58,7 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	ok($content =~ /#\s*ABSTRACT => q\[overriden abstract\]/, 'has abstract');
-	ok($content =~ /#\s*AUTHOR => q\[Bar Foo\]/, 'has author');
+	ok($content =~ author_makefile_re("Bar Foo"), 'has author');
 	ok($content =~ /#\s*VERSION => q\[0\.01\]/, 'has version');
 	SKIP: {
 		skip "requires ExtUtils::MakeMaker 6.31", 1 if $eumm < 6.31;
