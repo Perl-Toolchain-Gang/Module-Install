@@ -13,17 +13,6 @@ use t::lib::Test;
 
 plan tests => 26;
 
-my $eumm = eval $ExtUtils::MakeMaker::VERSION;
-
-sub author_makefile_re {
-	my $author=shift;
-	if ($eumm>=6.5702) {
-		return qr/#\s*AUTHOR => \[q\[$author\]\]/;
-	} else {
-		return qr/#\s*AUTHOR => q\[$author\]/;
-	}
-}
-
 SCOPE: {
 	ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
 use inc::Module::Install 0.81;
