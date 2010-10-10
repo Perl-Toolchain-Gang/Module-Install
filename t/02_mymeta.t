@@ -6,7 +6,17 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 24;
+require ExtUtils::MakeMaker;
+my $eumm = eval $ExtUtils::MakeMaker::VERSION;
+
+use Test::More;
+if ( $eumm < 6.5702 ) {
+	plan( tests => 24 );
+} else {
+	plan( skip_all => 'New EU::MM has own MYMETA support' );
+}
+
+
 use File::Spec;
 use t::lib::Test;
 
