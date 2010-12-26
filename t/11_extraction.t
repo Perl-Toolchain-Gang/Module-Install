@@ -6,7 +6,7 @@ BEGIN {
         $^W = 1;
 }
 
-use Test::More tests => 15;
+use Test::More tests => 16;
 
 require_ok( 'Module::Install::Metadata' );
 
@@ -144,6 +144,22 @@ The "Artistic License" which comes with Perl.
 EOT
 	my $l=Module::Install::Metadata::_extract_license($text);
 		is($l, 'perl', 'Perl license detected',
+	);
+}
+
+
+SCOPE: {
+        my $text=<<'EOT';
+=head1 COPYRIGHT AND LICENCE
+
+Copyright (C) 2010
+
+This library is free software; you can redistribute it and/or modify it under the terms of the Artistic License 2.0. For details, see the full text of the license at http://opensource.org/licenses/artistic-license-2.0.php.
+
+=cut
+EOT
+	my $l=Module::Install::Metadata::_extract_license($text);
+		is($l, 'artistic_2', 'Artistic 2.0 license detected',
 	);
 }
 

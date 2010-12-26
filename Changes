@@ -7,6 +7,8 @@ Changes for Perl programming language extension Module-Install
 	  requires; note that it's correct build_requires entries
 	  are merged into requires if you use older versions of
 	  EUMM, which didn't support build_requires. (ISHIGAKI)
+	- Compatibility with META.yml support in EUMM (CHORNY)
+	- Support for extraction of Artistic 2.0 license (CHORNY)
 
 0.99 Tue  1 Jun 2010
 	- FindBin->again only works on 5.8.3

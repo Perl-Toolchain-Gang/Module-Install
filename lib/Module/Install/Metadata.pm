@@ -514,6 +514,7 @@ sub __extract_license {
 		'GNU Free Documentation license'     => 'unrestricted', 1,
 		'GNU Affero General Public License'  => 'open_source',  1,
 		'(?:Free)?BSD license'               => 'bsd',          1,
+		'Artistic license 2\.0'              => 'artistic_2',   1,
 		'Artistic license'                   => 'artistic',     1,
 		'Apache (?:Software )?license'       => 'apache',       1,
 		'GPL'                                => 'gpl',          1,
