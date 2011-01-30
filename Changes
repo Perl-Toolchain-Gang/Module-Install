@@ -1,5 +1,10 @@
 Changes for Perl programming language extension Module-Install
 
+        - Better error message in install_share (CHORNY)
+	- Compatibility with MYMETA.yml support in EUMM (CHORNY)
+	- Support for extraction of Artistic 2.0 license (CHORNY)
+	- Support https links when searching for bug trackers (CHORNY)
+
 1.00 Tue 22 Jun 2010
 	- Remove obsolete text warning about nonexistent auto_install()
 	  woes
@@ -7,8 +12,6 @@ Changes for Perl programming language extension Module-Install
 	  requires; note that it's correct build_requires entries
 	  are merged into requires if you use older versions of
 	  EUMM, which didn't support build_requires. (ISHIGAKI)
-	- Compatibility with META.yml support in EUMM (CHORNY)
-	- Support for extraction of Artistic 2.0 license (CHORNY)
 
 0.99 Tue  1 Jun 2010
 	- FindBin->again only works on 5.8.3
