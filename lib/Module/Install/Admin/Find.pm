@@ -5,7 +5,7 @@ use File::Find ();
 use Module::Install::Base ();
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.00';
+	$VERSION = '1.01';
 	@ISA = qw(Module::Install::Base);
 }
 

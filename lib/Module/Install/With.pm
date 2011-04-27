@@ -7,7 +7,7 @@ use Module::Install::Base ();
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '1.00';
+	$VERSION = '1.01';
 	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
 }
@@ -148,7 +148,7 @@ Adam Kennedy E<lt>adamk@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Copyright 2007 - 2010 Adam Kennedy.
+Copyright 2007 - 2011 Adam Kennedy.
 
 This program is free software; you can redistribute
 it and/or modify it under the same terms as Perl itself.

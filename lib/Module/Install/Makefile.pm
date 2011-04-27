@@ -7,7 +7,7 @@ use Fcntl qw/:flock :seek/;
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '1.00';
+	$VERSION = '1.01';
 	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
 }
@@ -531,7 +531,7 @@ Brian Ingerson E<lt>INGY@cpan.orgE<gt>
 
 =head1 COPYRIGHT
 
-Some parts copyright 2008 - 2010 Adam Kennedy.
+Some parts copyright 2008 - 2011 Adam Kennedy.
 
 Copyright 2002, 2003, 2004 Audrey Tang and Brian Ingerson.
 
