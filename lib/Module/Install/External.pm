@@ -40,7 +40,7 @@ sub requires_external_bin {
 	$self->load('can_run');
 
 	# Locate the bin
-	print "Locating required external dependency bin:$bin...";
+	print "Locating bin:$bin...";
 	my $found_bin = $self->can_run( $bin );
 	if ( $found_bin ) {
 		print " found at $found_bin.\n";
