@@ -581,7 +581,7 @@ sub bugtracker_from {
 sub requires_from {
 	my $self     = shift;
 	my $content  = Module::Install::_readperl($_[0]);
-	my @requires = $content =~ m/^use\s+([^\W\d]\w*(?:::\w+)*)\s+([\d\.]+)/mg;
+	my @requires = $content =~ m/^use\s+([^\W\d]\w*(?:::\w+)*)\s+(v?[\d\.]+)/mg;
 	while ( @requires ) {
 		my $module  = shift @requires;
 		my $version = shift @requires;
