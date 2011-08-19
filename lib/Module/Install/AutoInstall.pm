@@ -72,6 +72,17 @@ sub auto_install {
     );
 }
 
+sub installdeps_target {
+    my ($self, @args) = @_;
+
+    $self->include('Module::AutoInstall');
+    require Module::AutoInstall;
+
+    Module::AutoInstall::_installdeps_target(1);
+
+    $self->auto_install(@args);
+}
+
 sub auto_install_now {
     my $self = shift;
     $self->auto_install(@_);
