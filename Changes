@@ -1,9 +1,9 @@
 Changes for Perl programming language extension Module-Install
 
-        - support for installdeps_target in Module::Install::AutoInstall and
-          Module::AutoInstall (Caelum)
-        - support for installdeps_notest, upgradedeps and upgradedeps_notest,
-          depslist and alldepslist targets in Module::AutoInstall (Caelum)
+	- support for installdeps_target in Module::Install::AutoInstall and
+	  Module::AutoInstall (Caelum)
+	- support for installdeps_notest, upgradedeps and upgradedeps_notest,
+	  depslist and alldepslist targets in Module::AutoInstall (Caelum)
 
 1.01 Wed 27 Apr 2011
 	- Better error message in install_share (CHORNY)
