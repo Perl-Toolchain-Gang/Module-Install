@@ -1,5 +1,6 @@
 Changes for Perl programming language extension Module-Install
 
+1.02 Thu 29 Sep 2011
 	- support for installdeps_target in Module::Install::AutoInstall and
 	  Module::AutoInstall (Caelum)
 	- support for installdeps_notest, upgradedeps and upgradedeps_notest,
