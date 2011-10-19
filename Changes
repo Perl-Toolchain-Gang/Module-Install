@@ -1,5 +1,9 @@
 Changes for Perl programming language extension Module-Install
 
+1.04 Thu 20 Oct 2011
+	- Fixed _cmp to compare properly (MIYAGAWA)
+	- Fixed the automated MakeMaker dependency addition (MIYAGAWA)
+
 1.03 Wed 19 Oct 2011
 	- META.yml flag dynamic_config is now always generated (ADAMK)
 	- Added the convenience command static_config, as the default is to be

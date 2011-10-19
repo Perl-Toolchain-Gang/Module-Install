@@ -7,7 +7,7 @@ use ExtUtils::Manifest ();
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '1.03';
+	$VERSION = '1.04';
 	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
 }

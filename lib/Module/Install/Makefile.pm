@@ -7,7 +7,7 @@ use Fcntl qw/:flock :seek/;
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '1.03';
+	$VERSION = '1.04';
 	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
 }
@@ -218,7 +218,7 @@ sub write {
 		# an underscore, even though its own version may contain one!
 		# Hence the funny regexp to get rid of it.  See RT #35800
 		# for details.
-		my $v = $ExtUtils::MakeMaker::VERSION =~ /^(\d+\.\d+)/;
+		my ($v) = $ExtUtils::MakeMaker::VERSION =~ /^(\d+\.\d+)/;
 		$self->build_requires(     'ExtUtils::MakeMaker' => $v );
 		$self->configure_requires( 'ExtUtils::MakeMaker' => $v );
 	} else {
