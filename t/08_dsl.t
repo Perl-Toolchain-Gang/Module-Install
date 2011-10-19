@@ -8,7 +8,7 @@ BEGIN {
 	$^W = 1;
 }
 
-use Test::More tests => 7;
+use Test::More tests => 8;
 use t::lib::Test;
 
 # Load the DSL module
@@ -31,6 +31,33 @@ requires 'Carp', '0';
 requires 'Win32' if win32;
 test_requires 'Test::More';
 install_share;
+END_PERL
+
+
+
+
+
+######################################################################
+# Automatic dynamic vs static detection
+
+# Automatically set static_config if there are no conditionals
+my $static = Module::Install::DSL::dsl2code(<<'END_DSL');
+all_from lib/My/Module.pm
+requires perl 5.008
+requires Carp 0
+requires Win32
+test_requires Test::More
+install_share
+END_DSL
+
+is( $static, <<'END_PERL', 'dsl2code generates the expected code' );
+all_from 'lib/My/Module.pm';
+requires 'perl', '5.008';
+requires 'Carp', '0';
+requires 'Win32';
+test_requires 'Test::More';
+install_share;
+static_config;
 END_PERL
 
 

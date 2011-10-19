@@ -6,7 +6,7 @@ use Module::Install::Base;
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.02';
+	$VERSION = '1.03';
 	@ISA     = 'Module::Install::Base';
 }
 
@@ -58,6 +58,13 @@ sub dump_meta {
 	my $val  = $self->Meta->{values};
 
 	delete $val->{sign};
+
+	# Dependencies MUST be assumed to be dynamic unless indicated
+	# otherwise, otherwise a negligant author who accidentally forgets
+	# to say which will release modules that break on some platforms.
+	unless ( defined $val->{dynamic_config} ) {
+		$val->{dynamic_config} = 1;
+	}
 
 	my $perl_version = delete $val->{perl_version};
 	if ( $perl_version ) {
@@ -125,8 +132,9 @@ sub dump_meta {
 
 	# Generate the structure we'll be dumping
 	my $meta = {
-		resources => {},
-		license   => $val->{license},
+		resources      => {},
+		license        => $val->{license},
+		dynamic_config => $val->{dynamic_config},
 	};
 	foreach my $key ( $self->Meta_ScalarKeys ) {
 		next if $key eq 'installdirs';

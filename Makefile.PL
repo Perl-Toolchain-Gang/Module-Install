@@ -54,4 +54,7 @@ install_as_cpan;
 # by release automation. This is mostly for testing reasons.
 repository 'http://svn.ali.as/cpan/trunk/Module-Install';
 
+# All of our dependencies are the same on all platforms
+dynamic_config 0;
+
 WriteAll;
