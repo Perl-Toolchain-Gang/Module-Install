@@ -224,8 +224,8 @@ sub write {
 	} else {
 		# Allow legacy-compatibility with 5.005 by depending on the
 		# most recent EU:MM that supported 5.005.
-		$self->build_requires(     'ExtUtils::MakeMaker' => 6.42 );
-		$self->configure_requires( 'ExtUtils::MakeMaker' => 6.42 );
+		$self->build_requires(     'ExtUtils::MakeMaker' => 6.36 );
+		$self->configure_requires( 'ExtUtils::MakeMaker' => 6.36 );
 	}
 
 	# Generate the MakeMaker params
@@ -240,7 +240,6 @@ in a module, and provide its file path via 'version_from' (or
 'all_from' if you prefer) in Makefile.PL.
 EOT
 
-	$DB::single = 1;
 	if ( $self->tests ) {
 		my @tests = split ' ', $self->tests;
 		my %seen;

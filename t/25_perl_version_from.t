@@ -49,6 +49,6 @@ SKIP: {
 	my $meta = file('META.yml');
 	ok( -f $meta, 'META.yml exists' );
 	my $yaml = Parse::CPAN::Meta::LoadFile($meta);
-	ok( $yaml->{requires}{perl} eq '5.005', 'META has perl version requirement' );
+	is( $yaml->{requires}->{perl}, '5.005', 'META has correct perl version requirement' );
 	ok( kill_dist(), 'kill_dist' );
 }}
