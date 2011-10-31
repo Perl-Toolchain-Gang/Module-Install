@@ -34,6 +34,7 @@ sub auto_install {
 
     # We'll need Module::AutoInstall
     $self->include('Module::AutoInstall');
+    $self->include('Module::Metadata');
     require Module::AutoInstall;
 
     my @features_require = Module::AutoInstall->import(

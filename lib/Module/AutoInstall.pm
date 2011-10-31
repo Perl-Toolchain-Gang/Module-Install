@@ -706,13 +706,9 @@ sub _can_write {
 # load a module and return the version it reports
 sub _load {
     my $mod  = pop;    # class/instance doesn't matter
-    my $file = $mod;
-
-    $file =~ s|::|/|g;
-    $file .= '.pm';
-
-    local $@;
-    return eval { require $file; $mod->VERSION } || ( $@ ? undef: 0 );
+    require Module::Metadata;
+    my $meta = Module::Metadata->new_from_module($mod);
+    return $meta ? $meta->version($mod) : undef;
 }
 
 # Load CPAN.pm and it's configuration

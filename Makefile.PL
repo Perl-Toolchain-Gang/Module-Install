@@ -34,6 +34,7 @@ requires      'ExtUtils::Install' => '1.52';
 requires      'ExtUtils::ParseXS' => '2.19';
 requires      'Module::Build'     => '0.29';
 requires      'LWP::UserAgent'    => '5.812';
+requires       'Module::Metadata' => '1.000007';
 test_requires 'Test::Harness'     => '3.13';
 test_requires 'Test::More'        => '0.86';
 

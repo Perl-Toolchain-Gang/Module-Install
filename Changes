@@ -1,5 +1,7 @@
 Changes for Perl programming language extension Module-Install
 
+	- Use Module::Metadata instead of require to check versions (MIYAGAWA)
+
 1.04 Thu 20 Oct 2011
 	- Fixed _cmp to compare properly (MIYAGAWA)
 	- Fixed the automated MakeMaker dependency addition (MIYAGAWA)
