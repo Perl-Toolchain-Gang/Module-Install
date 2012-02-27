@@ -725,7 +725,7 @@ sub _version_of {
         my $path = File::Spec->catfile($dir, $file);
         next unless -e $path;
         require ExtUtils::MM_Unix;
-        return ExtUtils::MM_Unix->parse_version($file);
+        return ExtUtils::MM_Unix->parse_version($path);
     }
     return undef;
 }
