@@ -466,4 +466,4 @@ sub _CLASS ($) {
 
 1;
 
-# Copyright 2008 - 2011 Adam Kennedy.
+# Copyright 2008 - 2012 Adam Kennedy.
