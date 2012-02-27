@@ -1,7 +1,12 @@
 Changes for Perl programming language extension Module-Install
 
+1.05 Thu 28 Feb 2012
 	- Use Module::Metadata instead of require to check versions for
 	  modules that we don't need to subsequently use (MSTROUT/MIYAGAWA)
+	  Use EU:MM instead of Module::Metadata to check versions for
+	  modules that we don't need to subsequently use (ADAMK)
+	- Removed automatic EU:MM version detection as it was using versions
+	  in the future, change to a fixed version, unf (ADAMK)
 
 1.04 Thu 20 Oct 2011
 	- Fixed _cmp to compare properly (MIYAGAWA)

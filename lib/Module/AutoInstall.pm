@@ -2,11 +2,12 @@ package Module::AutoInstall;
 
 use strict;
 use Cwd                 ();
+use File::Spec          ();
 use ExtUtils::MakeMaker ();
 
 use vars qw{$VERSION};
 BEGIN {
-	$VERSION = '1.04';
+	$VERSION = '1.05';
 }
 
 # special map on pre-defined feature sets
@@ -356,8 +357,8 @@ sub install {
     }
 
     if ($UpgradeDeps) {
-	push @modules, @installed;
-	@installed = ();
+        push @modules, @installed;
+        @installed = ();
     }
 
     return @installed unless @modules;  # nothing to do
@@ -705,24 +706,30 @@ sub _can_write {
 
 # load a module and return the version it reports
 sub _load {
-    my $mod  = pop;    # class/instance doesn't matter
+    my $mod  = pop; # method/function doesn't matter
     my $file = $mod;
-
     $file =~ s|::|/|g;
     $file .= '.pm';
-
     local $@;
     return eval { require $file; $mod->VERSION } || ( $@ ? undef: 0 );
 }
 
 # report version without loading a module
 sub _version_of {
-    my $mod  = pop;    # class/instance doesn't matter
-    require Module::Metadata;
-    my $meta = Module::Metadata->new_from_module($mod);
-    return $meta ? $meta->version($mod) : undef;
+    return undef;
+    my $mod = pop; # method/function doesn't matter
+    my $file = $mod;
+    $file =~ s|::|/|g;
+    $file .= '.pm';
+    foreach my $dir ( @INC ) {
+        next if ref $dir;
+        my $path = File::Spec->catfile($dir, $file);
+        next unless -e $path;
+        require ExtUtils::MM_Unix;
+        return ExtUtils::MM_Unix->parse_version($file);
+    }
+    return undef;
 }
-
 
 # Load CPAN.pm and it's configuration
 sub _load_cpan {
