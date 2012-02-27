@@ -716,7 +716,6 @@ sub _load {
 
 # report version without loading a module
 sub _version_of {
-    return undef;
     my $mod = pop; # method/function doesn't matter
     my $file = $mod;
     $file =~ s|::|/|g;
