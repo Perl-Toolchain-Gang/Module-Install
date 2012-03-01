@@ -7,9 +7,26 @@ use Module::Install::Base ();
 
 use vars qw{$VERSION $ISCORE @ISA};
 BEGIN {
-	$VERSION = '1.05';
+	$VERSION = '1.06';
 	$ISCORE  = 1;
 	@ISA     = qw{Module::Install::Base};
+}
+
+sub requires_xs {
+	my $self = shift;
+
+	# First check for the basic C compiler
+	$self->requires_external_cc;
+
+	# We need a C compiler that can build XS files
+	unless ( $self->can_xs ) {
+		print "Unresolvable missing external dependency.\n";
+		print "This package requires perl's header files.\n";
+		print STDERR "NA: Unable to build distribution on this platform.\n";
+		exit(0);
+	}
+
+	1;
 }
 
 sub requires_external_cc {
@@ -80,6 +97,22 @@ working out if the particular thing is available.
 
 =head1 COMMANDS
 
+=head2 requires_xs
+
+  requires_xs;
+
+The C<requires_xs> command explicitly specifies that a C compiler and the
+perl header files are required in order to build (at F<make>-time) the
+distribution (specifically XS files).
+
+It does not take any params, and aborts the F<Makefile.PL> execution in a
+way that an automated installation or testing system will interpret as a
+C<NA> ("not applicable to this platform") result.
+
+This may be changed to an alternative abort result at a later time.
+
+Returns true as a convenience.
+
 =head2 requires_external_cc
 
   requires_external_cc;
@@ -91,7 +124,7 @@ It does not take any params, and aborts the F<Makefile.PL> execution
 in a way that an automated installation or testing system will interpret
 as a C<NA> ("not applicable to this platform") result.
 
-This maybe be changed to an alternative abort result at a later time.
+This may be be changed to an alternative abort result at a later time.
 
 Returns true as a convenience.
 

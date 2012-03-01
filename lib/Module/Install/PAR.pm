@@ -5,7 +5,7 @@ use Module::Install::Base ();
 
 use vars qw{$VERSION @ISA $ISCORE};
 BEGIN {
-	$VERSION = '1.05';
+	$VERSION = '1.06';
 	@ISA     = 'Module::Install::Base';
 	$ISCORE  = 1;
 }
@@ -16,8 +16,8 @@ Module::Install::PAR - Module::Install Support for PAR::Dist packages
 
 =head1 SYNOPSIS
 
-To offer your users the possibility to install binaries if no C
-compiler was found, you could use this simplistic stub:
+To offer your users the possibility to install binaries if we cannot
+compile an XS version of the module, you could use this simplistic stub:
 
     use inc::Module::Install;
     
@@ -27,7 +27,7 @@ compiler was found, you could use this simplistic stub:
     # Which CPAN directory do we fetch binaries from?
     par_base        'SMUELLER';
     
-    unless ( can_cc() ) {
+    unless ( can_xs ) {
         my $okay = extract_par( fetch_par );
         if (not $okay) {
             die "No compiler and no binary package found. Aborting.\n";

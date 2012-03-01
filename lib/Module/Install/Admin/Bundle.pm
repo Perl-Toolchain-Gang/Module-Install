@@ -7,7 +7,7 @@ use LWP::UserAgent;
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.05';
+	$VERSION = '1.06';
 	@ISA     = qw{Module::Install::Base};
 }
 
