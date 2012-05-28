@@ -34,8 +34,8 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
-	ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
+	ok($content =~ /#\s*test => \{ TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
+	ok($content !~ /#\s*test => \{ TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
 	ok( kill_dist(), 'kill_dist' );
 }
 
@@ -63,11 +63,11 @@ END_DSL
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
 	if ( $ENV{RELEASE_TESTING} ) {
-		ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
+		ok($content =~ /#\s*test => \{ TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
 	} else {
-		ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+		ok($content !~ /#\s*test => \{ TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
 	}
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
+	ok($content !~ /#\s*test => \{ TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
 	ok( kill_dist(), 'kill_dist' );
 }
 
@@ -95,8 +95,8 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
-	ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
+	ok($content =~ /#\s*test => \{ TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
+	ok($content !~ /#\s*test => \{ TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
 	ok( kill_dist(), 'kill_dist' );
 }
 
@@ -126,10 +126,10 @@ END_DSL
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
 	if ( $ENV{RELEASE_TESTING} ) {
-		ok($content =~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
+		ok($content =~ /#\s*test => \{ TESTS=>.+xt\/\*\.t/, 'has xt/*.t');
 	} else {
-		ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+		ok($content !~ /#\s*test => \{ TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
 	}
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
+	ok($content !~ /#\s*test => \{ TESTS=>.+xt\/\*\.t\s+xt\/\*\.t/, 'has no second xt/*.t');
 	ok( kill_dist(), 'kill_dist' );
 }

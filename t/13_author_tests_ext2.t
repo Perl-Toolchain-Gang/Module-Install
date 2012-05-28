@@ -35,7 +35,7 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+	ok($content !~ /#\s*test => \{ TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
     my $res = make('test');
     ok( $res =~ /Result:\s*PASS/ );
 	ok( kill_dist(), 'kill_dist' );
@@ -65,7 +65,7 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+	ok($content !~ /#\s*test => \{ TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
     my $res = make('test');
     ok( $res =~ /Result:\s*PASS/ );
 	ok( kill_dist(), 'kill_dist' );
@@ -95,7 +95,7 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+	ok($content !~ /#\s*test => \{ TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
     my $res = make('test');
     ok( $res =~ /Result:\s*PASS/ );
 	ok( kill_dist(), 'kill_dist' );
@@ -126,7 +126,7 @@ END_DSL
 	my $content = _read($file);
 	ok($content, 'file is not empty');
 	diag my ($testline) = $content =~ /^#\s*(test => .+)$/m if $ENV{TEST_VERBOSE};
-	ok($content !~ /#\s*test => { TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
+	ok($content !~ /#\s*test => \{ TESTS=>.+xt\/\*\.t/, 'has no xt/*.t');
     my $res = make('test');
     ok( $res =~ /Result:\s*PASS/ );
 	ok( kill_dist(), 'kill_dist' );
