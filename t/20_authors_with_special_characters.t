@@ -94,7 +94,7 @@ END
 		my $metafile = file('META.yml');
 		ok(-f $metafile);
 		my $meta = Parse::CPAN::Meta::LoadFile($metafile);
-		is_deeply($meta->{author}, [qq(Olivier Mengu\xE9)]);
+		is_deeply($meta->{author}, [q(Olivier Mengu\xE9)]);
 		ok( kill_dist(), 'kill_dist' );
 	}
 
@@ -119,7 +119,7 @@ END_DSL
 		my $metafile = file('META.yml');
 		ok(-f $metafile);
 		my $meta = Parse::CPAN::Meta::LoadFile($metafile);
-		is_deeply($meta->{author}, [qq(Olivier Mengu\xE9)]);
+		is_deeply($meta->{author}, [q(Olivier Mengu\xE9)]);
 		ok( kill_dist(), 'kill_dist' );
 	}
 }
