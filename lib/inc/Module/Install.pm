@@ -127,9 +127,9 @@ sub _require_myconfig_or_config {
 }
 
 # adapted from CPAN::HandleConfig
-sub _home () {
+sub _home {
 	my $home;
-	if (eval "require File::HomeDir; 1") {
+	if (eval {require File::HomeDir; 1}) {
 		$home = File::HomeDir->can('my_dot_config')
 			? File::HomeDir->my_dot_config
 			: File::HomeDir->my_data;
