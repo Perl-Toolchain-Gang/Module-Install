@@ -1,5 +1,10 @@
 Changes for Perl programming language extension Module-Install
 
+1.08 Thu 6 Mar 2014
+  - Remove LWP::UserAgent from the prereqs (TOKUHIROM)
+  - Require a more recent version of Module::ScanDeps (CHORNY)
+  - Fix failing test case with recent Parse::CPAN::Meta (BINGOS)
+
 1.06 Thu 1 Mar 2012
 	- Adding can_xs command, imported from Params::Util (ADAMK)
 	- Adding requires_xs command, wrapping around can_xs (ADAMK)

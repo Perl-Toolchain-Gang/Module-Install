@@ -52,7 +52,7 @@ install_as_cpan;
 
 # Normally this shouldn't be done in here, it should be done
 # by release automation. This is mostly for testing reasons.
-repository 'http://svn.ali.as/cpan/trunk/Module-Install';
+repository 'https://github.com/Perl-Toolchain-Gang/Module-Install.git';
 
 # All of our dependencies are the same on all platforms
 dynamic_config 0;
