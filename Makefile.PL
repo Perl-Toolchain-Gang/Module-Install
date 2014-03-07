@@ -18,7 +18,7 @@ use inc::Module::Install;
 
 name          'Module-Install';
 author        'Adam Kennedy <adamk@cpan.org>';
-perl_version  '5.005';
+perl_version  '5.006';
 all_from      'lib/Module/Install.pm';
 requires      'Parse::CPAN::Meta'   => '1.4413';
 requires      'File::Spec'          => '3.28';

@@ -16,7 +16,7 @@ package Module::Install;
 #     3. The ./inc/ version of Module::Install loads
 # }
 
-use 5.005;
+use 5.006;
 use strict 'vars';
 use Cwd        ();
 use File::Find ();
