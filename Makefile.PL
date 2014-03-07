@@ -20,20 +20,22 @@ name          'Module-Install';
 author        'Adam Kennedy <adamk@cpan.org>';
 perl_version  '5.006';
 all_from      'lib/Module/Install.pm';
-requires      'Parse::CPAN::Meta'   => '1.4413';
-requires      'File::Spec'          => '3.28';
-requires      'Devel::PPPort'       => '3.16';
-requires      'File::Remove'        => '1.42';
-requires      'YAML::Tiny'          => '1.38';
-requires      'JSON'                => '2.14';
-requires      'Module::ScanDeps'    => '1.09'; #detects prereqs better
-requires      'Module::CoreList'    => '2.17';
-requires      'PAR::Dist'           => '0.29';
+
 requires      'Archive::Tar'        => '1.44';
+requires      'Devel::PPPort'       => '3.16';
 requires      'ExtUtils::Install'   => '1.52';
 requires      'ExtUtils::MakeMaker' => '6.59';
 requires      'ExtUtils::ParseXS'   => '2.19';
+requires      'File::Remove'        => '1.42';
+requires      'File::Spec'          => '3.28';
+requires      'JSON'                => '2.14';
 requires      'Module::Build'       => '0.29';
+requires      'Module::CoreList'    => '2.17';
+requires      'Module::ScanDeps'    => '1.09'; #detects prereqs better
+requires      'PAR::Dist'           => '0.29';
+requires      'Parse::CPAN::Meta'   => '1.4413';
+requires      'YAML::Tiny'          => '1.38';
+
 test_requires 'Test::Harness'       => '3.13';
 test_requires 'Test::More'          => '0.86';
 
