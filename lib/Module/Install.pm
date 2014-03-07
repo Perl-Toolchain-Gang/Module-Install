@@ -466,4 +466,20 @@ sub _CLASS ($) {
 
 1;
 
-# Copyright 2008 - 2012 Adam Kennedy.
+
+__END__
+
+=pod
+
+=encoding UTF-8
+
+=head1 COPYRIGHT
+
+Copyright 2008 - 2014 Adam Kennedy.
+
+=head1 LICENSE
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself.
+
+=cut

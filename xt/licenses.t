@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!perl
 
 use strict;
 BEGIN {
@@ -7,13 +7,17 @@ BEGIN {
 }
 
 use Test::More;
-use Module::Install::Metadata;
+#use Module::Install::Metadata;
 
-eval {
-	require Software::License;
-	require Module::Find;
+use Test::Requires {
+	'Software::License', 'Module::Find',
 };
-plan skip_all => "requires Software::License and Module::Find" if $@;
+
+#eval {
+#	require Software::License;
+#	require Module::Find;
+#};
+#plan skip_all => "requires Software::License and Module::Find" if $@;
 
 my @licenses = Module::Find::findsubmod('Software::License');
 
