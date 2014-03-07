@@ -26,6 +26,7 @@ requires      'Devel::PPPort'       => '3.16';
 requires      'ExtUtils::Install'   => '1.52';
 requires      'ExtUtils::MakeMaker' => '6.59';
 requires      'ExtUtils::ParseXS'   => '2.19';
+requires      'File::Path'          => 0; #needs version
 requires      'File::Remove'        => '1.42';
 requires      'File::Spec'          => '3.28';
 requires      'JSON'                => '2.14';
