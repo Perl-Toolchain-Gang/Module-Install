@@ -12,9 +12,13 @@ BEGIN {
 	$ISCORE  = 1;
 }
 
+=pod
 
+=head1 NAME
 
+Module::Install::With - find environnement for Module::Install
 
+=cut
 
 #####################################################################
 # Installer Target

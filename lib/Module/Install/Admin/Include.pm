@@ -59,7 +59,7 @@ sub auto_include_deps {
 
 =head1 NAME
 
-Module::Install::Admin::Include
+Module::Install::Admin::Include - include methods for Module::Install
 
 =head2 auto_include_dependent_dists
 
