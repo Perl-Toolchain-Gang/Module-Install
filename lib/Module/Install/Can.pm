@@ -212,7 +212,7 @@ Currently, the use of a C<can_foo> command in a single problem domain
 functionality from different problem domains (for example C<can_run>).
 
 This module should ultimately be broken up, and the individual
-functions redestributed to different domain-specific extensions.
+functions redistributed to different domain-specific extensions.
 
 =head1 AUTHORS
 

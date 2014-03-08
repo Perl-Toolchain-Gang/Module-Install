@@ -279,7 +279,7 @@ and use this distribution, you must first install these modules first">.
 
 Note that the dependency is on a B<module> and not a distribution. This
 is to ensure that your dependency stays correct, even if the module is
-moved or merged into a different distribtion, as is occasionally the
+moved or merged into a different distribution, as is occasionally the
 case.
 
 A dependency on version zero indicates B<any> version of module is
@@ -328,7 +328,7 @@ The C<configure_requires> command creates an entry in the special
 configure_requires: key in the distribution's F<META.yml> file.
 
 Although most of F<META.yml> is considered advisory only, a L<CPAN>
-client will treat the contents of configure_requires: as authorative,
+client will treat the contents of configure_requires: as authoritive,
 and install the listed modules B<before> it executes the F<Makefile.PL>
 (from which it then determines the other dependencies).
 
@@ -391,7 +391,7 @@ directory, you need refer to it by name only.
   no_index directory => 'examples';
   no_index package   => 'DB';
 
-Quite often a distrubition will provide example scripts or testing
+Quite often a distribition will provide example scripts or testing
 modules (.pm files) as well as the actual library modules.
 
 In almost all situations, you do B<not> want these indexed in the CPAN

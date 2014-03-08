@@ -34,7 +34,7 @@ write better, but also a tool to encourage you to help others.
 
 Not at all, B<using C<auto_install()> is just fine>. While it indeed
 behaved erratically in older L<Module::Install> versions, there have
-been no reported issues since mid-2009. As far as compatbility with
+been no reported issues since mid-2009. As far as compatibility with
 various CPAN clients: several rather large projects on CPAN (including
 L<Catalyst> and L<DBIx::Class>), are using C<auto_install> without any
 issues reported by their substantial userbases.

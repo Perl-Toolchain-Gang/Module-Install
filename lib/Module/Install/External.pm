@@ -124,7 +124,7 @@ It does not take any params, and aborts the F<Makefile.PL> execution
 in a way that an automated installation or testing system will interpret
 as a C<NA> ("not applicable to this platform") result.
 
-This may be be changed to an alternative abort result at a later time.
+This may be changed to an alternative abort result at a later time.
 
 Returns true as a convenience.
 
