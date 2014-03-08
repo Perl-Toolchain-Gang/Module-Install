@@ -454,7 +454,7 @@ sub author_from {
 my %license_urls = (
 #    perl         => 'http://dev.perl.org/licenses/',
 #    apache       => 'http://apache.org/licenses/LICENSE-2.0',
-    apache_1_1   => 'http://apache.org/licenses/LICENSE-1.1',
+#    apache_1_1   => 'http://apache.org/licenses/LICENSE-1.1',
 #    artistic     => 'http://opensource.org/licenses/artistic-license.php',
 #    artistic_2   => 'http://opensource.org/licenses/artistic-license-2.0.php',
 #    lgpl         => 'http://opensource.org/licenses/lgpl-license.php',
@@ -471,15 +471,15 @@ my %license_urls = (
     restrictive  => undef,
     unknown      => undef,
 
-## from Software-License
-#	apache       => 'http://www.apache.org/licenses/LICENSE-1.1',
+## from Software-License - should we be using S-L instead ?
+	apache_1_1   => 'http://www.apache.org/licenses/LICENSE-1.1', # renamed: apache -> apache_1_1
 	apache       => 'http://www.apache.org/licenses/LICENSE-2.0.txt',
 	artistic     => 'http://www.perlfoundation.org/artistic_license_1_0',
 	artistic_2   => 'http://www.perlfoundation.org/artistic_license_2_0',
 	bsd          => 'http://opensource.org/licenses/BSD-3-Clause',
-	gpl3         => 'http://www.gnu.org/licenses/gpl-3.0.txt',
+	gpl3         => 'http://www.gnu.org/licenses/gpl-3.0.txt', # renamed: gpl -> gpl3
 	gpl          => 'http://www.gnu.org/licenses/old-licenses/gpl-1.0.txt',
-	gpl2         => 'http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt',
+	gpl2         => 'http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt', # renamed: gpl -> gpl2
 	lgpl3        => 'http://www.gnu.org/licenses/lgpl-3.0.txt',
 	lgpl2        => 'http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt',
 	mit          => 'http://www.opensource.org/licenses/mit-license.php',
@@ -562,7 +562,7 @@ sub __extract_license {
 ## from Software-License
 		'The GNU Affero General Public License, Version 3, November 2007'   => 'open_source', 1,
 		'The Apache Software License, Version 1.1'                          => 'apache', 1,
-#		'The Apache License, Version 2.0, January 2004'                     => 'apache', 1,
+		'The Apache License, Version 2.0, January 2004'                     => 'apache', 1,
 		'The Artistic License 1.0'                                          => 'artistic', 1,
 		'The Artistic License 2.0 (GPL Compatible)'                         => 'artistic_2', 1,
 		'The (three-clause) BSD License'                                    => 'bsd', 1,
