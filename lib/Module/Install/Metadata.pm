@@ -754,7 +754,7 @@ sub _write_mymeta_data {
 	my @yaml = Parse::CPAN::Meta::LoadFile('META.yml');
 	my $meta = $yaml[0];
 
-	# Overwrite the non-configure dependency hashs
+	# Overwrite the non-configure dependency hashes
 	delete $meta->{requires};
 	delete $meta->{build_requires};
 	delete $meta->{recommends};

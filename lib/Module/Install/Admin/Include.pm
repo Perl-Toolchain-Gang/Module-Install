@@ -149,7 +149,7 @@ sub _pkg_to_dist {
 =for private _dist_to_mods $distname
 
 Takes the output of CPAN::Module->cpan_file and return all the modules
-that CPAN.pm knows are in that dist. There's probably a beter way using CPANPLUS
+that CPAN.pm knows are in that dist. There's probably a better way using CPANPLUS
 
 =cut
 

@@ -60,7 +60,7 @@ sub dump_meta {
 	delete $val->{sign};
 
 	# Dependencies MUST be assumed to be dynamic unless indicated
-	# otherwise, otherwise a negligant author who accidentally forgets
+	# otherwise, otherwise a negligent author who accidentally forgets
 	# to say which will release modules that break on some platforms.
 	unless ( defined $val->{dynamic_config} ) {
 		$val->{dynamic_config} = 1;
