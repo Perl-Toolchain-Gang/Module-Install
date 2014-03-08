@@ -21,7 +21,6 @@ author        'Adam Kennedy <adamk@cpan.org>';
 perl_version  '5.006';
 all_from      'lib/Module/Install.pm';
 
-requires      'Archive::Tar'        => '1.44';
 requires      'Devel::PPPort'       => '3.16';
 requires      'ExtUtils::Install'   => '1.52';
 requires      'ExtUtils::MakeMaker' => '6.59';
@@ -39,6 +38,8 @@ requires      'YAML::Tiny'          => '1.38';
 
 test_requires 'Test::Harness'       => '3.13';
 test_requires 'Test::More'          => '0.86';
+
+recommends    'Archive::Zip'        => '1.37';
 
 # Remove some extra test files
 clean_files( qw{ t/Foo } );
