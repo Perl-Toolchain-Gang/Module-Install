@@ -114,7 +114,7 @@ sub import {
     print "*** $class version " . $class->VERSION . "\n";
     print "*** Checking for Perl dependencies...\n";
 
-    my $cwd = Cwd::cwd();
+    my $cwd = Cwd::getcwd();
 
     $Config = [];
 
@@ -614,7 +614,7 @@ sub _under_cpan {
     require Cwd;
     require File::Spec;
 
-    my $cwd  = File::Spec->canonpath( Cwd::cwd() );
+    my $cwd  = File::Spec->canonpath( Cwd::getcwd() );
     my $cpan = File::Spec->canonpath( $CPAN::Config->{cpan_home} );
 
     return ( index( $cwd, $cpan ) > -1 );
