@@ -344,22 +344,26 @@ sub install {
     my $i;    # used below to strip leading '-' from config keys
     my @config = ( map { s/^-// if ++$i; $_ } @{ +shift } );
 
-    my ( @modules, @installed );
-    while ( my ( $pkg, $ver ) = splice( @_, 0, 2 ) ) {
+	my ( @modules, @installed, @modules_to_upgrade );
+	while (my ($pkg, $ver) = splice(@_, 0, 2)) {
 
-        # grep out those already installed
-        if ( _version_cmp( _version_of($pkg), $ver ) >= 0 ) {
-            push @installed, $pkg;
-        }
-        else {
-            push @modules, $pkg, $ver;
-        }
-    }
+		# grep out those already installed
+		if (_version_cmp(_version_of($pkg), $ver) >= 0) {
+			push @installed, $pkg;
+			if ($UpgradeDeps) {
+				push @modules_to_upgrade, $pkg, $ver;
+			}
+		}
+		else {
+			push @modules, $pkg, $ver;
+		}
+	}
 
-    if ($UpgradeDeps) {
-        push @modules, @installed;
-        @installed = ();
-    }
+	if ($UpgradeDeps) {
+		push @modules, @modules_to_upgrade;
+		@installed          = ();
+		@modules_to_upgrade = ();
+	}
 
     return @installed unless @modules;  # nothing to do
     return @installed if _check_lock(); # defer to the CPAN shell
