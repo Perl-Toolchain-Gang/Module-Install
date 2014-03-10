@@ -9,7 +9,7 @@ BEGIN {
 	@ISA     = qw{Module::Install::Base};
 }
 
-use Cwd;
+use Cwd ();
 use File::Spec;
 
 # XXX I really want this method in Module::Install::Admin::Makefile
@@ -93,7 +93,7 @@ sub _read_manifest {
 	my $manifest_path = '';
 	my $relative_path = '';
 	my @relative_dirs = ();
-	my $cwd = Cwd::cwd();
+	my $cwd = Cwd::getcwd();
 	my @cwd_dirs = File::Spec->splitdir($cwd);
 	while ( @cwd_dirs ) {
 		last unless -f File::Spec->catfile(@cwd_dirs, 'Makefile.PL');
