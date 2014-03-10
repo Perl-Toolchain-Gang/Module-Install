@@ -346,7 +346,7 @@ sub name_from {
 		^ \s*
 		package \s*
 		([\w:]+)
-		\s* ;
+		[\s|;]*
 		/ixms
 	) {
 		my ($name, $module_name) = ($1, $1);
