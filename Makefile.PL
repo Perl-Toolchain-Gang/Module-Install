@@ -28,19 +28,24 @@ requires      'ExtUtils::ParseXS'   => '2.19';
 requires      'File::Path'          => 0; #needs version
 requires      'File::Remove'        => '1.42';
 requires      'File::Spec'          => '3.28';
-requires      'JSON'                => '2.14';
 requires      'Module::Build'       => '0.29';
 requires      'Module::CoreList'    => '2.17';
 requires      'Module::ScanDeps'    => '1.09'; #detects prereqs better
-requires      'PAR::Dist'           => '0.29';
 requires      'Parse::CPAN::Meta'   => '1.4413';
-requires      'YAML::Tiny'          => '1.38';
 
 test_requires 'Test::Harness'       => '3.13';
 test_requires 'Test::More'          => '0.86';
 
 recommends    'Archive::Zip'        => '1.37';
-
+recommends    'File::HomeDir'       => '1';
+recommends    'JSON'                => '2.9';
+recommends    'LWP::Simple'         => '6.00';
+recommends    'LWP::UserAgent'      => '6.05';
+recommends    'PAR::Dist'           => '0.29';
+recommends    'Win32::UTCFileTime'  => '1.56' if win32;
+recommends    'YAML::Tiny'          => '1.38';
+recommends    'LWP::UserAgent'      => '6.05';
+ 
 # Remove some extra test files
 clean_files( qw{ t/Foo } );
 

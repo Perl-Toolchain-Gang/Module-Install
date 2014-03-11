@@ -246,7 +246,7 @@ sub make_par {
     my ($self, $file) = @_;
     unlink $file if -f $file;
 
-    unless ( eval { require PAR::Dist; PAR::Dist->VERSION >= 0.03 } ) {
+    unless ( eval { require PAR::Dist; PAR::Dist->VERSION(0.03) } ) {
         warn "Please install PAR::Dist 0.03 or above first.";
         return;
     }
