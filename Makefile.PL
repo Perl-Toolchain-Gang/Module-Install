@@ -32,6 +32,8 @@ requires      'Module::Build'       => '0.29';
 requires      'Module::CoreList'    => '2.17';
 requires      'Module::ScanDeps'    => '1.09'; #detects prereqs better
 requires      'Parse::CPAN::Meta'   => '1.4413';
+requires      'Win32::UTCFileTime'  => '1.56' if win32;
+requires      'YAML::Tiny'          => '1.38';
 
 test_requires 'Test::Harness'       => '3.13';
 test_requires 'Test::More'          => '0.86';
@@ -42,9 +44,6 @@ recommends    'JSON'                => '2.9';
 recommends    'LWP::Simple'         => '6.00';
 recommends    'LWP::UserAgent'      => '6.05';
 recommends    'PAR::Dist'           => '0.29';
-recommends    'Win32::UTCFileTime'  => '1.56' if win32;
-recommends    'YAML::Tiny'          => '1.38';
-recommends    'LWP::UserAgent'      => '6.05';
  
 # Remove some extra test files
 clean_files( qw{ t/Foo } );
