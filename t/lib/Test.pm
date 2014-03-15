@@ -189,8 +189,15 @@ sub run_makefile_pl {
 sub kill_dist {
 	my $dir = dir();
 	return 1 unless -d $dir;
+	windows_delay();
 	File::Remove::remove( \1, $dir );
+	windows_delay();
 	return -d $dir ? 0 : 1;
+}
+
+sub windows_delay {
+	return if $^O ne 'MSWin32';
+	select undef, undef, undef, 0.1;
 }
 
 sub supports_capture {
