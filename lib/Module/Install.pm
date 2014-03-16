@@ -433,7 +433,7 @@ END_OLD
 
 # _version is for processing module versions (eg, 1.03_05) not
 # Perl versions (eg, 5.8.1).
-sub _version ($) {
+sub _version {
 	my $s = shift || 0;
 	my $d =()= $s =~ /(\.)/g;
 	if ( $d >= 2 ) {
@@ -449,12 +449,12 @@ sub _version ($) {
 	return $l + 0;
 }
 
-sub _cmp ($$) {
+sub _cmp {
 	_version($_[1]) <=> _version($_[2]);
 }
 
 # Cloned from Params::Util::_CLASS
-sub _CLASS ($) {
+sub _CLASS {
 	(
 		defined $_[0]
 		and
