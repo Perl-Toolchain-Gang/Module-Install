@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!perl
 
 use strict;
 BEGIN {
@@ -22,7 +22,7 @@ my @prompts = qw/y n n y y/;
 
 use ExtUtils::MakeMaker;
 sub ExtUtils::MakeMaker::WriteMakefile { $mm_args = {@_} }
-sub ExtUtils::MakeMaker::prompt ($;$) { return 'n' }
+sub ExtUtils::MakeMaker::prompt { return 'n' }
 
 # tiehandle trick to intercept STDOUT.
 sub PRINT     { my $self = shift; $$self .= join '', @_; }
