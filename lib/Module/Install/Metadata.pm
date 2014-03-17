@@ -452,49 +452,40 @@ sub author_from {
 
 #Stolen from M::B
 my %license_urls = (
-#    perl         => 'http://dev.perl.org/licenses/',
-#    apache       => 'http://apache.org/licenses/LICENSE-2.0',
-#    apache_1_1   => 'http://apache.org/licenses/LICENSE-1.1',
-#    artistic     => 'http://opensource.org/licenses/artistic-license.php',
-#    artistic_2   => 'http://opensource.org/licenses/artistic-license-2.0.php',
-#    lgpl         => 'http://opensource.org/licenses/lgpl-license.php',
-#    lgpl2        => 'http://opensource.org/licenses/lgpl-2.1.php',
-#    lgpl3        => 'http://opensource.org/licenses/lgpl-3.0.html',
-#    bsd          => 'http://opensource.org/licenses/bsd-license.php',
-#    gpl          => 'http://opensource.org/licenses/gpl-license.php',
-#    gpl2         => 'http://opensource.org/licenses/gpl-2.0.php',
-#    gpl3         => 'http://opensource.org/licenses/gpl-3.0.html',
-#    mit          => 'http://opensource.org/licenses/mit-license.php',
-#    mozilla      => 'http://opensource.org/licenses/mozilla1.1.php',
     open_source  => undef,
-#    unrestricted => undef,
+    unrestricted => undef,
     restrictive  => undef,
     unknown      => undef,
 
 ## from Software-License - should we be using S-L instead ?
-	apache_1_1   => 'http://www.apache.org/licenses/LICENSE-1.1', # renamed: apache -> apache_1_1
+# duplicates commeted out, see hack above ^^
+#	open_source  => 'http://www.gnu.org/licenses/agpl-3.0.txt',
+#	apache       => 'http://www.apache.org/licenses/LICENSE-1.1',
 	apache       => 'http://www.apache.org/licenses/LICENSE-2.0.txt',
 	artistic     => 'http://www.perlfoundation.org/artistic_license_1_0',
 	artistic_2   => 'http://www.perlfoundation.org/artistic_license_2_0',
 	bsd          => 'http://opensource.org/licenses/BSD-3-Clause',
-	gpl3         => 'http://www.gnu.org/licenses/gpl-3.0.txt', # renamed: gpl -> gpl3
-	gpl          => 'http://www.gnu.org/licenses/old-licenses/gpl-1.0.txt',
-	gpl2         => 'http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt', # renamed: gpl -> gpl2
-	lgpl3        => 'http://www.gnu.org/licenses/lgpl-3.0.txt',
-	lgpl2        => 'http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt',
-	mit          => 'http://www.opensource.org/licenses/mit-license.php',
-#	mozilla      => 'http://www.mozilla.org/MPL/MPL-1.0.txt',
-	mozilla      => 'http://www.mozilla.org/MPL/MPL-1.1.txt',
-#	open_source  => 'http://trolltech.com/products/qt/licenses/licensing/qpl',
+#	unrestricted => 'http://creativecommons.org/publicdomain/zero/1.0/',
 #	open_source  => 'http://www.freebsd.org/copyright/freebsd-license.html',
-#	open_source  => 'http://www.gnu.org/licenses/agpl-3.0.txt',
 #	open_source  => 'http://www.gnu.org/licenses/fdl-1.2.txt',
 #	open_source  => 'http://www.gnu.org/licenses/fdl-1.3.txt',
-#	open_source  => 'http://www.openoffice.org/licenses/sissl_license.html',
+#	gpl          => 'http://www.gnu.org/licenses/old-licenses/gpl-1.0.txt',
+#	gpl          => 'http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt',
+	gpl          => 'http://www.gnu.org/licenses/gpl-3.0.txt',
+#	lgpl         => 'http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt',
+	lgpl         => 'http://www.gnu.org/licenses/lgpl-3.0.txt',
+	mit          => 'http://www.opensource.org/licenses/mit-license.php',
+#	mozilla      => 'http://www.mozilla.org/MPL/MPL-1.0.txt',
+#	mozilla      => 'http://www.mozilla.org/MPL/MPL-1.1.txt',
+	mozilla      => 'http://www.mozilla.org/MPL/2.0/index.txt',
+#	restrictive  => '',
 #	open_source  => 'http://www.openssl.org/source/license.html',
-#	open_source  => 'http://www.zlib.net/zlib_license.html',
 	perl         => 'http://dev.perl.org/licenses/',
-	unrestricted => 'http://h71000.www7.hp.com/doc/83final/BA554_90007/apcs02.html',
+#	open_source  => 'http://www.opensource.org/licenses/postgresql',
+#	open_source  => 'http://trolltech.com/products/qt/licenses/licensing/qpl',
+#	unrestricted => 'http://h71000.www7.hp.com/doc/83final/BA554_90007/apcs02.html',
+#	open_source  => 'http://www.openoffice.org/licenses/sissl_license.html',
+#	open_source  => 'http://www.zlib.net/zlib_license.html',
 );
 
 sub license {
@@ -535,29 +526,12 @@ sub __extract_license {
 	my @phrases      = (
 		'(?:under )?the same (?:terms|license) as (?:perl|the perl (?:\d )?programming language)' => 'perl', 1,
 		'(?:under )?the terms of (?:perl|the perl programming language) itself' => 'perl', 1,
-#		'Artistic and GPL'                   => 'perl',         1,
-#		'GNU general public license'         => 'gpl',          1,
-#		'GNU public license'                 => 'gpl',          1,
-#		'GNU lesser general public license'  => 'lgpl',         1,
-#		'GNU lesser public license'          => 'lgpl',         1,
-#		'GNU library general public license' => 'lgpl',         1,
-#		'GNU library public license'         => 'lgpl',         1,
-#		'GNU Free Documentation license'     => 'unrestricted', 1,
-#		'GNU Affero General Public License'  => 'open_source',  1,
-#		'(?:Free)?BSD license'               => 'bsd',          1,
+
+		# the following are relied on by the test system even if they are wrong :(
+		'(?:Free)?BSD license'               => 'bsd',          1,
 		'Artistic license 2\.0'              => 'artistic_2',   1,
-#		'Artistic license'                   => 'artistic',     1,
-#		'Apache (?:Software )?license'       => 'apache',       1,
-#		'GPL'                                => 'gpl',          1,
 		'LGPL'                               => 'lgpl',         1,
-#		'BSD'                                => 'bsd',          1,
-#		'Artistic'                           => 'artistic',     1,
-#		'MIT'                                => 'mit',          1,
-#		'Mozilla Public License'             => 'mozilla',      1,
-#		'Q Public License'                   => 'open_source',  1,
-#		'OpenSSL License'                    => 'unrestricted', 1,
-#		'SSLeay License'                     => 'unrestricted', 1,
-#		'zlib License'                       => 'open_source',  1,
+		'MIT'                                => 'mit',          1,
 
 ## from Software-License
 		'The GNU Affero General Public License, Version 3, November 2007'   => 'open_source', 1,
@@ -566,6 +540,7 @@ sub __extract_license {
 		'The Artistic License 1.0'                                          => 'artistic', 1,
 		'The Artistic License 2.0 (GPL Compatible)'                         => 'artistic_2', 1,
 		'The (three-clause) BSD License'                                    => 'bsd', 1,
+		'CC0 License'														=> 'unrestricted', 1,		
 		'The (two-clause) FreeBSD License'                                  => 'open_source', 1,
 		'GNU Free Documentation License v1.2'                               => 'open_source', 1,
 		'GNU Free Documentation License v1.3'                               => 'open_source', 1,
@@ -577,14 +552,17 @@ sub __extract_license {
 		'The MIT (X11) License'                                             => 'mit', 1,
 		'The Mozilla Public License 1.0'                                    => 'mozilla', 1,
 		'The Mozilla Public License 1.1'                                    => 'mozilla', 1,
+		'Mozilla Public License Version 2.0'								=> 'mozilla', 1,
+		'"No License" License'												=> 'restrictive', 1,
 		'OpenSSL License'                                                   => 'open_source', 1,
 		'the same terms as the perl 5 programming language system itself'   => 'perl', 1,
+		'The PostgreSQL License'											=> 'open_source', 1,
 		'The Q Public License, Version 1.0'                                 => 'open_source', 1,
 		'Original SSLeay License'                                           => 'unrestricted', 1,
 		'Sun Internet Standards Source License (SISSL)'                     => 'open_source', 1,
 		'The zlib License'                                                  => 'open_source', 1,
-		'proprietary'                                                       => 'proprietary',  0,
 	);
+
 	while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
 		$pattern =~ s#\s+#\\s+#gs;
 		if ( $license_text =~ /\b$pattern\b/i ) {
