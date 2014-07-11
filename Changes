@@ -1,5 +1,16 @@
 Changes for Perl programming language extension Module-Install
 
+1.10 Fri 11 Jul 2014
+  - Minimum perl version is now v5.6.0 (BOWTIE)
+  - Update license tables (BOWTIE)
+  - Prereqs and recommends adjusted (BOWTIE)
+  - Typo fixes (BOWTIE)
+  - Pod fixes (GREGOA)
+  - Fix make upgradedeps work with bundles (JNWHITLEY)
+  - Fix name_from regex to work with recent package syntax (BOWTIE)
+  - Performance enhancements when running Makefile.PL (GFUJI)
+  - Removed use of sub prototypes (BOWTIE)
+
 1.08 Thu 6 Mar 2014
   - Remove LWP::UserAgent from the prereqs (TOKUHIROM)
   - Require a more recent version of Module::ScanDeps (CHORNY)
