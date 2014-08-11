@@ -74,7 +74,7 @@ END_TEST
 	);
 
 	is($meta->{license},'apache','license');
-	is($meta->{resources}->{license},'http://www.apache.org/licenses/LICENSE-2.0.txt','license URL');
+	is($meta->{resources}->{license},'http://apache.org/licenses/LICENSE-2.0','license URL');
 
 	my $makefile = makefile();
 	ok( -f $makefile, 'Makefile created' );
