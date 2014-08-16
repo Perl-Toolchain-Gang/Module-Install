@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!perl
 
 use strict;
 BEGIN {
@@ -6,7 +6,7 @@ BEGIN {
         $^W = 1;
 }
 
-use Test::More tests => 16;
+use Test::More tests => 26;
 
 require_ok( 'Module::Install::Metadata' );
 
@@ -80,7 +80,7 @@ SCOPE: {
 
 
 SCOPE: {
-	my $l=Module::Install::Metadata::_extract_license("=head1 Copyright\nunder the same terms as the perl programming language\n=cut\n");
+	my $l=Module::Install::Metadata::_extract_license("=head1 Copyright\nunder the same terms as the perl 5 programming language system itself\n=cut\n");
 		is($l, 'perl', 'Perl license detected',
 	);
 }
@@ -89,7 +89,7 @@ SCOPE: {
         my $text="=head1 LICENSE
 
 This is free software, you may use it and distribute it under
-the same terms as Perl itself.
+the same terms as the perl 5 programming language system itself.
 
 =head1 SEE ALSO
 
@@ -105,7 +105,7 @@ test
 SCOPE: {
         my $text="=head1 COPYRIGHTS
 
-This module is distributed under the same terms as Perl itself.
+This module is distributed under the same terms as the perl 5 programming language system itself.
 
 =cut
 ";
@@ -115,8 +115,14 @@ This module is distributed under the same terms as Perl itself.
 }
 
 SCOPE: {
-	my $l=Module::Install::Metadata::_extract_license("=head1 COPYRIGHT\nAs LGPL license\n=cut\n");
-		is($l, 'lgpl', 'LGPL detected',
+	my $l=Module::Install::Metadata::_extract_license("=head1 COPYRIGHT\nThe GNU Lesser General Public License, Version 2.1, February 1999\n=cut\n");
+		is($l, 'lgpl', 'LGPL license detected',
+	);
+}
+
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 COPYRIGHT\nThe GNU Lesser General Public License, Version 3, June 2007\n=cut\n");
+		is($l, 'lgpl', 'LGPL license detected',
 	);
 }
 
@@ -125,7 +131,7 @@ SCOPE: {
 =head1 COPYRIGHT AND LICENCE
 
 ... is free software; you can redistribute it and/or modify it under
-the terms of Perl itself, that is to say, under the terms of either:
+the same terms as the perl 5 programming language system itself, that is to say, under the terms of either:
 
 =over 4
 
@@ -147,6 +153,12 @@ EOT
 	);
 }
 
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 LICENSE\nThe Artistic License 1.0\n=cut\n");
+		is($l, 'artistic', 'Artistic license detected',
+	);
+}
+
 
 SCOPE: {
         my $text=<<'EOT';
@@ -154,15 +166,62 @@ SCOPE: {
 
 Copyright (C) 2010
 
-This library is free software; you can redistribute it and/or modify it under the terms of the Artistic License 2.0. For details, see the full text of the license at http://opensource.org/licenses/artistic-license-2.0.php.
+This library is free software; you can redistribute it and/or modify it under the terms of The Artistic License 2.0 (GPL Compatible) For details, see the full text of the license at http://opensource.org/licenses/artistic-license-2.0.php.
 
 =cut
 EOT
 	my $l=Module::Install::Metadata::_extract_license($text);
-		is($l, 'artistic_2', 'Artistic 2.0 license detected',
+		is($l, 'artistic_2', 'Artistic license detected',
 	);
 }
 
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 LICENCE\nThe (three-clause) BSD License\n=cut\n");
+		is($l, 'bsd', 'BSD license detected',
+	);
+}
+
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 LICENCE\nThe GNU General Public License, Version 1, February 1989\n=cut\n");
+		is($l, 'gpl', 'GNU license detected',
+	);
+}
+
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 LICENsE\nThe GNU General Public License, Version 2, June 1991\n=cut\n");
+		is($l, 'gpl', 'GNU license detected',
+	);
+}
+
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 LICENCE\nThe GNU General Public License, Version 3, June 2007\n=cut\n");
+		is($l, 'gpl', 'GNU license detected',
+	);
+}
+
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 LICENCE\nThe MIT (X11) License\n=cut\n");
+		is($l, 'mit', 'MIT license detected',
+	);
+}
+
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 LICENCE\nThe Mozilla Public License 1.0\n=cut\n");
+		is($l, 'mozilla', 'Mozilla license detected',
+	);
+}
+
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 LICENSE\nThe Mozilla Public License 1.1\n=cut\n");
+		is($l, 'mozilla', 'Mozilla license detected',
+	);
+}
+
+SCOPE: {
+	my $l=Module::Install::Metadata::_extract_license("=head1 Copyright\nMozilla Public License Version 2.0\n=cut\n");
+		is($l, 'mozilla', 'Mozilla license detected',
+	);
+}
 
 
 SCOPE: {

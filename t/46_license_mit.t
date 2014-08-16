@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!perl
 
 use strict;
 BEGIN {
@@ -17,16 +17,15 @@ SCOPE: {
 use inc::Module::Install 0.82;
 
 name          'Foo';
-license       'perl';
+license       'mit';
 author        'Foo Bar <foo@bar.com>';
 all_from      'lib/Foo.pm';
 requires      'perl'       => '5.008000';
-test_requires 'Test::More' => '0.47';
+test_requires 'Test::More' => '0.86';
 no_index      'directory'  => qw{ t xt share inc };
 install_share 'eg';
 keywords      'kw1','kw 2';
 keywords      'kw3';
-license       'artistic_2';
 
 WriteAll;
 END_DSL
@@ -73,8 +72,8 @@ END_TEST
 		"no_index: @{ $meta->{no_index}->{directory} }"
 	);
 
-	is($meta->{license},'artistic_2','license');
-	is($meta->{resources}->{license},'http://www.perlfoundation.org/artistic_license_2_0','license URL');
+	is($meta->{license},'mit','license: mit');
+	is($meta->{resources}->{license}, 'http://www.opensource.org/licenses/mit-license.php','resources.license: URL');
 
 	my $makefile = makefile();
 	ok( -f $makefile, 'Makefile created' );

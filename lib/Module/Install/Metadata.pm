@@ -452,41 +452,23 @@ sub author_from {
 
 #Stolen from M::B
 my %license_urls = (
-    open_source  => undef,
-    unrestricted => undef,
-    restrictive  => undef,
-    unknown      => undef,
 
-## from Software-License - should we be using S-L instead ?
-# duplicates commeted out, see hack above ^^
-#	open_source  => 'http://www.gnu.org/licenses/agpl-3.0.txt',
-#	apache       => 'http://www.apache.org/licenses/LICENSE-1.1',
-	apache       => 'http://www.apache.org/licenses/LICENSE-2.0.txt',
+#from MI v1.06
+	apache       => undef,
 	artistic     => 'http://www.perlfoundation.org/artistic_license_1_0',
 	artistic_2   => 'http://www.perlfoundation.org/artistic_license_2_0',
 	bsd          => 'http://opensource.org/licenses/BSD-3-Clause',
-#	unrestricted => 'http://creativecommons.org/publicdomain/zero/1.0/',
-#	open_source  => 'http://www.freebsd.org/copyright/freebsd-license.html',
-#	open_source  => 'http://www.gnu.org/licenses/fdl-1.2.txt',
-#	open_source  => 'http://www.gnu.org/licenses/fdl-1.3.txt',
-#	gpl          => 'http://www.gnu.org/licenses/old-licenses/gpl-1.0.txt',
-#	gpl          => 'http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt',
-	gpl          => 'http://www.gnu.org/licenses/gpl-3.0.txt',
-#	lgpl         => 'http://www.gnu.org/licenses/old-licenses/lgpl-2.1.txt',
-	lgpl         => 'http://www.gnu.org/licenses/lgpl-3.0.txt',
+	gpl          => undef,
+	lgpl         => undef,
 	mit          => 'http://www.opensource.org/licenses/mit-license.php',
-#	mozilla      => 'http://www.mozilla.org/MPL/MPL-1.0.txt',
-#	mozilla      => 'http://www.mozilla.org/MPL/MPL-1.1.txt',
-	mozilla      => 'http://www.mozilla.org/MPL/2.0/index.txt',
-#	restrictive  => '',
-#	open_source  => 'http://www.openssl.org/source/license.html',
+	mozilla      => undef,
+	open_source  => undef,
 	perl         => 'http://dev.perl.org/licenses/',
-#	open_source  => 'http://www.opensource.org/licenses/postgresql',
-#	open_source  => 'http://trolltech.com/products/qt/licenses/licensing/qpl',
-#	unrestricted => 'http://h71000.www7.hp.com/doc/83final/BA554_90007/apcs02.html',
-#	open_source  => 'http://www.openoffice.org/licenses/sissl_license.html',
-#	open_source  => 'http://www.zlib.net/zlib_license.html',
+	unrestricted => undef,
+	restrictive  => undef,
+#	unknown      => undef,
 );
+
 
 sub license {
 	my $self = shift;
@@ -495,12 +477,17 @@ sub license {
 		'Did not provide a value to license()'
 	);
 	$license = __extract_license($license) || lc $license;
+
+	# test for valid meta license name
+	_valid_license($license);
+
 	$self->{values}->{license} = $license;
 
 	# Automatically fill in license URLs
 	if ( $license_urls{$license} ) {
 		$self->resources( license => $license_urls{$license} );
-	}
+		return 1;
+	} 
 
 	return 1;
 }
@@ -524,14 +511,6 @@ sub _extract_license {
 sub __extract_license {
 	my $license_text = shift or return;
 	my @phrases      = (
-		'(?:under )?the same (?:terms|license) as (?:perl|the perl (?:\d )?programming language)' => 'perl', 1,
-		'(?:under )?the terms of (?:perl|the perl programming language) itself' => 'perl', 1,
-
-		# the following are relied on by the test system even if they are wrong :(
-		'(?:Free)?BSD license'               => 'bsd',          1,
-		'Artistic license 2\.0'              => 'artistic_2',   1,
-		'LGPL'                               => 'lgpl',         1,
-		'MIT'                                => 'mit',          1,
 
 ## from Software-License
 		'The GNU Affero General Public License, Version 3, November 2007'   => 'open_source', 1,
@@ -540,7 +519,7 @@ sub __extract_license {
 		'The Artistic License 1.0'                                          => 'artistic', 1,
 		'The Artistic License 2.0 (GPL Compatible)'                         => 'artistic_2', 1,
 		'The (three-clause) BSD License'                                    => 'bsd', 1,
-		'CC0 License'														=> 'unrestricted', 1,		
+		'CC0 License'														=> 'unrestricted', 1,
 		'The (two-clause) FreeBSD License'                                  => 'open_source', 1,
 		'GNU Free Documentation License v1.2'                               => 'open_source', 1,
 		'GNU Free Documentation License v1.3'                               => 'open_source', 1,
@@ -565,7 +544,10 @@ sub __extract_license {
 
 	while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
 		$pattern =~ s#\s+#\\s+#gs;
-		if ( $license_text =~ /\b$pattern\b/i ) {
+		$pattern =~ s#\(#\\(\\s*#gs;
+		$pattern =~ s#\)#\\)\\s*#gs;
+
+		if ( $license_text =~ m/\b$pattern\b/i ) {
 			return $license;
 		}
 	}
@@ -580,6 +562,31 @@ sub license_from {
 		warn "Cannot determine license info from $_[0]\n";
 		return 'unknown';
 	}
+}
+
+sub _valid_license {
+	my $license = shift;
+
+	my %meta_licenses = (
+		apache       => 1,
+		artistic     => 1,
+		artistic_2   => 1,
+		bsd          => 1,
+		gpl          => 1,
+		lgpl         => 1,
+		mit          => 1,
+		mozilla      => 1,
+		open_source  => 1,
+		perl         => 1,
+		unrestricted => 1,
+		restrictive  => 1,
+	);
+
+	if (not $meta_licenses{$license}) {
+		die("ERROR: license is not a recognised meta name - $license\n");
+		return 0;
+	}
+	return 1,;
 }
 
 sub _extract_bugtracker {
