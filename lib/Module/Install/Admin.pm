@@ -136,6 +136,8 @@ sub copy {
 	local (*FROM, *TO, $_);
 	open FROM, "< $from" or die "Can't open $from for input:\n$!";
 	open TO,   "> $to"   or die "Can't open $to for output:\n$!";
+	binmode FROM;
+	binmode TO;
 	print TO "#line 1\n";
 
 	my $content;
