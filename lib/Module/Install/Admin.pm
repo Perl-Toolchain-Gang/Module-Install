@@ -133,29 +133,29 @@ sub copy {
 
 	chomp $to;
 
-	local (*FROM, *TO, $_);
-	open FROM, "< $from" or die "Can't open $from for input:\n$!";
-	open TO,   "> $to"   or die "Can't open $to for output:\n$!";
-	binmode FROM;
-	binmode TO;
-	print TO "#line 1\n";
+	local ($_);
+	open my $FROM, "<", $from or die "Can't open $from for input:\n$!";
+	open my $TO,   ">", $to   or die "Can't open $to for output:\n$!";
+	binmode $FROM;
+	binmode $TO;
+	print $TO "#line 1\n";
 
 	my $content;
 	my $in_pod;
 
-	while ( <FROM> ) {
+	while ( <$FROM> ) {
 		if ( /^=(?:b(?:egin|ack)|head\d|(?:po|en)d|item|(?:ove|fo)r)/ ) {
 			$in_pod = 1;
 		} elsif ( /^=cut\s*\z/ and $in_pod ) {
 			$in_pod = 0;
-			print TO "#line $.\n";
+			print $TO "#line $.\n";
 		} elsif ( ! $in_pod ) {
-			print TO $_;
+			print $TO $_;
 		}
 	}
 
-	close FROM;
-	close TO;
+	close $FROM or die "Can't close $from for input:\n$!";
+	close $TO   or die "Can't close $to for output:\n$!";
 
 	print "include $to\n";
 }
