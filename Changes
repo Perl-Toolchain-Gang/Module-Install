@@ -1,5 +1,9 @@
 Changes for Perl programming language extension Module-Install
 
+1.12 Fri 29 Aug 2014
+  - Revert license behaviour (TSIBLEY)
+  - Documentation also mentioning metacpan.org (LLAP)
+
 1.10 Fri 11 Jul 2014
   - Minimum perl version is now v5.6.0 (BOWTIE)
   - Update license tables (BOWTIE)
