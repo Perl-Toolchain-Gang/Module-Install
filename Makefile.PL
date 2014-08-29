@@ -38,17 +38,12 @@ requires      'YAML::Tiny'          => '1.38';
 test_requires 'Test::Harness'       => '3.13';
 test_requires 'Test::More'          => '0.86';
 
-recommends    'Archive::Zip'            => '1.37';
-recommends    'File::HomeDir'           => '1';
-recommends    'JSON'                    => '2.9';
-recommends    'LWP::Simple'             => '6.00';
-recommends    'LWP::UserAgent'          => '6.05';
-recommends    'Module::Find'            => '0.12',
-recommends    'Module::Runtime'         => '0.014',
-recommends    'Software::License'       => '0.103009',
-recommends    'Test::Requires'          => '0.07',
-recommends    'Test::Software::License' => '0.002',
-recommends    'PAR::Dist'               => '0.29';
+recommends    'Archive::Zip'        => '1.37';
+recommends    'File::HomeDir'       => '1';
+recommends    'JSON'                => '2.9';
+recommends    'LWP::Simple'         => '6.00';
+recommends    'LWP::UserAgent'      => '6.05';
+recommends    'PAR::Dist'           => '0.29';
  
 # Remove some extra test files
 clean_files( qw{ t/Foo } );
