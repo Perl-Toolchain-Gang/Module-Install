@@ -9,18 +9,18 @@ Module::Install - Standalone, extensible Perl module installer
 In your F<Makefile.PL>: (Recommended Usage)
 
   use inc::Module::Install;
-  
+
   # Define metadata
   name           'Your-Module';
   all_from       'lib/Your/Module.pm';
-  
+
   # Specific dependencies
   requires       'File::Spec'  => '0.80';
   test_requires  'Test::More'  => '0.42';
   recommends     'Text::CSV_XS'=> '0.50';
   no_index       'directory'   => 'demos';
   install_script 'myscript';
-  
+
   WriteAll;
 
 Quickly upgrade a legacy L<ExtUtil::MakeMaker> installer:
@@ -60,7 +60,7 @@ L<ExtUtils::MakeMaker> and L<Module::Build>.
 
 These have accumulated B<greatly> varying feature and bug profiles over
 the years, and it is now very difficult to write an installer that will
-work properly using only the installed versions of these modules, 
+work properly using only the installed versions of these modules,
 
 For example, the L<CPAN.pm> version shipped with Perl 5.005 is now 5+
 years old and considered highly buggy, yet it still exists on quite a
@@ -375,8 +375,8 @@ the installation just by doing the following.
 
   > scriptname
   Running scriptname 0.01...
-  
-  > 
+
+  >
 
 By convention, scripts should be placed in a /script directory within your
 distribution. To support less typing, if a script is located in the script
@@ -395,14 +395,14 @@ Quite often a distribition will provide example scripts or testing
 modules (.pm files) as well as the actual library modules.
 
 In almost all situations, you do B<not> want these indexed in the CPAN
-index, the master Perl packages list, or displayed on the
-L<http://search.cpan.org/> website, you just want them along for the
+index, the master Perl packages list, or displayed on L<https://metacpan.org/>
+or L<http://search.cpan.org/> websites, you just want them along for the
 ride.
 
 The C<no_index> command is used to indicate directories or files where
 there might be non-library .pm files or other files that the CPAN
-indexer and websites such as L<http://search.cpan.org/> should
-explicitly ignore.
+indexer and websites such as L<https://metacpan.org/>
+or L<http://search.cpan.org/> should explicitly ignore.
 
 The most common situation is to ignore example or demo directories,
 but a variety of different situations may require a C<no_index> entry.
@@ -418,8 +418,9 @@ The F<inc>, F<t> and F<share> (if C<install_share> is used) directories
 are automatically C<no_index>'ed for you if found and do not require
 an explicit command.
 
-To summarize, if you can see it on L<http://search.cpan.org/> and you
-shouldn't be able to, you need a C<no_index> entry to remove it.
+To summarize, if you can see it on L<https://metacpan.org/>
+or L<http://search.cpan.org/> and you shouldn't be able to, you need
+a C<no_index> entry to remove it.
 
 =head2 installdirs, install_as_*
 
@@ -688,7 +689,7 @@ L<Method::Alias> is a trivially-small utility module, with almost the
 smallest possible F<Makefile.PL>.
 
   use inc::Module::Install;
-  
+
   name          'Method-Alias';
   all_from      'lib/Method/Alias.pm';
   test_requires 'Test::More' => '0.42';
@@ -699,22 +700,22 @@ L<File::HomeDir> locates your home directory on any platform. It needs
 an installer that can handle different dependencies on different platforms.
 
   use inc::Module::Install;
-  
+
   name          'File-HomeDir';
   all_from      'lib/File/HomeDir.pm';
   requires      'File::Spec' => '0.80';
   test_requires 'Test::More' => '0.47';
-  
+
   if ( $MacPerl::Version ) {
       # Needed on legacy Mac OS 9
       requires 'Mac::Files' => 0;
   }
-  
+
   if ( $^O eq 'MXWin32' ) {
       # Needed on Windows platforms
       requires 'Win32::TieRegistry' => 0;
   }
-  
+
   WriteAll;
 
 =head1 TO DO
@@ -730,7 +731,7 @@ Go over POD docs in detail.
 Test recursive Makefile directories
 
 The test suite needs a great deal more test scripts.
-    
+
 Dependencies on shared libraries (libxml/libxml.dll etc) and binary files
 so that debian/Win32/etc autopackaging applications can create the
 appropriate package-level dependencies there.
