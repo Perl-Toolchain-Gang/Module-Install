@@ -1,5 +1,9 @@
 Changes for Perl programming language extension Module-Install
 
+1.14 Sat 25 Oct 2014
+  - Newlines should be consistently UNIX-stylee now in generated files (MITHALDU)
+  - Mark two tests as TODO if EUMM > 6.98 until utf8 gets fixed (BINGOS)
+
 1.12 Fri 29 Aug 2014
   - Revert license behaviour (TSIBLEY)
   - Documentation also mentioning metacpan.org (LLAP)
