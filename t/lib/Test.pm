@@ -34,6 +34,7 @@ eval( $] >= 5.006 ? <<'END_NEW' : <<'END_OLD' ); die $@ if $@;
 sub _read {
 	local *FH;
 	open( FH, '<', $_[0] ) or die "open($_[0]): $!";
+	binmode FH;
 	my $string = do { local $/; <FH> };
 	close FH or die "close($_[0]): $!";
 	return $string;
@@ -42,6 +43,7 @@ END_NEW
 sub _read {
 	local *FH;
 	open( FH, "< $_[0]"  ) or die "open($_[0]): $!";
+	binmode FH;
 	my $string = do { local $/; <FH> };
 	close FH or die "close($_[0]): $!";
 	return $string;
@@ -64,6 +66,7 @@ sub create_dist {
 
 	# Write the MANIFEST
 	open( MANIFEST, '>MANIFEST' ) or return 0;
+	binmode MANIFEST;
 	print MANIFEST $opt->{MANIFEST} || <<"END_MANIFEST";
 MANIFEST
 Makefile.PL
@@ -73,6 +76,7 @@ END_MANIFEST
 
 	# Write the configure script
 	open MAKEFILE_PL, '>Makefile.PL' or return 0;
+	binmode MAKEFILE_PL;
 	print MAKEFILE_PL $opt->{'Makefile.PL'} || <<"END_MAKEFILE_PL";
 use inc::Module::Install 0.81;
 name          '$DIST';
@@ -86,6 +90,7 @@ END_MAKEFILE_PL
 
 	# Write the module file
 	open MODULE, ">lib/$DIST.pm" or return 0;
+	binmode MODULE;
 	print MODULE $opt->{"lib/$DIST.pm"} || <<"END_MODULE";
 package $DIST;
 
@@ -147,6 +152,7 @@ sub add_file {
 	}
 
 	open FILE, "> $dist_file" or return 0;
+	binmode FILE;
 	print FILE $content;
 	close FILE;
 
