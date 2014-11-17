@@ -28,7 +28,7 @@ END_DSL
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
-	my ($installdirs) = $content =~ /^INSTALLDIRS\s*=\s*(.+)$/m;
+	my $installdirs = _extract_installdirs($content);
 	diag "INSTALLDIRS: $installdirs" if $ENV{TEST_VERBOSE};
 	ok( $installdirs eq '~/local/', 'correct INSTALLDIRS');
 	ok( kill_dist(), 'kill_dist' );
@@ -49,7 +49,7 @@ END_DSL
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
-	my ($installdirs) = $content =~ /^INSTALLDIRS\s*=\s*(.+)$/m;
+	my $installdirs = _extract_installdirs($content);
 	diag "INSTALLDIRS: $installdirs" if $ENV{TEST_VERBOSE};
 	ok( $installdirs eq '~/local/', 'correct INSTALLDIRS');
 	ok( kill_dist(), 'kill_dist' );
@@ -71,7 +71,7 @@ END_DSL
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
-	my ($installdirs) = $content =~ /^INSTALLDIRS\s*=\s*(.+)$/m;
+	my $installdirs = _extract_installdirs($content);
 	diag "INSTALLDIRS: $installdirs" if $ENV{TEST_VERBOSE};
 	ok( $installdirs eq '~/local/', 'correct INSTALLDIRS');
 	ok( kill_dist(), 'kill_dist' );
@@ -92,8 +92,14 @@ END_DSL
 	ok(-f $file);
 	my $content = _read($file);
 	ok($content, 'file is not empty');
-	my ($installdirs) = $content =~ /^INSTALLDIRS\s*=\s*(.+)$/m;
+	my $installdirs = _extract_installdirs($content);
 	diag "INSTALLDIRS: $installdirs" if $ENV{TEST_VERBOSE};
 	ok( $installdirs eq 'perl', 'correct INSTALLDIRS');
 	ok( kill_dist(), 'kill_dist' );
 }
+
+sub _extract_installdirs {
+	my ($installdirs) = $_[0] =~ /^INSTALLDIRS\s*=\s*([^\x0a\x0d]+)/m;
+	$installdirs;
+}
+

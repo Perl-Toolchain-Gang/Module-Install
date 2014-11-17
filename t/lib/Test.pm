@@ -7,6 +7,9 @@ use File::Path ();
 use Cwd;
 use Config;
 
+require ExtUtils::MakeMaker;
+my $eumm = eval $ExtUtils::MakeMaker::VERSION;
+
 use vars qw{$VERSION @ISA @EXPORT $DIST};
 BEGIN {
 	$VERSION = '1.14';
@@ -34,6 +37,9 @@ eval( $] >= 5.006 ? <<'END_NEW' : <<'END_OLD' ); die $@ if $@;
 sub _read {
 	local *FH;
 	open( FH, '<', $_[0] ) or die "open($_[0]): $!";
+	if (MM->os_flavor_is('Win32') and ($eumm >= 6.99_08)) {
+		binmode FH, ':raw';
+	}
 	my $string = do { local $/; <FH> };
 	close FH or die "close($_[0]): $!";
 	return $string;
@@ -42,6 +48,9 @@ END_NEW
 sub _read {
 	local *FH;
 	open( FH, "< $_[0]"  ) or die "open($_[0]): $!";
+	if ((MM->os_flavor_is('Win32') and ($eumm >= 6.99_08)) {
+		binmode FH, ':raw';
+	}
 	my $string = do { local $/; <FH> };
 	close FH or die "close($_[0]): $!";
 	return $string;
@@ -64,6 +73,9 @@ sub create_dist {
 
 	# Write the MANIFEST
 	open( MANIFEST, '>MANIFEST' ) or return 0;
+	if (MM->os_flavor_is('Win32') and ($eumm >= 6.99_08)) {
+		binmode MANIFEST, ':raw';
+	}
 	print MANIFEST $opt->{MANIFEST} || <<"END_MANIFEST";
 MANIFEST
 Makefile.PL
@@ -73,6 +85,9 @@ END_MANIFEST
 
 	# Write the configure script
 	open MAKEFILE_PL, '>Makefile.PL' or return 0;
+	if (MM->os_flavor_is('Win32') and ($eumm >= 6.99_08)) {
+		binmode MAKEFILE_PL, ':raw';
+	}
 	print MAKEFILE_PL $opt->{'Makefile.PL'} || <<"END_MAKEFILE_PL";
 use inc::Module::Install 0.81;
 name          '$DIST';
@@ -86,6 +101,9 @@ END_MAKEFILE_PL
 
 	# Write the module file
 	open MODULE, ">lib/$DIST.pm" or return 0;
+	if (MM->os_flavor_is('Win32') and ($eumm >= 6.99_08)) {
+		binmode MODULE, ':raw';
+	}
 	print MODULE $opt->{"lib/$DIST.pm"} || <<"END_MODULE";
 package $DIST;
 
@@ -147,6 +165,9 @@ sub add_file {
 	}
 
 	open FILE, "> $dist_file" or return 0;
+	if (MM->os_flavor_is('Win32') and ($eumm >= 6.99_08)) {
+		binmode FILE, ':raw';
+	}
 	print FILE $content;
 	close FILE;
 
@@ -204,7 +225,7 @@ sub supports_capture {
 	# stolen from ExtUtils::MakeMaker's test
 	use ExtUtils::MM;
 
-	# Unix, modern Windows and OS/2 from 5.005_54 up can handle 2>&1 
+	# Unix, modern Windows and OS/2 from 5.005_54 up can handle 2>&1
 	# This makes our failure diagnostics nicer to read.
 	return 1
 		if (MM->os_flavor_is('Unix') or
@@ -258,9 +279,6 @@ sub make {
 	chdir $home;
 	return $ret;
 }
-
-require ExtUtils::MakeMaker;
-my $eumm = eval $ExtUtils::MakeMaker::VERSION;
 
 sub author_makefile_re {
 	my $author=shift;
