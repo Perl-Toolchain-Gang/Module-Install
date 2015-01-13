@@ -82,7 +82,7 @@ replacement for L<ExtUtils::MakeMaker>.
 
 For more information, see Brian's I<Creating Module Distributions with
 Module::Install> in June 2003 issue of The Perl Journal
-(L<http://www.tpj.com/issues/>).
+(L<http://www.drdobbs.com/web-development/creating-module-distributions-with-modul/184416018>)
 
 For a B<lot> more information, and some personal opinions on the module
 and its creation, see L<Module::Install::Philosophy>.
