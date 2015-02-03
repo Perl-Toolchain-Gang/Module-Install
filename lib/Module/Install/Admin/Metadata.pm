@@ -172,10 +172,10 @@ sub dump_meta {
 		$meta->{version} = $meta->{version}->numify;
 	}
 
-    # extra metadata
-    foreach my $key (grep /^x_/, keys %$val) {
-        $meta->{$key} = $val->{$key};
-    } 
+	# extra metadata
+	foreach my $key (grep /^x_/, keys %$val) {
+		$meta->{$key} = $val->{$key};
+	}
 
 	YAML::Tiny::Dump($meta);
 }
