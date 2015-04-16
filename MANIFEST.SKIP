@@ -1,0 +1,5 @@
+#!include_default
+
+\.tar\.gz$
+^Module-Install-\d
+^t/Foo
