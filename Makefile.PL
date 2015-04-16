@@ -35,6 +35,7 @@ requires      'Parse::CPAN::Meta'   => '1.4413';
 requires      'Win32::UTCFileTime'  => '1.56' if win32;
 requires      'YAML::Tiny'          => '1.38';
 
+test_requires 'autodie'             => 0;
 test_requires 'Test::Harness'       => '3.13';
 test_requires 'Test::More'          => '0.86';
 
