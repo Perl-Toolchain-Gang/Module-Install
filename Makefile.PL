@@ -37,6 +37,7 @@ requires      'YAML::Tiny'          => '1.38';
 
 test_requires 'Test::Harness'       => '3.13';
 test_requires 'Test::More'          => '0.86';
+test_requires 'autodie'             => '0';
 
 recommends    'Archive::Zip'        => '1.37';
 recommends    'File::HomeDir'       => '1';
