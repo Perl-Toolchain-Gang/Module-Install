@@ -1,6 +1,6 @@
 Changes for Perl programming language extension Module-Install
 
-1.15 Thu Apr 16 2015
+1.15 Thu 16 Apr 2015
   - respect the 'urllist' option when using the CPAN backend (Dan Brook)
   - fixes for newlines on MSWin32 (Christian Walde)
 
