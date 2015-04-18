@@ -1,0 +1,12 @@
+!/.gitignore
+/Module-Install-*/
+/Module-Install-*.tar.gz
+/Makefile
+/Makefile.old
+/MANIFEST
+/META.*
+/MYMETA.*
+/pm_to_blib
+/blib/
+/_eumm/
+/inc/
