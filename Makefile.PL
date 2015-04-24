@@ -45,6 +45,8 @@ recommends    'JSON'                => '2.9';
 recommends    'LWP::Simple'         => '6.00';
 recommends    'LWP::UserAgent'      => '6.05';
 recommends    'PAR::Dist'           => '0.29';
+
+suggests      'CPANPLUS'            => '0';     # used by AutoInstall, when installed
  
 # Remove some extra test files
 clean_files( qw{ t/Foo } );
