@@ -7,4 +7,6 @@ perl:
   - '5.12'
   - '5.10'
   - '5.8'
-
+install:
+  - perl Makefile.PL
+  - cpanm --quiet --installdeps --notest .
