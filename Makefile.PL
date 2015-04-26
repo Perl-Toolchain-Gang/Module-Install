@@ -66,4 +66,38 @@ repository 'https://github.com/Perl-Toolchain-Gang/Module-Install.git';
 # All of our dependencies are the same on all platforms
 dynamic_config 0;
 
+add_metadata x_contributors => [ # manually added, from git shortlog -e -s -n
+    'Adam Kennedy <adam@ali.as>',
+    'Kenichi Ishigaki <ishigaki@cpan.org>',
+    'Alexandr Ciornii <alexchorny@gmail.com>',
+    'Chris Williams <chris@bingosnet.co.uk>',
+    'Paul Fenwick <pjf@perltraining.com.au>',
+    'bowtie <bowtie@cpan.org>',
+    'Matt S Trout <dbix-class@trout.me.uk>',
+    'Karen Etheridge <ether@cpan.org>',
+    'Chris \BinGOs\' Williams <chris@bingosnet.co.uk>',
+    'Christian Walde <walde.christian@googlemail.com>',
+    'Ricardo Signes <rjbs@cpan.org>',
+    'Ingy <ingy@ingy.net>', # 'Ingy döt Net <ingy@ingy.net>',
+    'Hans Dieter Pearcey <hdp@cpan.org>',
+    'Olivier Mengue <dolmen@cpan.org>', # 'Olivier Mengué <dolmen@cpan.org>',
+    'Curtis Jewell <csjewell@cpan.org>',
+    'Rafael Kitover <rkitover@gmail.com>',
+    'Avar Arnfjord Bjarmason <avarab@gmail.com>', # 'Ævar Arnfjörð Bjarmason <avarab@gmail.com>',
+    'Dan Brook <dbrook@venda.com>',
+    'Leo Lapworth <leo@cuckoo.org>',
+    'Marcel Grunauer <hanekomu@gmail.com>', # 'Marcel Grünauer <hanekomu@gmail.com>',
+    'Alex Vandiver <github@chmrr.net>',
+    'Joshua ben Jore <twists@gmail.com>',
+    'Ash Berlin <ash_github@firemirror.com>',
+    'gregor herrmann <gregoa@debian.org>',
+    'Gabor Szabo <szabgab@gmail.com>',
+    'Thomas Sibley <tsibley@cpan.org>',
+    'Tokuhiro Matsuno <tokuhirom@cpan.org>',
+    'Tom Wyant <wyant@cpan.org>',
+    'Kang-min Liu <gugod@gugod.org>',
+    'David Golden <dagolden@cpan.org>',
+    'Kent Fredric <kentfredric@gmail.com>',
+];
+
 WriteAll;
