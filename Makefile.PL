@@ -1,12 +1,5 @@
-# Normally we don't need strict, but for this one we'll do it anyway.
 use strict;
-
-# Warnings need to be enabled this way, because Makefile.PL is not
-# an executable script (so we can't use a hashbang).
-BEGIN {
-	$|  = 1;
-	$^W = 1;
-}
+use warnings;
 
 # NOTE: Module::Install's Makefile.PL needs this "use lib 'lib'" to
 # bootstrap itself. Other module distributions using Module::Install
