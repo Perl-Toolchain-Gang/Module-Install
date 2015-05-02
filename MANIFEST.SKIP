@@ -3,3 +3,4 @@
 \.tar\.gz$
 ^Module-Install-\d
 ^t/Foo
+^inc
