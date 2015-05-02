@@ -1,5 +1,8 @@
 Changes for Perl programming language extension Module-Install
 
+1.16 Sat 2 May 2015
+  - add missing test prereq on autodie
+
 1.15 Thu 16 Apr 2015
   - respect the 'urllist' option when using the CPAN backend (Dan Brook)
   - fixes for newlines on MSWin32 (Christian Walde)
