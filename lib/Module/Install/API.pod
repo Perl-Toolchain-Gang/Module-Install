@@ -267,8 +267,7 @@ system package managers may possibly prompt you to install them).
   features(
     'JSON support', [
       -default => 0,
-      'JSON' => '2.00',
-      'JSON::XS' => '2.00',
+      'JSON::MaybeXS' => '1.003003',
     ],
     'YAML support', [
       'YAML' => '0',
