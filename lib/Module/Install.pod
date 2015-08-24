@@ -28,6 +28,19 @@ Quickly upgrade a legacy L<ExtUtil::MakeMaker> installer:
   use inc::Module::Install;
   WriteMakefile( ... );
 
+=head1 WARNING
+
+Please note that while B<Module::Install> pioneered many great ideas in its
+time, its primary benefits have been better achieved by the authoring tool
+L<Dist::Zilla>, and its spinoffs L<Dist::Milla> and L<Minilla>. These tools
+allow the author to build and maintain distributions with DWIM convenience,
+while the distribution is installed directly by L<ExtUtils::MakeMaker> or
+similar installation tools, avoiding the complexity of bundling the installer.
+L<Dist::Zilla> additionally has a more robust plugin system which makes it
+easier to keep up with changes to the L<CPAN::Meta::Spec> and add other new
+functionality. Use of B<Module::Install> for new distributions is therefore
+discouraged by the maintainers.
+
 =head1 DESCRIPTION
 
 B<Module::Install> is a package for writing installers for CPAN (or
