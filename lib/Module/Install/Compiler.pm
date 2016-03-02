@@ -24,6 +24,13 @@ sub ppport {
 	}
 }
 
+sub cc_flags {
+	my $self = shift;
+	$self->makemaker_args(
+		CCFLAGS => join ' ', @_
+	);
+}
+
 sub cc_files {
 	require Config;
 	my $self = shift;

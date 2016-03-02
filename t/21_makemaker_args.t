@@ -10,7 +10,7 @@ use Test::More;
 use File::Spec;
 use t::lib::Test;
 
-plan tests => 45;
+plan tests => 51;
 
 # Let's see how MakeMaker behaves first
 
@@ -166,5 +166,29 @@ END_DSL
 	diag "INC: $inc" if $ENV{TEST_VERBOSE};
 	ok $inc && $inc !~ m{/usr/include/},     "INC is overriden";
 	ok $inc && $inc =~ m{/usr/opt/include/}, "correct INC";
+	ok( kill_dist(), 'kill_dist' );
+}
+
+
+# inc
+SCOPE: {
+	ok( create_dist( 'Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
+use inc::Module::Install 0.81;
+name          'Foo';
+perl_version  '5.005';
+all_from      'lib/Foo.pm';
+cc_flags      '-DFUN';
+cc_files      'foo.c';
+WriteAll;
+END_DSL
+
+	ok( run_makefile_pl(), 'build_dist' );
+	my $file = makefile();
+	ok( -f $file, 'Makefile exists' );
+	my $content = _read($file);
+	ok( $content,'file is not empty');
+	my ($ccflags) = $content =~ /^CCFLAGS\s*=\s*(.+)$/m;
+	diag "CCFLAGS: $ccflags" if $ENV{TEST_VERBOSE};
+	ok $ccflags && $ccflags =~ m{-DFUN}, "correct CCFLAGS";
 	ok( kill_dist(), 'kill_dist' );
 }
