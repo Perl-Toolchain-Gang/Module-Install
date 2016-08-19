@@ -412,6 +412,8 @@ sub _readpod {
 	return $string;
 }
 
+use utf8;
+
 # Done in evals to avoid confusing Perl::MinimumVersion
 eval( $] >= 5.006 ? <<'END_NEW' : <<'END_OLD' ); die $@ if $@;
 sub _write {
@@ -419,6 +421,7 @@ sub _write {
 	open( FH, '>', $_[0] ) or die "open($_[0]): $!";
 	binmode FH;
 	foreach ( 1 .. $#_ ) {
+		utf8::encode($_[$_]) if $] >= 5.008001 && utf8::is_utf8($_[$_]);
 		print FH $_[$_] or die "print($_[0]): $!";
 	}
 	close FH or die "close($_[0]): $!";
