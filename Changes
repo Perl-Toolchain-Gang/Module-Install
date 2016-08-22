@@ -1,5 +1,7 @@
 Changes for Perl programming language extension Module-Install
 
+  - removed irrelevant code for Perl < v5.6
+
 1.16 Sat 2 May 2015
   - add missing test prereq on autodie
 
