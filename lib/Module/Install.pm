@@ -372,8 +372,6 @@ sub _caller {
 	return $call;
 }
 
-# Done in evals to avoid confusing Perl::MinimumVersion
-eval( $] >= 5.006 ? <<'END_NEW' : <<'END_OLD' ); die $@ if $@;
 sub _read {
 	local *FH;
 	open( FH, '<', $_[0] ) or die "open($_[0]): $!";
@@ -382,16 +380,6 @@ sub _read {
 	close FH or die "close($_[0]): $!";
 	return $string;
 }
-END_NEW
-sub _read {
-	local *FH;
-	open( FH, "< $_[0]"  ) or die "open($_[0]): $!";
-	binmode FH;
-	my $string = do { local $/; <FH> };
-	close FH or die "close($_[0]): $!";
-	return $string;
-}
-END_OLD
 
 sub _readperl {
 	my $string = Module::Install::_read($_[0]);
@@ -412,8 +400,6 @@ sub _readpod {
 	return $string;
 }
 
-# Done in evals to avoid confusing Perl::MinimumVersion
-eval( $] >= 5.006 ? <<'END_NEW' : <<'END_OLD' ); die $@ if $@;
 sub _write {
 	local *FH;
 	open( FH, '>', $_[0] ) or die "open($_[0]): $!";
@@ -423,17 +409,6 @@ sub _write {
 	}
 	close FH or die "close($_[0]): $!";
 }
-END_NEW
-sub _write {
-	local *FH;
-	open( FH, "> $_[0]"  ) or die "open($_[0]): $!";
-	binmode FH;
-	foreach ( 1 .. $#_ ) {
-		print FH $_[$_] or die "print($_[0]): $!";
-	}
-	close FH or die "close($_[0]): $!";
-}
-END_OLD
 
 # _version is for processing module versions (eg, 1.03_05) not
 # Perl versions (eg, 5.8.1).
