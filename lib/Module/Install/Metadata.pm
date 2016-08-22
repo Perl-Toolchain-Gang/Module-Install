@@ -628,7 +628,12 @@ sub add_metadata {
     for my $key (keys %hash) {
         warn "add_metadata: $key is not prefixed with 'x_'.\n" .
              "Use appopriate function to add non-private metadata.\n" unless $key =~ /^x_/;
-        $self->{values}->{$key} = $hash{$key};
+        $self->{values}{$key} = 
+        	ref $hash{$key} eq "ARRAY"
+        	?
+        	[ map { Module::Install::_to_bytes($_) } @{$hash{$key}} ]
+        	:
+        	Module::Install::_to_bytes($hash{$key});
     }
 }
 
