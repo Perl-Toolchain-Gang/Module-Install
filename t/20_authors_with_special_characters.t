@@ -77,6 +77,8 @@ package Foo;
 1;
 \__END__
 
+\=encoding utf-8
+
 \=head1 NAME
 
 Foo - Abstract
@@ -88,6 +90,7 @@ Olivier MenguE<eacute>
 \=cut
 END
 
+	use utf8;
 		ok( build_dist(), 'build_dist' );
 		my $file = makefile();
 		ok(-f $file);
@@ -95,26 +98,32 @@ END
 		ok($content, 'file is not empty');
     TODO: {
       local $TODO = 'EUMM 7.00 fixed unicode but we have not' if $eumm gt '6.98';
-		  ok($content =~ author_makefile_re("Olivier Mengu\xE9"), 'has one author');
+		  ok($content =~ author_makefile_re("Olivier Mengué"), 'has one author');
     }
 		my $metafile = file('META.yml');
 		ok(-f $metafile);
 		my $meta = Parse::CPAN::Meta::LoadFile($metafile);
-		is_deeply($meta->{author}, [q(Olivier Mengu\xE9)]);
+		is_deeply($meta->{author}, [q(Olivier Mengué)]);
 		ok( kill_dist(), 'kill_dist' );
+
+	no utf8;
+
 	}
 
 	SCOPE: {
 		ok( create_dist('Foo', { 'Makefile.PL' => <<"END_DSL" }), 'create_dist' );
+use utf8;
 use inc::Module::Install 0.81;
 name          'Foo';
 perl_version  '5.005';
 version       '0.01';
 license       'perl';
-author        "Olivier Mengu\xE9";
+author        "Olivier Mengué";
 all_from      'lib/Foo.pm';
 WriteAll;
 END_DSL
+
+	use utf8;
 
 		ok( build_dist(), 'build_dist' );
 		my $file = makefile();
@@ -123,13 +132,15 @@ END_DSL
 		ok($content, 'file is not empty');
     TODO: {
       local $TODO = 'EUMM 7.00 fixed unicode but we have not' if $eumm gt '6.98';
-		  ok($content =~ author_makefile_re("Olivier Mengu\xE9"), 'has one author');
+		  ok($content =~ author_makefile_re("Olivier Mengué"), 'has one author');
     }
 		my $metafile = file('META.yml');
 		ok(-f $metafile);
 		my $meta = Parse::CPAN::Meta::LoadFile($metafile);
-		is_deeply($meta->{author}, [q(Olivier Mengu\xE9)]);
+		is_deeply($meta->{author}, [q(Olivier Mengué)]);
 		ok( kill_dist(), 'kill_dist' );
+
+
 	}
 }
 else {
