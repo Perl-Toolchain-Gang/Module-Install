@@ -466,7 +466,6 @@ my %license_urls = (
     gpl3         => 'http://opensource.org/licenses/gpl-3.0.html',
     mit          => 'http://opensource.org/licenses/mit-license.php',
     mozilla      => 'http://opensource.org/licenses/mozilla1.1.php',
-    eupl         => 'http://opensource.org/licenses/EUPL-1.1',
     open_source  => undef,
     unrestricted => undef,
     restrictive  => undef,
@@ -534,7 +533,7 @@ sub __extract_license {
 		'OpenSSL License'                    => 'unrestricted', 1,
 		'SSLeay License'                     => 'unrestricted', 1,
 		'zlib License'                       => 'open_source',  1,
-		'EUPL'                               => 'eupl',         1,
+		'EUPL'                               => 'open_source',  1,
 		'proprietary'                        => 'proprietary',  0,
 	);
 	while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
