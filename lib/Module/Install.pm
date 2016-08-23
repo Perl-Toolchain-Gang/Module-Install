@@ -443,11 +443,6 @@ sub _CLASS {
 	) ? $_[0] : undef;
 }
 
-sub _to_bytes {
-	utf8::encode($_[0]) if utf8::is_utf8 $_[0];
-	return $_[0];
-}
-
 1;
 
 # Copyright 2008 - 2012 Adam Kennedy.

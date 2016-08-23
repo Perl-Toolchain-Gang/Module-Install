@@ -39,8 +39,6 @@ sub remove_meta {
 	return;
 }
 
-use utf8;
-
 sub write_meta {
 	my $self = shift;
 	if ( -f "META.yml" ) {

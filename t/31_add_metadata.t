@@ -29,6 +29,7 @@ END_DSL
     ok( -f $file);
     my $yaml = YAML::Tiny::LoadFile($file);
     ok( $yaml->{x_foo} && $yaml->{x_foo} eq 'bar' );
+    use utf8;
     is( $yaml->{x_author}, "Alberto Simões");
     ok( kill_dist(), 'kill_dist' );
 }
