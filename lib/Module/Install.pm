@@ -243,6 +243,8 @@ sub new {
 	}
 	return $args{_self} if $args{_self};
 
+	$base_path = VMS::Filespec::unixify($base_path) if $^O eq 'VMS';
+
 	$args{dispatch} ||= 'Admin';
 	$args{prefix}   ||= 'inc';
 	$args{author}   ||= ($^O eq 'VMS' ? '_author' : '.author');
@@ -321,7 +323,7 @@ sub find_extensions {
 	my ($self, $path) = @_;
 
 	my @found;
-	File::Find::find( sub {
+	File::Find::find( {no_chdir => 1, wanted => sub {
 		my $file = $File::Find::name;
 		return unless $file =~ m!^\Q$path\E/(.+)\.pm\Z!is;
 		my $subpath = $1;
@@ -335,7 +337,7 @@ sub find_extensions {
 		# correctly.  Otherwise, root through the file to locate the case-preserved
 		# version of the package name.
 		if ( $subpath eq lc($subpath) || $subpath eq uc($subpath) ) {
-			my $content = Module::Install::_read($subpath . '.pm');
+			my $content = Module::Install::_read($File::Find::name);
 			my $in_pod  = 0;
 			foreach ( split /\n/, $content ) {
 				$in_pod = 1 if /^=\w/;
@@ -350,7 +352,7 @@ sub find_extensions {
 		}
 
 		push @found, [ $file, $pkg ];
-	}, $path ) if -d $path;
+	}}, $path ) if -d $path;
 
 	@found;
 }
