@@ -94,3 +94,8 @@ add_metadata x_contributors => [ # manually added, from git shortlog -e -s -n
 ];
 
 WriteAll;
+
+my $readme_from = 'lib/Module/Install.pod';
+# pod2text is in https://metacpan.org/release/podlators
+system("pod2text $readme_from > README")
+  if -f '.gitignore' and (not -e 'README' or (stat('README'))[9] < (stat($readme_from))[9]);
