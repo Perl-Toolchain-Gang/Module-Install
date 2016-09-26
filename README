@@ -5,24 +5,37 @@ SYNOPSIS
     In your Makefile.PL: (Recommended Usage)
 
       use inc::Module::Install;
-  
+
       # Define metadata
       name           'Your-Module';
       all_from       'lib/Your/Module.pm';
-  
+
       # Specific dependencies
       requires       'File::Spec'  => '0.80';
       test_requires  'Test::More'  => '0.42';
       recommends     'Text::CSV_XS'=> '0.50';
       no_index       'directory'   => 'demos';
       install_script 'myscript';
-  
+
       WriteAll;
 
     Quickly upgrade a legacy ExtUtil::MakeMaker installer:
 
       use inc::Module::Install;
       WriteMakefile( ... );
+
+WARNING
+    Please note that while Module::Install pioneered many great ideas in its
+    time, its primary benefits have been better achieved by the authoring
+    tool Dist::Zilla, and its spinoffs Dist::Milla and Minilla. These tools
+    allow the author to build and maintain distributions with DWIM
+    convenience, while the distribution is installed directly by
+    ExtUtils::MakeMaker or similar installation tools, avoiding the
+    complexity of bundling the installer. Dist::Zilla additionally has a
+    more robust plugin system which makes it easier to keep up with changes
+    to the CPAN::Meta::Spec and add other new functionality. Use of
+    Module::Install for new distributions is therefore discouraged by the
+    maintainers.
 
 DESCRIPTION
     Module::Install is a package for writing installers for CPAN (or
@@ -74,7 +87,8 @@ How it Works
 
     For more information, see Brian's *Creating Module Distributions with
     Module::Install* in June 2003 issue of The Perl Journal
-    (<http://www.tpj.com/issues/>).
+    (<http://www.drdobbs.com/web-development/creating-module-distributions-w
+    ith-modul/184416018>)
 
     For a lot more information, and some personal opinions on the module and
     its creation, see Module::Install::Philosophy.
@@ -254,7 +268,7 @@ COMMON COMMANDS
 
     Note that the dependency is on a module and not a distribution. This is
     to ensure that your dependency stays correct, even if the module is
-    moved or merged into a different distribtion, as is occasionally the
+    moved or merged into a different distribution, as is occasionally the
     case.
 
     A dependency on version zero indicates any version of module is
@@ -303,7 +317,7 @@ COMMON COMMANDS
     configure_requires: key in the distribution's META.yml file.
 
     Although most of META.yml is considered advisory only, a CPAN client
-    will treat the contents of configure_requires: as authorative, and
+    will treat the contents of configure_requires: as authoritive, and
     install the listed modules before it executes the Makefile.PL (from
     which it then determines the other dependencies).
 
@@ -348,7 +362,7 @@ COMMON COMMANDS
 
       > scriptname
       Running scriptname 0.01...
-  
+
       >
 
     By convention, scripts should be placed in a /script directory within
@@ -363,18 +377,18 @@ COMMON COMMANDS
       no_index directory => 'examples';
       no_index package   => 'DB';
 
-    Quite often a distrubition will provide example scripts or testing
+    Quite often a distribution will provide example scripts or testing
     modules (.pm files) as well as the actual library modules.
 
     In almost all situations, you do not want these indexed in the CPAN
-    index, the master Perl packages list, or displayed on the
-    <http://search.cpan.org/> website, you just want them along for the
-    ride.
+    index, the master Perl packages list, or displayed on
+    <https://metacpan.org/> or <http://search.cpan.org/> websites, you just
+    want them along for the ride.
 
     The "no_index" command is used to indicate directories or files where
     there might be non-library .pm files or other files that the CPAN
-    indexer and websites such as <http://search.cpan.org/> should explicitly
-    ignore.
+    indexer and websites such as <https://metacpan.org/> or
+    <http://search.cpan.org/> should explicitly ignore.
 
     The most common situation is to ignore example or demo directories, but
     a variety of different situations may require a "no_index" entry.
@@ -390,8 +404,9 @@ COMMON COMMANDS
     automatically "no_index"'ed for you if found and do not require an
     explicit command.
 
-    To summarize, if you can see it on <http://search.cpan.org/> and you
-    shouldn't be able to, you need a "no_index" entry to remove it.
+    To summarize, if you can see it on <https://metacpan.org/> or
+    <http://search.cpan.org/> and you shouldn't be able to, you need a
+    "no_index" entry to remove it.
 
   installdirs, install_as_*
       installdirs 'site'; # the default
@@ -614,7 +629,7 @@ COOKBOOK / EXAMPLES
     smallest possible Makefile.PL.
 
       use inc::Module::Install;
-  
+
       name          'Method-Alias';
       all_from      'lib/Method/Alias.pm';
       test_requires 'Test::More' => '0.42';
@@ -624,22 +639,22 @@ COOKBOOK / EXAMPLES
     installer that can handle different dependencies on different platforms.
 
       use inc::Module::Install;
-  
+
       name          'File-HomeDir';
       all_from      'lib/File/HomeDir.pm';
       requires      'File::Spec' => '0.80';
       test_requires 'Test::More' => '0.47';
-  
+
       if ( $MacPerl::Version ) {
           # Needed on legacy Mac OS 9
           requires 'Mac::Files' => 0;
       }
-  
+
       if ( $^O eq 'MXWin32' ) {
           # Needed on Windows platforms
           requires 'Win32::TieRegistry' => 0;
       }
-  
+
       WriteAll;
 
 TO DO
@@ -701,7 +716,7 @@ AUTHORS
     Brian Ingerson <ingy@cpan.org>
 
 COPYRIGHT
-    Copyright 2002 - 2011 Brian Ingerson, Audrey Tang and Adam Kennedy.
+    Copyright 2002 - 2012 Brian Ingerson, Audrey Tang and Adam Kennedy.
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
