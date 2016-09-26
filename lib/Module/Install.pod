@@ -404,7 +404,7 @@ directory, you need refer to it by name only.
   no_index directory => 'examples';
   no_index package   => 'DB';
 
-Quite often a distribition will provide example scripts or testing
+Quite often a distribution will provide example scripts or testing
 modules (.pm files) as well as the actual library modules.
 
 In almost all situations, you do B<not> want these indexed in the CPAN
