@@ -1,5 +1,6 @@
 Changes for Perl programming language extension Module-Install
 
+1.17  2016-10-24
   - fix issue with mkpath with empty path
   - removed irrelevant code for Perl < v5.6
   - VMS fixes (RT#79858, Craig A. Berry)
