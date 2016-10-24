@@ -4,6 +4,9 @@ http://cpants.cpanauthors.org/dist/Module-Install
 - no LICENSE (see proposed changes in other dists for how to add one -- or MI's own license provider plugin, assuming there is one)
 - missing dependency on CPANPLUS?
 
+- no need to 'use vars', since we require perl 5.6 -- but be careful that the
+  difference between vars and 'our' isn't important somewhere.
+
 
 weird test results:
 http://www.cpantesters.org/cpan/report/326ca640-e74d-11e4-92fe-3843e14af301
