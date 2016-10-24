@@ -2,6 +2,8 @@ Changes for Perl programming language extension Module-Install
 
   - fix issue with mkpath with empty path
   - removed irrelevant code for Perl < v5.6
+  - VMS fixes (RT#79858, Craig A. Berry)
+  - documentation updated to reflect current discouraged state
 
 1.16 Sat 2 May 2015
   - add missing test prereq on autodie
