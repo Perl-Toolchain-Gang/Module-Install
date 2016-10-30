@@ -54,7 +54,7 @@ following commands for the extraction detail.
   name 'Foo-Bar';
   name_from 'lib/Foo/Bar.pm';
 
-B<name> commmand takes a distribution name. It usually differs
+B<name> command takes a distribution name. It usually differs
 slightly from a module name (a module name is separated by double
 colons; a distribution name is separated by hyphens). Just replacing
 all the double colons of your main module with hyphens would be

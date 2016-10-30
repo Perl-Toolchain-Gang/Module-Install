@@ -341,7 +341,7 @@ The C<configure_requires> command creates an entry in the special
 configure_requires: key in the distribution's F<META.yml> file.
 
 Although most of F<META.yml> is considered advisory only, a L<CPAN>
-client will treat the contents of configure_requires: as authoritive,
+client will treat the contents of configure_requires: as authoritative,
 and install the listed modules B<before> it executes the F<Makefile.PL>
 (from which it then determines the other dependencies).
 
