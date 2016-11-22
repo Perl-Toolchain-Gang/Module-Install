@@ -8,7 +8,8 @@ BEGIN {
 
 use Test::More;
 use File::Spec;
-use t::lib::Test;
+use lib 't/lib';
+use MyTest;
 
 plan tests => 1;
 

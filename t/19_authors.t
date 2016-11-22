@@ -9,7 +9,8 @@ BEGIN {
 use Test::More;
 use File::Spec;
 use Parse::CPAN::Meta;
-use t::lib::Test;
+use lib 't/lib';
+use MyTest;
 
 plan tests => 32;
 

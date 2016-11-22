@@ -8,7 +8,8 @@ BEGIN {
 
 use Test::More;
 use File::Spec;
-use t::lib::Test;
+use lib 't/lib';
+use MyTest;
 require ExtUtils::MakeMaker;
 
 my $eumm = eval $ExtUtils::MakeMaker::VERSION;

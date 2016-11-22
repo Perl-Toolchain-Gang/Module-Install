@@ -7,7 +7,8 @@ BEGIN {
 }
 
 use Test::More;
-use t::lib::Test;
+use lib 't/lib';
+use MyTest;
 use YAML::Tiny ();
 
 plan tests => 14;

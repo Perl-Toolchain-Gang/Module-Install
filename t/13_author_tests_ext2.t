@@ -8,7 +8,8 @@ BEGIN {
 
 use Test::More;
 use File::Spec;
-use t::lib::Test;
+use lib 't/lib';
+use MyTest;
 
 eval "use Module::Install::ExtraTests 0.007";
 plan skip_all => "requires Module::Install::ExtraTests 0.007" if $@;

@@ -8,14 +8,16 @@ BEGIN {
 
 use Test::More;
 use File::Spec;
-use t::lib::Test;
+use lib 't/lib';
+use MyTest;
 
 plan tests => 7;
 
 SCOPE: {
 	ok( create_dist('Foo'), 'create_dist' );
 	ok( build_dist(), 'built dist' );
-	require_ok( file('inc/Module/Install.pm') );
+	use lib dir();
+	require_ok( 'inc/Module/Install.pm' );
 
 	my $file = file('lib/Foo.pm');
 	ok( -f $file, "Found test file '$file'" );
