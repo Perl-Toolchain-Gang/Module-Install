@@ -8,6 +8,7 @@ BEGIN {
 
 use Test::More;
 use File::Spec;
+use if $INC[-1] ne '.', 'lib', '.';
 use t::lib::Test;
 require ExtUtils::MakeMaker;
 use vars qw{ $PREREQ_PM $MIN_PERL_VERSION $BUILD_REQUIRES };

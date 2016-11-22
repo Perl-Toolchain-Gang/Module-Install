@@ -14,6 +14,7 @@ use Test::More tests => 68;
 ok( $] >= 5.005, "Your perl is new enough" );
 
 # Load the test class
+use if $INC[-1] ne '.', 'lib', '.';
 use_ok( 't::lib::Test' );
 
 my @classes = qw{

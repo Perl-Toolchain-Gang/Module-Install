@@ -9,6 +9,7 @@ BEGIN {
 }
 
 use Test::More tests => 8;
+use if $INC[-1] ne '.', 'lib', '.';
 use t::lib::Test;
 
 # Load the DSL module
