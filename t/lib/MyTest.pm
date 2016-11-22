@@ -1,4 +1,4 @@
-package t::lib::Test;
+package MyTest;
 
 use strict;
 use File::Spec   ();

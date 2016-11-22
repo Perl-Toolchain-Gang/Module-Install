@@ -9,7 +9,8 @@ BEGIN {
 }
 
 use Test::More tests => 8;
-use t::lib::Test;
+use lib 't/lib';
+use MyTest;
 
 # Load the DSL module
 require_ok( 'inc::Module::Install::DSL' );

@@ -18,7 +18,8 @@ if ( $eumm < 6.5702 ) {
 
 
 use File::Spec;
-use t::lib::Test;
+use lib 't/lib';
+use MyTest;
 
 # Regular build
 SCOPE: {

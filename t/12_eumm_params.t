@@ -8,7 +8,8 @@ BEGIN {
 
 use Test::More tests => 11;
 use File::Spec;
-use t::lib::Test;
+use lib 't/lib';
+use MyTest;
 require ExtUtils::MakeMaker;
 use vars qw{ $PREREQ_PM $MIN_PERL_VERSION $BUILD_REQUIRES };
 

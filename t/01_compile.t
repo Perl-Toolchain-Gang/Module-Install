@@ -14,7 +14,8 @@ use Test::More tests => 68;
 ok( $] >= 5.005, "Your perl is new enough" );
 
 # Load the test class
-use_ok( 't::lib::Test' );
+use lib 't/lib';
+use_ok( 'MyTest' );
 
 my @classes = qw{
 	Module::Install::Base
@@ -59,7 +60,7 @@ foreach my $class ( @classes ) {
 	no strict 'refs';
 	is(
 		${"${class}::VERSION"},
-		$t::lib::Test::VERSION,
+		$MyTest::VERSION,
 		"$class \$VERSION matches"
 	);
 }
