@@ -6,7 +6,8 @@ use warnings;
 # do not need it. It causes inc::Module::Install to load from the
 # (unique to this distribution) file ./lib/inc/Module/Install.pm instead
 # of the system inc::Module::Install or the bundled ./inc/Module/Install.pm
-use lib 'lib';
+use FindBin;
+use lib "$FindBin::Bin/lib";
 use inc::Module::Install;
 
 name          'Module-Install';
@@ -38,7 +39,7 @@ recommends    'JSON'                => '2.9';
 recommends    'LWP::Simple'         => '6.00';
 recommends    'LWP::UserAgent'      => '6.05';
 recommends    'PAR::Dist'           => '0.29';
- 
+
 # Remove some extra test files
 clean_files( qw{ t/Foo } );
 
