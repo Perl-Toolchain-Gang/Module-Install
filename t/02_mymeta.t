@@ -18,6 +18,7 @@ if ( $eumm < 6.5702 ) {
 
 
 use File::Spec;
+use if $INC[-1] ne '.', 'lib', '.';
 use t::lib::Test;
 
 # Regular build

@@ -9,6 +9,7 @@ BEGIN {
 use Test::More;
 use File::Spec;
 use Parse::CPAN::Meta;
+use if $INC[-1] ne '.', 'lib', '.';
 use t::lib::Test;
 
 plan tests => 26;

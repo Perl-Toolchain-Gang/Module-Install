@@ -7,6 +7,7 @@ BEGIN {
 }
 
 use Test::More;
+use if $INC[-1] ne '.', 'lib', '.';
 use t::lib::Test;
 use YAML::Tiny;
 

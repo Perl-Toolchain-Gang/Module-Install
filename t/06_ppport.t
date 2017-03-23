@@ -10,6 +10,7 @@ BEGIN {
 
 use Test::More;
 use File::Spec;
+use if $INC[-1] ne '.', 'lib', '.';
 use t::lib::Test;
 
 eval "require Devel::PPPort";
