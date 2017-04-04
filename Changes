@@ -1,5 +1,6 @@
 Changes for Perl programming language extension Module-Install
 
+1.18  2017-04-04
   - fix tests to no longer rely on . being in @INC (Graham Ollis, PR#58)
 
 1.17  2016-10-24
