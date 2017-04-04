@@ -1001,8 +1001,8 @@ option offered by B<ExtUtils::MakeMaker>.
 
 This module works best with the B<Module::Install> framework,
 a drop-in replacement for MakeMaker.  However, this module also
-supports F<Makefile.PL> files based on MakeMaker; see L</EXAMPLES>
-for instructions.
+supports F<Makefile.PL> files based on MakeMaker; see
+L<Module::Install/"COOKBOOK / EXAMPLES"> for instructions.
 
 Specifying C<installdeps_target;> instead of C<auto_install;> will not try to
 install dependencies when running C<make>, but only when running C<make
