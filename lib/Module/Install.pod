@@ -68,14 +68,14 @@ interested in the details.
 
 The motivation behind B<Module::Install> is that distributions need
 to interact with a large number of different versions of L<perl> and
-module installers infrastructure, primarily L<CPAN.pm>, L<CPANPLUS.pm>,
+module installers infrastructure, primarily L<CPAN>.pm, L<CPANPLUS>.pm,
 L<ExtUtils::MakeMaker> and L<Module::Build>.
 
 These have accumulated B<greatly> varying feature and bug profiles over
 the years, and it is now very difficult to write an installer that will
 work properly using only the installed versions of these modules,
 
-For example, the L<CPAN.pm> version shipped with Perl 5.005 is now 5+
+For example, the L<CPAN>.pm version shipped with Perl 5.005 is now 5+
 years old and considered highly buggy, yet it still exists on quite a
 number of legacy machines.
 
