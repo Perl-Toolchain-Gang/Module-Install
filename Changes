@@ -1,5 +1,7 @@
 Changes for Perl programming language extension Module-Install
 
+  - fix tests to no longer rely on . being in @INC (Graham Ollis, PR#58)
+
 1.17  2016-10-24
   - fix issue with mkpath with empty path
   - removed irrelevant code for Perl < v5.6
