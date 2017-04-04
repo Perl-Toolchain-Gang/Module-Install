@@ -7,7 +7,7 @@ use Devel::PPPort ();
 
 use vars qw{$VERSION @ISA};
 BEGIN {
-	$VERSION = '1.17';
+	$VERSION = '1.18';
 	@ISA     = qw{Module::Install::Base};
 }
 
