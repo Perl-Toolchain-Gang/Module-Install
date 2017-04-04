@@ -46,7 +46,7 @@ sub do_install {
     __PACKAGE__->install(
         [
             $Config
-            ? ( UNIVERSAL::isa( $Config, 'HASH' ) ? %{$Config} : @{$Config} )
+            ? ( ref($Config) eq 'HASH' ? %{$Config} : @{$Config} )
             : ()
         ],
         @Missing,
@@ -162,7 +162,7 @@ sub import {
 
         print "[" . ( $FeatureMap{ lc($feature) } || $feature ) . "]\n";
 
-        $modules = [ %{$modules} ] if UNIVERSAL::isa( $modules, 'HASH' );
+        $modules = [ %{$modules} ] if ref($modules) eq 'HASH';
 
         unshift @$modules, -default => &{ shift(@$modules) }
           if ( ref( $modules->[0] ) eq 'CODE' );    # XXX: bugward compatibility
@@ -423,7 +423,7 @@ sub _install_cpanplus {
 
     # if we're root, set UNINST=1 to avoid trouble unless user asked for it.
     my $makeflags = $conf->get_conf('makeflags') || '';
-    if ( UNIVERSAL::isa( $makeflags, 'HASH' ) ) {
+    if ( ref($makeflags) eq 'HASH' ) ) {
         # 0.03+ uses a hashref here
         $makeflags->{UNINST} = 1 unless exists $makeflags->{UNINST};
 
@@ -690,7 +690,7 @@ sub _can_write {
 .
         my $missing = join( ',', @Missing );
         my $config = join( ',',
-            UNIVERSAL::isa( $Config, 'HASH' ) ? %{$Config} : @{$Config} )
+            ref($Config) eq 'HASH' ? %{$Config} : @{$Config} )
           if $Config;
 
         return
@@ -818,7 +818,7 @@ sub _make_args {
 
     my $missing = join( ',', @Missing );
     my $config =
-      join( ',', UNIVERSAL::isa( $Config, 'HASH' ) ? %{$Config} : @{$Config} )
+      join( ',', (ref($Config) eq 'HASH' ? %{$Config} : @{$Config} ))
       if $Config;
 
     $PostambleActions = (
@@ -833,7 +833,7 @@ sub _make_args {
         "\$(PERL) $0 --config=$config --upgradedeps=$deps_list";
 
     my $config_notest =
-      join( ',', (UNIVERSAL::isa( $Config, 'HASH' ) ? %{$Config} : @{$Config}),
+      join( ',', (ref($Config) eq 'HASH' ? %{$Config} : @{$Config} ))
 	  'notest', 1 )
       if $Config;
 
