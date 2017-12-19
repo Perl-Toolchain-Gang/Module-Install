@@ -38,7 +38,7 @@ sub import {
 	}
 
 	# Convert the basic syntax to code
-	my $code = "INIT {\n"
+	my $code = "{\n"
 	         . "package main;\n\n"
 	         . dsl2code($dsl)
 	         . "\n\nWriteAll();\n"
