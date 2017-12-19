@@ -65,7 +65,7 @@ inc::Module::Install::DSL - Domain Specific Language for Module::Install
   requires       Params::Util          0.35
   requires       CPAN::Version         5.5
   test_requires  Test::More            0.86
-  test_requires  Test::Script          1.03
+  test_requires  Test::Deep            1.03
   install_script adamk
   
   requires_external_bin svn
