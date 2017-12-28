@@ -47,7 +47,9 @@ sub write_meta {
 		$self->clean_files('META.yml');
 	}
 	print "Writing META.yml\n";
-	Module::Install::_write("META.yml", $self->dump_meta);
+	my $meta = $self->dump_meta;
+	utf8::encode($meta);
+	Module::Install::_write("META.yml", $meta);
 	return;
 }
 
