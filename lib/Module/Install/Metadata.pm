@@ -533,6 +533,7 @@ sub __extract_license {
 		'OpenSSL License'                    => 'unrestricted', 1,
 		'SSLeay License'                     => 'unrestricted', 1,
 		'zlib License'                       => 'open_source',  1,
+		'EUPL'                               => 'open_source',  1,
 		'proprietary'                        => 'proprietary',  0,
 	);
 	while ( my ($pattern, $license, $osi) = splice(@phrases, 0, 3) ) {
