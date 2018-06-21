@@ -416,7 +416,9 @@ sub _write {
 # Perl versions (eg, 5.8.1).
 sub _version {
 	my $s = shift || 0;
-	my $d =()= $s =~ /(\.)/g;
+	my $d = 0;
+	$d++ while $s =~ /\./g;
+
 	if ( $d >= 2 ) {
 		# Normalise multipart versions
 		$s =~ s/(\.)(\d{1,3})/sprintf("$1%03d",$2)/eg;
