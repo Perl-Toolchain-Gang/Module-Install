@@ -4,6 +4,7 @@ NAME
 SYNOPSIS
     In your Makefile.PL: (Recommended Usage)
 
+      use lib qw(.); # required for Perl 5.26 and newer
       use inc::Module::Install;
 
       # Define metadata
@@ -28,7 +29,7 @@ WARNING
     Please note that while Module::Install pioneered many great ideas in its
     time, its primary benefits have been better achieved by the authoring
     tool Dist::Zilla, and its spinoffs Dist::Milla and Minilla. These tools
-    allow the author to build and maintain distributions with DWIM
+    allow the author to build and aintain distributions with DWIM
     convenience, while the distribution is installed directly by
     ExtUtils::MakeMaker or similar installation tools, avoiding the
     complexity of bundling the installer. Dist::Zilla additionally has a
@@ -36,6 +37,13 @@ WARNING
     to the CPAN::Meta::Spec and add other new functionality. Use of
     Module::Install for new distributions is therefore discouraged by the
     maintainers.
+
+    From Perl 5.26 the current directory is not included in @INC and
+    the Makefile.PL will have to be directed to including Module::Install from
+    the inc/ directory.
+
+      use lib qw(.); # required for Perl 5.26 and newer
+      use inc::Module::Install;
 
 DESCRIPTION
     Module::Install is a package for writing installers for CPAN (or
