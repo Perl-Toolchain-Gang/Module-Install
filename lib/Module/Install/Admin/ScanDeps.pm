@@ -18,6 +18,7 @@ Please first specify a required perl version, like this:
     perl_version('5.005');
 END_MESSAGE
     $perl_version =~ s{^(\d+)\.(\d+)\.(\d+)}{$1 + $2/1_000 + $3/1_000_000}e;
+    $perl_version = 0 + $perl_version;
 
     require Module::ScanDeps;
     require Module::CoreList;
