@@ -470,6 +470,27 @@ my %license_urls = (
     unrestricted => undef,
     restrictive  => undef,
     unknown      => undef,
+
+    # More names from CPAN::Meta::Spec
+    agpl_3       => 'http://www.gnu.org/licenses/agpl-3.0.txt',
+    apache_2_0   => 'http://apache.org/licenses/LICENSE-2.0',
+    artistic_1   => 'http://opensource.org/licenses/artistic-license-1.0',
+    freebsd      => 'http://opensource.org/licenses/bsd-license.php',
+    gfdl_1_2     => 'https://www.gnu.org/licenses/fdl-1.2.html',
+    gfdl_1_3     => 'https://www.gnu.org/licenses/fdl-1.3.html',
+    lgpl_2_1     => 'http://opensource.org/licenses/lgpl-2.1.php',
+    lgpl_3_0     => 'http://opensource.org/licenses/lgpl-3.0.html',
+    gpl_1        => 'http://opensource.org/licenses/gpl-license.php',
+    gpl_2        => 'http://opensource.org/licenses/gpl-2.0.php',
+    gpl_3        => 'http://opensource.org/licenses/gpl-3.0.html',
+    mozilla_1_0  => 'http://opensource.org/licenses/mozilla1.0.php',
+    mozilla_1_1  => 'http://opensource.org/licenses/mozilla1.1.php',
+    openssl      => 'http://www.openssl.org/source/license.html',
+    ssleay       => 'https://www.openssl.org/source/license-openssl-ssleay.txt',
+    perl_5       => 'http://dev.perl.org/licenses/',
+    qpl_1_0      => 'https://opensource.org/licenses/QPL-1.0',
+    sun          => 'http://www.openoffice.org/licenses/sissl_license.html',
+    zlib         => 'http://www.zlib.net/zlib_license.html',
 );
 
 sub license {
