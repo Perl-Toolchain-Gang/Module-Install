@@ -21,6 +21,12 @@ END_MESSAGE
 
     require Module::ScanDeps;
     require Module::CoreList;
+    
+    if (!exists     $Module::CoreList::version{$perl_version}
+    and  exists $Module::CoreList::version{$perl_version.'000'}) {
+       $perl_version .= '000';
+    }
+
 
     die "Module::CoreList has no information on perl $perl_version"
         unless exists $Module::CoreList::version{$perl_version};
