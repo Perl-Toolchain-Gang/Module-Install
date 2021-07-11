@@ -638,6 +638,13 @@ B<inc> command takes a string to be passed to L<ExtUtils::MakeMaker>
 as an C<INC> attribute. B<cc_inc_paths> is its alternative, and
 takes an array of directories.
 
+=head2 cc_flags (L<Module::Install::Compiler>)
+
+  cc_flags '-DFOO';
+
+B<cc_flags> takes a string to be passed to
+L<ExtUtils::MakeMaker> as a C<CCFLAGS> attribute.
+
 =head2 cc_optimize_flags (L<Module::Install::Compiler>)
 
   cc_optimize_flags '-O2';
