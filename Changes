@@ -1,5 +1,6 @@
 Changes for Perl programming language extension Module-Install
 
+1.19  2023-04-27
   - Module::Install::DSL has been removed, as its use is highly discouraged.
 
 1.19  2017-12-19
