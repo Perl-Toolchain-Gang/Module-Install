@@ -83,7 +83,7 @@ __END__
 
 =head1 NAME
 
-Module::Install::External - Specify dependencies on external non-Perl things
+Module::Install::External (DEPRECATED) - Specify dependencies on external non-Perl things
 
 =head1 DESCRIPTION
 

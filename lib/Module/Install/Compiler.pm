@@ -68,7 +68,7 @@ __END__
 
 =head1 NAME
 
-Module::Install::Compiler - Commands for interacting with the C compiler
+Module::Install::Compiler (DEPRECATED) - Commands for interacting with the C compiler
 
 =head1 SYNOPSIS
 

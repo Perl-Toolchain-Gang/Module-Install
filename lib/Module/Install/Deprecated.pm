@@ -50,7 +50,7 @@ __END__
 
 =head1 NAME
 
-Module::Install::Deprecated - Warnings and help for deprecated commands
+Module::Install::Deprecated (DEPRECATED) - Warnings and help for deprecated commands
 
 =head1 DESCRIPTION
 

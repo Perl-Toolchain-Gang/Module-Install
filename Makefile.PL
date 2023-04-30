@@ -98,6 +98,8 @@ add_metadata x_contributors => [ # manually added, from git shortlog -e -s -n
     'Tom Wyant <wyant@cpan.org>',
 ];
 
+add_metadata x_deprecated => 1;
+
 WriteAll;
 
 my $readme_from = 'lib/Module/Install.pod';

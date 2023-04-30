@@ -14,7 +14,7 @@ BEGIN {
 
 =head1 NAME
 
-Module::Install::Admin - Author-side manager for Module::Install
+Module::Install::Admin (DEPRECATED) - Author-side manager for Module::Install
 
 =head1 SYNOPSIS
 

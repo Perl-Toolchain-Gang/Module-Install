@@ -102,7 +102,7 @@ __END__
 
 =head1 NAME
 
-Module::Install::Bundle - Bundle distributions along with your distribution
+Module::Install::Bundle (DEPRECATED) - Bundle distributions along with your distribution
 
 =head1 SYNOPSIS
 

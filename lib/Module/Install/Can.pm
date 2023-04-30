@@ -163,7 +163,7 @@ __END__
 
 =head1 NAME
 
-Module::Install::Can - Utility functions for capability detection
+Module::Install::Can (DEPRECATED) - Utility functions for capability detection
 
 =head1 DESCRIPTION
 

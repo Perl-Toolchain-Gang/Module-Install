@@ -418,7 +418,7 @@ __END__
 
 =head1 NAME
 
-Module::Install::MakeMaker - Extension Rules for ExtUtils::MakeMaker
+Module::Install::MakeMaker (DEPRECATED) - Extension Rules for ExtUtils::MakeMaker
 
 =head1 SYNOPSIS
 

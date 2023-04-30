@@ -12,7 +12,7 @@ BEGIN {
 
 =head1 NAME
 
-Module::Install::PAR - Module::Install Support for PAR::Dist packages
+Module::Install::PAR (DEPRECATED) - Module::Install Support for PAR::Dist packages
 
 =head1 SYNOPSIS
 

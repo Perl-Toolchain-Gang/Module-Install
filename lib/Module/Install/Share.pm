@@ -96,7 +96,7 @@ __END__
 
 =head1 NAME
 
-Module::Install::Share - Install non-code files for use during run-time
+Module::Install::Share (DEPRECATED) - Install non-code files for use during run-time
 
 =head1 SYNOPSIS
 

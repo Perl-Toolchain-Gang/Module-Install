@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-Module::Install - Standalone, extensible Perl module installer
+Module::Install (DEPRECATED) - Standalone, extensible Perl module installer
 
 =head1 SYNOPSIS
 

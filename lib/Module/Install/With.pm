@@ -16,7 +16,7 @@ BEGIN {
 
 =head1 NAME
 
-Module::Install::With - find environnement for Module::Install
+Module::Install::With (DEPRECATED) - find environnement for Module::Install
 
 =cut
 

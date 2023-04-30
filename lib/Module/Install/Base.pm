@@ -16,7 +16,7 @@ BEGIN {
 
 =head1 NAME
 
-Module::Install::Base - Base class for Module::Install extensions
+Module::Install::Base (DEPRECATED) - Base class for Module::Install extensions
 
 =head1 SYNOPSIS
 
